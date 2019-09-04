@@ -16,6 +16,7 @@ import { ExtrasModule } from './extras.module';
 import { IconModule } from './icon.module';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { MockInterceptor } from './interceptors/mock.interceptor';
+import { StatisticMonitorInterceptor } from './interceptors/statistic-monitor.interceptor';
 import { StateManagementModule } from './state-management.module';
 
 export function translateFactory(http: HttpClient) {
@@ -56,6 +57,7 @@ const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: StatisticMonitorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true },
     { provide: SWIPER_CONFIG, useValue: DEFAULT_SWIPER_CONFIG },
   ],

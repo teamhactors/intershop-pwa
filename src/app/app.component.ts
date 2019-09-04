@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
 
   constructor(private appFacade: AppFacade, @Inject(PLATFORM_ID) platformId: string) {
     this.isBrowser = isPlatformBrowser(platformId);
+    this.showLoadingStats();
   }
 
   ngOnInit() {
@@ -35,5 +36,22 @@ export class AppComponent implements OnInit {
 
   dismiss() {
     this.cookieLaw.dismiss();
+  }
+
+  showLoadingStats() {
+    if (this.isBrowser && window.performance && window.performance.timing) {
+      const timings = window.performance.timing;
+      if (timings.loadEventStart) {
+        const ttfb = timings.responseStart - timings.connectStart;
+        const domComplete = timings.domContentLoadedEventEnd - timings.connectStart;
+        const load = timings.loadEventStart - timings.connectStart;
+        // tslint:disable-next-line:no-console
+        console.log('window.performance', { ttfb, domComplete, load }, window.performance);
+      } else {
+        setTimeout(() => {
+          this.showLoadingStats(); // retry in next tick, because loadEventStart is empty
+        }, 0);
+      }
+    }
   }
 }
