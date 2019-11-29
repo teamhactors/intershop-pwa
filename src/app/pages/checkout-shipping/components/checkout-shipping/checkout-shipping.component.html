@@ -60,6 +60,10 @@
         <a routerLink="/basket">{{ 'checkout.general.back_to_cart.button.label' | translate }}</a>
       </ng-template>
     </form>
+
+    <ish-basket-shipping-address-widget-container
+      [showErrors]="submitted"
+    ></ish-basket-shipping-address-widget-container>
   </div>
 
   <!-- basket summary -->
