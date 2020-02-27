@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { forkJoin, of } from 'rxjs';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 import * as messagesActions from './messages.actions';
 
 @Injectable()
 export class MessagesEffects {
-  constructor(private actions$: Actions, private translate: TranslateService, private toastr: ToastrService) {}
+  constructor(
+    private actions$: Actions,
+    private translate: TranslateService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
   @Effect({ dispatch: false })
   toast$ = this.actions$.pipe(
@@ -32,7 +38,12 @@ export class MessagesEffects {
           // titleClass: 'toast-title',
           // messageClass: 'toast-message',
         }),
-      ]).pipe(tap(args => this.toastr[messageType](...args)))
+      ]).pipe(
+        map(args => this.toastr[messageType](...args)),
+        filter(() => !!payload.onTapNavigate),
+        switchMap(toast => toast.onTap.pipe(take(1))),
+        tap(() => this.router.navigateByUrl(payload.onTapNavigate))
+      )
     )
   );
 }

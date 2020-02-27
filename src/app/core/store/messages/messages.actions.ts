@@ -25,6 +25,11 @@ export interface MessagesPayloadType {
    * in ms
    */
   duration?: number;
+
+  /**
+   * URL for navigation when toast is tapped
+   */
+  onTapNavigate?: string;
 }
 
 export enum MessagesActionTypes {

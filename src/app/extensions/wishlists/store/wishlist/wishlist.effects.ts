@@ -43,6 +43,7 @@ export class WishlistEffects {
           new SuccessMessage({
             message: 'account.wishlists.new_wishlist.confirmation',
             messageParams: { 0: wishlist.title },
+            onTapNavigate: `/account/wishlists/${wishlist.id}`,
           }),
         ]),
         mapErrorToAction(wishlistsActions.CreateWishlistFail)
