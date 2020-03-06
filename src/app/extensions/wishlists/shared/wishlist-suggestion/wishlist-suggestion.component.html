@@ -1,22 +1,12 @@
 <div class="section">
   <h2>Items from your preferred wish list</h2>
   <ng-container *ngIf="preferredWishlist$ | async as wishlist">
-    <div class="wishlist-suggestion-container">
-      <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="false" [interval]="false">
-        <ng-template
-          ngbSlide
-          *ngFor="let dummyLoop of wishlist.items | slice: 0:(wishlist.itemsCount / itemsPerSlide | ceil); index as i"
-        >
-          <div class="product-list row">
-            <div
-              class="col-6 col-lg-3 product-list-item"
-              *ngFor="let item of wishlist.items | slice: i * itemsPerSlide:(i + 1) * itemsPerSlide"
-            >
-              <ish-product-item [productSku]="item.sku" [configuration]="{ displayType: 'tile' }"></ish-product-item>
-            </div>
-          </div>
-        </ng-template>
-      </ngb-carousel>
+    <div class="product-list">
+      <swiper [config]="swiperConfig">
+        <div *ngFor="let item of wishlist.items" class="swiper-slide">
+          <ish-product-item [productSku]="item.sku"></ish-product-item>
+        </div>
+      </swiper>
     </div>
   </ng-container>
 </div>
