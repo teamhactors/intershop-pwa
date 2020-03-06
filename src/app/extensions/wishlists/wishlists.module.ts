@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NgCeilPipeModule } from 'angular-pipes';
 
 import { SharedModule } from 'ish-shared/shared.module';
 
@@ -10,7 +11,7 @@ import { WishlistsLinkComponent } from './shared/wishlists/wishlists-link/wishli
 import { WishlistsStoreModule } from './store/wishlists-store.module';
 
 @NgModule({
-  imports: [SharedModule, WishlistsStoreModule],
+  imports: [NgCeilPipeModule, SharedModule, WishlistsStoreModule],
   declarations: [
     ProductAddToWishlistComponent,
     SelectWishlistModalComponent,
