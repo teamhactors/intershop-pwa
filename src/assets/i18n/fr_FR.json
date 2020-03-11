@@ -923,6 +923,7 @@
   "account.wishlists.settings.header": "Paramètres des listes de souhaits",
   "account.wishlists.settings.save_settings": "Enregistrer les paramètres",
   "account.wishlists.settings.use_preferred_list": "Toujours utiliser la liste de souhaits préférée lors de l’ajout de produits",
+  "account.wishlists.suggestions": "Produits de votre liste de souhaits préférée",
   "account.wishlists.table.preferred": "(préférée)",
   "account.wishlists.table.private": "privée",
   "account.wishlists.table.public": "publique",
