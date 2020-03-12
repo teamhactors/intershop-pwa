@@ -144,6 +144,10 @@ const routes: Routes = [
       },
     },
   },
+  {
+    path: 'storelocator',
+    loadChildren: () => import('./storelocator/storelocator-page.module').then(m => m.StorelocatorPageModule),
+  },
 ];
 
 @NgModule({
