@@ -13,6 +13,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StorelocatorPageComponent {
-  lat = 51.678418;
-  lng = 7.809007;
+  lat = 50.927223;
+  lng = 11.586111;
 }
