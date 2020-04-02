@@ -55,6 +55,9 @@ export interface Environment {
   // TODO: get captcha site key, when Configuration Response in REST API is available
   captchaSiteKey?: string;
 
+  // store locator using Google Maps API for map and geocoding
+  gmapsApiKey?: string;
+
   /* PROGRESSIVE WEB APP CONFIGURATIONS */
 
   // Bootstrap grid system breakpoint widths as defined in the variables-bootstrap-customized.scss for usage in Javascript logic

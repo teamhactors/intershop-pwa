@@ -5,6 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { SharedModule } from 'ish-shared/shared.module';
 
+import { environment } from '../../../environments/environment';
+
 import { StorelocatorPageComponent } from './storelocator-page.component';
 
 const storelocatorPageRoutes: Routes = [{ path: '', component: StorelocatorPageComponent }];
@@ -12,7 +14,7 @@ const storelocatorPageRoutes: Routes = [{ path: '', component: StorelocatorPageC
 @NgModule({
   imports: [
     AgmCoreModule.forRoot({
-      apiKey: '<Google Maps API Key>',
+      apiKey: environment.gmapsApiKey,
     }),
     CommonModule,
     RouterModule.forChild(storelocatorPageRoutes),
