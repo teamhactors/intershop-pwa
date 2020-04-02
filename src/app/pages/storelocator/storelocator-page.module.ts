@@ -1,4 +1,5 @@
-import { AgmCoreModule } from '@agm/core';
+import { AgmCoreModule, AgmGeocoder } from '@agm/core';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -13,9 +14,11 @@ const storelocatorPageRoutes: Routes = [{ path: '', component: StorelocatorPageC
     AgmCoreModule.forRoot({
       apiKey: '<Google Maps API Key>',
     }),
+    CommonModule,
     RouterModule.forChild(storelocatorPageRoutes),
     SharedModule,
   ],
   declarations: [StorelocatorPageComponent],
+  providers: [AgmGeocoder],
 })
 export class StorelocatorPageModule {}

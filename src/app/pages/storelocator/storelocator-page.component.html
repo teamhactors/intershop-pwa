@@ -1,6 +1,6 @@
-<p>
-  storelocator-page works!
-</p>
-<agm-map [latitude]="lat" [longitude]="lng"
-  ><agm-marker [latitude]="lat" [longitude]="lng" [label]="'M'"> </agm-marker
-></agm-map>
+<agm-map [latitude]="mapCenterLat" [longitude]="mapCenterLng" [zoom]="6"
+  ><agm-marker [latitude]="mapCenterLat" [longitude]="mapCenterLng" [label]="'J'"> </agm-marker>
+  <ng-container *ngFor="let store of storeResults$ | async">
+    <agm-marker [latitude]="store.lat()" [longitude]="store.lng()"></agm-marker>
+  </ng-container>
+</agm-map>
