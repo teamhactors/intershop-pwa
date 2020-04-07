@@ -1,6 +1,5 @@
-<agm-map [latitude]="mapCenterLat" [longitude]="mapCenterLng" [zoom]="6"
-  ><agm-marker [latitude]="mapCenterLat" [longitude]="mapCenterLng" [label]="'J'"> </agm-marker>
-  <ng-container *ngFor="let store of storeResults$ | async">
+<agm-map [latitude]="mapCenterLat" [longitude]="mapCenterLng" [zoom]="6">
+  <ng-container *ngFor="let store of storeCoordinates$ | async">
     <agm-marker [latitude]="store.lat()" [longitude]="store.lng()"></agm-marker>
   </ng-container>
 </agm-map>

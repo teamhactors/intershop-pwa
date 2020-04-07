@@ -1,7 +1,8 @@
 import { AgmGeocoder, LatLng } from '@agm/core';
+import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 
 import { StoreLocation } from 'ish-core/models/storelocation/storelocation.model';
 
@@ -21,38 +22,26 @@ export class StorelocatorPageComponent implements OnInit {
   mapCenterLat = 50.927223;
   mapCenterLng = 11.586111;
 
-  stores: StoreLocation[];
+  stores$: Observable<StoreLocation[]>;
+  storeCoordinates$: Observable<LatLng[]>;
 
-  storeResults$: Observable<LatLng[]>;
-
-  constructor(private geoCoderService: AgmGeocoder) {
-    this.stores = [
-      {
-        name: 'Store Berlin',
-        postalCode: '14482',
-        city: 'Potsdam',
-        country: 'Germany',
-        address: 'Marlene-Dietrich-Allee 44',
-      },
-      {
-        name: 'Factory Outlet B5',
-        postalCode: '14641',
-        city: 'Wustermark',
-        country: 'Germany',
-        address: 'Alter Spandauer Weg 1',
-      },
-      {
-        name: 'Oceanside Paradies Store',
-        postalCode: '17252',
-        city: 'Mirow',
-        country: 'Germany',
-        address: 'Wesenberger Chaussee 22',
-      },
-    ];
-  }
+  constructor(private geoCoderService: AgmGeocoder, private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.storeResults$ = combineLatest(this.stores.map(store => this.geocodeStoreLocation(store)));
+    this.stores$ = this.getStoresFromApi();
+
+    this.storeCoordinates$ = this.stores$.pipe(
+      map(stores => combineLatest(stores.map(store => this.geocodeStoreLocation(store)))),
+      mergeMap(observable => observable)
+    );
+  }
+
+  private getStoresFromApi(): Observable<StoreLocation[]> {
+    return this.http
+      .get(
+        'http://demo-7-10-15-5.test.intershop.com/INTERSHOP/rest/WFS/inSPIRED-inTRONICS-Site/-;loc=en_US;cur=USD/stores'
+      )
+      .pipe(map(results => results.elements as StoreLocation[]));
   }
 
   private geocodeStoreLocation(store: StoreLocation) {
