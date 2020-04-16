@@ -1,4 +1,5 @@
 import { LatLng } from '@agm/core';
+import { Observable } from 'rxjs';
 
 export interface StoreLocation {
   name: string;
@@ -12,5 +13,5 @@ export interface StoreLocation {
   phoneBusiness?: string;
   uuid?: string;
   address: string;
-  location?: LatLng;
+  location$?: Observable<LatLng>;
 }

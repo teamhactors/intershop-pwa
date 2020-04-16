@@ -1,8 +1,8 @@
 import { AgmGeocoder, LatLng } from '@agm/core';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { StoreLocation } from 'ish-core/models/storelocation/storelocation.model';
 
@@ -25,15 +25,33 @@ export class StorelocatorPageComponent implements OnInit {
   stores$: Observable<StoreLocation[]>;
   storeCoordinates$: Observable<LatLng[]>;
 
+  previousInfoWindow;
+
   constructor(private geoCoderService: AgmGeocoder, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.stores$ = this.getStoresFromApi();
 
+    /*
     this.storeCoordinates$ = this.stores$.pipe(
-      map(stores => combineLatest(stores.map(store => this.geocodeStoreLocation(store)))),
-      mergeMap(observable => observable)
+      mergeMap(stores => combineLatest(stores.map(store => this.geocodeStoreLocation(store))))
     );
+    */
+    this.stores$ = this.stores$.pipe(
+      map(stores =>
+        stores.map(store => {
+          store.location$ = this.geocodeStoreLocation(store);
+          return store;
+        })
+      )
+    );
+  }
+
+  clickedMarker(infowindow) {
+    if (this.previousInfoWindow) {
+      this.previousInfoWindow.close();
+    }
+    this.previousInfoWindow = infowindow;
   }
 
   private getStoresFromApi(): Observable<StoreLocation[]> {
