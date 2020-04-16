@@ -18,7 +18,8 @@
     },
     "lib": ["es2018", "dom"],
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "strictNullChecks": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
