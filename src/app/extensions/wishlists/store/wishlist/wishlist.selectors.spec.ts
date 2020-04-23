@@ -24,6 +24,7 @@ import {
 } from './wishlist.actions';
 import {
   getAllWishlists,
+  getAllWishlistsItemsSkus,
   getPreferredWishlist,
   getSelectedWishlistDetails,
   getSelectedWishlistId,
@@ -53,7 +54,25 @@ describe('Wishlist Selectors', () => {
       title: 'testing wishlist',
       type: 'WishList',
       id: '.SKsEQAE4FIAAAFuNiUBWx0d',
-      itemsCount: 0,
+      itemsCount: 2,
+      items: [
+        {
+          sku: '1929545',
+          id: 'pw8KCgoEYw8AAAFxvO4h8aby',
+          creationDate: 1587643870908,
+          desiredQuantity: {
+            value: 1,
+          },
+        },
+        {
+          sku: '1929544',
+          id: '7n4KCgoE41AAAAFxTcQh8aby',
+          creationDate: 1587643860045,
+          desiredQuantity: {
+            value: 2,
+          },
+        },
+      ],
       preferred: true,
       public: false,
     },
@@ -61,7 +80,25 @@ describe('Wishlist Selectors', () => {
       title: 'testing wishlist 2',
       type: 'WishList',
       id: '.AsdHS18FIAAAFuNiUBWx0d',
-      itemsCount: 0,
+      itemsCount: 2,
+      items: [
+        {
+          sku: '1929544',
+          id: '7n4KCgoE41AAAAFxTcQh8aby',
+          creationDate: 1587644015413,
+          desiredQuantity: {
+            value: 1,
+          },
+        },
+        {
+          sku: '4729529',
+          id: '4SsKCgoEqTgAAAFxAW4h8aby',
+          creationDate: 1587643837953,
+          desiredQuantity: {
+            value: 2,
+          },
+        },
+      ],
       preferred: false,
       public: false,
     },
@@ -331,6 +368,18 @@ describe('Wishlist Selectors', () => {
 
     it('should return correct wishlist for given title', () => {
       expect(getPreferredWishlist(store$.state)).toEqual(wishlists[0]);
+    });
+  });
+
+  describe('Get All Wishlists Items Sku', () => {
+    const loadWishlistsSuccessActions = new LoadWishlistsSuccess({ wishlists });
+
+    beforeEach(() => {
+      store$.dispatch(loadWishlistsSuccessActions);
+    });
+
+    it('should return correct amount of unique product sku', () => {
+      expect(getAllWishlistsItemsSkus(store$.state).sort()).toEqual(['1929544', '1929545', '4729529']);
     });
   });
 });
