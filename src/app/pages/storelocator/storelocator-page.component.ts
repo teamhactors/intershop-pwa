@@ -1,10 +1,10 @@
 import { AgmGeocoder, LatLng } from '@agm/core';
-import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { StoreLocation } from 'ish-core/models/storelocation/storelocation.model';
+import { StoresService } from 'ish-core/services/stores/stores.service';
 
 @Component({
   selector: 'ish-storelocator-page',
@@ -27,16 +27,11 @@ export class StorelocatorPageComponent implements OnInit {
 
   previousInfoWindow;
 
-  constructor(private geoCoderService: AgmGeocoder, private http: HttpClient) {}
+  constructor(private storesService: StoresService, private geoCoderService: AgmGeocoder) {}
 
   ngOnInit(): void {
-    this.stores$ = this.getStoresFromApi();
+    this.stores$ = this.storesService.getStores();
 
-    /*
-    this.storeCoordinates$ = this.stores$.pipe(
-      mergeMap(stores => combineLatest(stores.map(store => this.geocodeStoreLocation(store))))
-    );
-    */
     this.stores$ = this.stores$.pipe(
       map(stores =>
         stores.map(store => {
@@ -52,14 +47,6 @@ export class StorelocatorPageComponent implements OnInit {
       this.previousInfoWindow.close();
     }
     this.previousInfoWindow = infowindow;
-  }
-
-  private getStoresFromApi(): Observable<StoreLocation[]> {
-    return this.http
-      .get(
-        'http://demo-7-10-15-5.test.intershop.com/INTERSHOP/rest/WFS/inSPIRED-inTRONICS-Site/-;loc=en_US;cur=USD/stores'
-      )
-      .pipe(map(results => results.elements as StoreLocation[]));
   }
 
   private geocodeStoreLocation(store: StoreLocation) {
