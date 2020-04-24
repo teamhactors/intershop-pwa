@@ -11,6 +11,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home-page.module').then(m => m.HomePageModule),
+    canActivate: [AuthGuard],
     data: {
       meta: {
         title: 'seo.title.home',
@@ -66,6 +67,7 @@ const routes: Routes = [
   {
     path: 'search',
     loadChildren: () => import('./search/search-page.module').then(m => m.SearchPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'basket',
