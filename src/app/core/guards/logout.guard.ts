@@ -13,6 +13,7 @@ export class LogoutGuard implements CanActivate {
 
   canActivate() {
     this.store.dispatch(new LogoutUser());
-    return this.router.createUrlTree(['/home']);
+    // redirect to login, to trigger the hybrid rerouting to ICM directly
+    return this.router.createUrlTree(['/login']);
   }
 }

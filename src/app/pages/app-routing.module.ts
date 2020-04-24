@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { FeatureToggleGuard } from 'ish-core/feature-toggle.module';
 import { AuthGuard } from 'ish-core/guards/auth.guard';
-import { LoginGuard } from 'ish-core/guards/login.guard';
 import { LogoutGuard } from 'ish-core/guards/logout.guard';
 
 const routes: Routes = [
@@ -107,7 +106,8 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./login/login-page.module').then(m => m.LoginPageModule),
-    canActivate: [LoginGuard],
+    // deactivating the login guard is important, so no login modal will be displayed
+    // canActivate: [LoginGuard],
     data: {
       meta: {
         title: 'account.login.link',
