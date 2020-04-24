@@ -70,7 +70,7 @@ export const HYBRID_MAPPING_TABLE: HybridMappingEntry[] = [
     pwaBuild: `login${PWA_CONFIG_BUILD}`,
     pwa: '^/login.*$',
     icmBuild: 'ViewUserAccount-ShowLogin',
-    handledBy: 'icm',
+    handledBy: 'pwa',
   },
   {
     id: 'Password Reset',
