@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { instance, mock } from 'ts-mockito';
 
-import { ApiService } from '../api/api.service';
+import { ApiService } from 'ish-core/services/api/api.service';
 
 import { StoresService } from './stores.service';
 
@@ -12,9 +12,7 @@ describe('Stores Service', () => {
   beforeEach(() => {
     apiServiceMock = mock(ApiService);
     TestBed.configureTestingModule({
-      providers: [
-        { provide: ApiService, useFactory: () => instance(apiServiceMock) }
-      ]
+      providers: [{ provide: ApiService, useFactory: () => instance(apiServiceMock) }],
     });
     storesService = TestBed.get(StoresService);
   });
