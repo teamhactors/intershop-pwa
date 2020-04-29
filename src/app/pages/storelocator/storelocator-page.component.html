@@ -1,4 +1,4 @@
-<agm-map [latitude]="mapCenterLat" [longitude]="mapCenterLng" [zoom]="6">
+<agm-map [latitude]="mapCenter.lat" [longitude]="mapCenter.lng" [zoom]="6">
   <ng-container *ngFor="let store of stores$ | async">
     <ng-container *ngIf="store.location$ | async as location">
       <agm-marker [latitude]="location.lat()" [longitude]="location.lng()" (markerClick)="clickedMarker(infoWindow)"

@@ -1,4 +1,4 @@
-import { AgmGeocoder, LatLng } from '@agm/core';
+import { AgmGeocoder } from '@agm/core';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -19,11 +19,12 @@ import { StoresService } from 'ish-core/services/stores/stores.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StorelocatorPageComponent implements OnInit {
-  mapCenterLat = 50.927223;
-  mapCenterLng = 11.586111;
+  mapCenter = {
+    lat: 50.927223,
+    lng: 11.586111,
+  };
 
   stores$: Observable<StoreLocation[]>;
-  storeCoordinates$: Observable<LatLng[]>;
 
   previousInfoWindow;
 
