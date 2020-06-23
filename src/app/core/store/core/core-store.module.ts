@@ -1,7 +1,7 @@
 import { NgModule, Type } from '@angular/core';
 import { Router } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { ActionReducerMap, MetaReducer, StoreModule } from '@ngrx/store';
 import { pick } from 'lodash-es';
 
@@ -18,6 +18,7 @@ import { CoreState } from './core-store';
 import { ErrorEffects } from './error/error.effects';
 import { errorReducer } from './error/error.reducer';
 import { MessagesEffects } from './messages/messages.effects';
+import { routerReducer } from './router/router.reducer';
 import { CustomRouterSerializer } from './router/router.serializer';
 import { ViewconfEffects } from './viewconf/viewconf.effects';
 import { viewconfReducer } from './viewconf/viewconf.reducer';

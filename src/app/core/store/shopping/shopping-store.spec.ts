@@ -318,8 +318,6 @@ describe('Shopping Store', () => {
           @ngrx/router-store/navigation:
             routerState: {"url":"/search/something","params":{"searchTerm":"something...
             event: {"id":2,"url":"/search/something"}
-          [Viewconf Internal] Set Breadcrumb Data:
-            breadcrumbData: [{"text":"search.breadcrumbs.your_search.label something"}]
           @ngrx/router-store/navigated:
             routerState: {"url":"/search/something","params":{"searchTerm":"something...
             event: {"id":2,"url":"/search/something"}
@@ -607,8 +605,6 @@ describe('Shopping Store', () => {
           @ngrx/router-store/navigation:
             routerState: {"url":"/search/something","params":{"searchTerm":"something...
             event: {"id":2,"url":"/search/something"}
-          [Viewconf Internal] Set Breadcrumb Data:
-            breadcrumbData: [{"text":"search.breadcrumbs.your_search.label something"}]
           @ngrx/router-store/navigated:
             routerState: {"url":"/search/something","params":{"searchTerm":"something...
             event: {"id":2,"url":"/search/something"}
@@ -1053,8 +1049,6 @@ describe('Shopping Store', () => {
         @ngrx/router-store/navigation:
           routerState: {"url":"/search/something","params":{"searchTerm":"something...
           event: {"id":1,"url":"/search/something"}
-        [Viewconf Internal] Set Breadcrumb Data:
-          breadcrumbData: [{"text":"search.breadcrumbs.your_search.label something"}]
         @ngrx/router-store/navigated:
           routerState: {"url":"/search/something","params":{"searchTerm":"something...
           event: {"id":1,"url":"/search/something"}

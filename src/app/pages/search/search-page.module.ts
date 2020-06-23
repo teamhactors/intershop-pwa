@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from 'ish-shared/shared.module';
 
 import { SearchNoResultComponent } from './search-no-result/search-no-result.component';
+import { SearchPageBreadcrumbResolver } from './search-page-breadcrumb.resolver';
 import { SearchPageComponent } from './search-page.component';
 import { SearchResultComponent } from './search-result/search-result.component';
 
@@ -11,6 +12,9 @@ const searchPageRoutes: Routes = [
   {
     path: ':searchTerm',
     component: SearchPageComponent,
+    resolve: {
+      breadcrumbData: SearchPageBreadcrumbResolver,
+    },
   },
 ];
 
