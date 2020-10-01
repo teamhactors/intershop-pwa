@@ -36,8 +36,6 @@ export class ProductTileComponent implements OnChanges {
   @Input() quantity: number;
   @Input() variationOptions: VariationOptionGroup[];
   @Input() category: CategoryView;
-  @Input() isInCompareList: boolean;
-  @Output() compareToggle = new EventEmitter<void>();
   @Output() productToBasket = new EventEmitter<number>();
   @Output() selectVariation = new EventEmitter<{ selection: VariationSelection; changedAttribute?: string }>();
 
@@ -54,10 +52,6 @@ export class ProductTileComponent implements OnChanges {
 
   addToBasket() {
     this.productToBasket.emit(this.quantity || this.product.minOrderQuantity);
-  }
-
-  toggleCompare() {
-    this.compareToggle.emit();
   }
 
   variationSelected(event: { selection: VariationSelection; changedAttribute?: string }) {
