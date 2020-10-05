@@ -72,9 +72,9 @@ import { FilterNavigationSidebarComponent } from './components/filter/filter-nav
 import { FilterNavigationComponent } from './components/filter/filter-navigation/filter-navigation.component';
 import { FilterSwatchImagesComponent } from './components/filter/filter-swatch-images/filter-swatch-images.component';
 import { FilterTextComponent } from './components/filter/filter-text/filter-text.component';
-import { LineItemDescriptionComponent } from './components/line-item/line-item-description/line-item-description.component';
 import { LineItemEditDialogComponent } from './components/line-item/line-item-edit-dialog/line-item-edit-dialog.component';
 import { LineItemEditComponent } from './components/line-item/line-item-edit/line-item-edit.component';
+import { LineItemListElementComponent } from './components/line-item/line-item-list-element/line-item-list-element.component';
 import { LineItemListComponent } from './components/line-item/line-item-list/line-item-list.component';
 import { Auth0SigninComponent } from './components/login/auth0-signin/auth0-signin.component';
 import { IdentityProviderLoginComponent } from './components/login/identity-provider-login/identity-provider-login.component';
@@ -160,9 +160,9 @@ const declaredComponents = [
   FilterNavigationSidebarComponent,
   FilterSwatchImagesComponent,
   FilterTextComponent,
-  LineItemDescriptionComponent,
   LineItemEditComponent,
   LineItemEditDialogComponent,
+  LineItemListElementComponent,
   LoginFormComponent,
   LoginModalComponent,
   ProductIdComponent,
