@@ -112,13 +112,6 @@ export class ProductHelper {
     return product && product.type === 'VariationProduct';
   }
 
-  static hasVariations(product: Product): product is VariationProductView | VariationProductMasterView {
-    return (
-      (ProductHelper.isVariationProduct(product) || ProductHelper.isMasterProduct(product)) &&
-      !!product.variations().length
-    );
-  }
-
   /**
    * Check if product is a product bundle
    */

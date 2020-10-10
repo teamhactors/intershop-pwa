@@ -3,8 +3,6 @@ import { Observable } from 'rxjs';
 
 import { ShoppingFacade } from 'ish-core/facades/shopping.facade';
 import { CategoryView } from 'ish-core/models/category-view/category-view.model';
-import { VariationOptionGroup } from 'ish-core/models/product-variation/variation-option-group.model';
-import { VariationSelection } from 'ish-core/models/product-variation/variation-selection.model';
 import {
   ProductView,
   VariationProductMasterView,
@@ -34,10 +32,8 @@ export class ProductTileComponent implements OnChanges {
   @Input() configuration: Partial<ProductTileComponentConfiguration> = {};
   @Input() product: ProductView | VariationProductView | VariationProductMasterView;
   @Input() quantity: number;
-  @Input() variationOptions: VariationOptionGroup[];
   @Input() category: CategoryView;
   @Output() productToBasket = new EventEmitter<number>();
-  @Output() selectVariation = new EventEmitter<{ selection: VariationSelection; changedAttribute?: string }>();
 
   variationCount$: Observable<number>;
 
@@ -52,9 +48,5 @@ export class ProductTileComponent implements OnChanges {
 
   addToBasket() {
     this.productToBasket.emit(this.quantity || this.product.minOrderQuantity);
-  }
-
-  variationSelected(event: { selection: VariationSelection; changedAttribute?: string }) {
-    this.selectVariation.emit(event);
   }
 }
