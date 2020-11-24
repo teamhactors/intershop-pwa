@@ -16,6 +16,7 @@ services:
       # - PROXY_ICM=true
       - TRUST_ICM=true
       # - PROMETHEUS=on
+      - IDENTITY_PROVIDERS={"Auth0":{"type":"auth0","domain":"dev-9pqwi8uh.eu.auth0.com","clientID":"V2xvLUo3YSfGdCmJz7u381dSevoVkOso"}}
   nginx:
     build: ../nginx
     depends_on:
@@ -34,6 +35,7 @@ services:
             - baseHref: /de
               lang: de_DE
               channel: inSPIRED-inTRONICS-Site
+              identityProvider: Auth0
             - baseHref: /us
               lang: en_US
               channel: inSPIRED-inTRONICS_Business-Site
@@ -42,6 +44,7 @@ services:
         .+\.de:
             channel: inSPIRED-inTRONICS-Site
             lang: de_DE
+            identityProvider: Auth0
         .+\.com:
             channel: inSPIRED-inTRONICS_Business-Site
             features: quoting,businessCustomerRegistration,advancedVariationHandling
