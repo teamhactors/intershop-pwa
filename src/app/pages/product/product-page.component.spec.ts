@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockComponent } from 'ng-mocks';
 import { EMPTY, noop, of } from 'rxjs';
-import { anything, instance, mock, verify, when } from 'ts-mockito';
+import { instance, mock, when } from 'ts-mockito';
 
 import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
 import { ShoppingFacade } from 'ish-core/facades/shopping.facade';
@@ -16,7 +16,6 @@ import {
   createProductView,
   createVariationProductMasterView,
 } from 'ish-core/models/product-view/product-view.model';
-import { ProductRetailSet } from 'ish-core/models/product/product-retail-set.model';
 import { VariationProductMaster } from 'ish-core/models/product/product-variation-master.model';
 import { VariationProduct } from 'ish-core/models/product/product-variation.model';
 import { Product, ProductCompletenessLevel } from 'ish-core/models/product/product.model';
@@ -159,27 +158,5 @@ describe('Product Page Component', () => {
 
       expect(location.path()).toMatchInlineSnapshot(`"/product/M111"`);
     }));
-  });
-
-  it('should only dispatch retail set products when quantities are greater than 0', () => {
-    const product = {
-      sku: 'ABC',
-      partSKUs: ['A', 'B', 'C'],
-      type: 'RetailSet',
-    } as ProductRetailSet;
-    when(context.select('product')).thenReturn(of(createProductView(product, categories)));
-
-    fixture.detectChanges();
-
-    component.retailSetParts$.next([
-      { sku: 'A', quantity: 1 },
-      { sku: 'B', quantity: 0 },
-      { sku: 'C', quantity: 1 },
-    ]);
-
-    component.addToBasket();
-    verify(shoppingFacade.addProductToBasket('A', 1)).once();
-    verify(shoppingFacade.addProductToBasket('C', 1)).once();
-    verify(shoppingFacade.addProductToBasket('B', anything())).never();
   });
 });

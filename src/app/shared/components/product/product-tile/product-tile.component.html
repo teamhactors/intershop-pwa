@@ -1,4 +1,4 @@
-<div class="product-tile" [attr.data-testing-sku]="product.sku">
+<div *ngIf="product$ | async as product" class="product-tile" [attr.data-testing-sku]="product.sku">
   <div class="product-image-container">
     <a [routerLink]="product | ishProductRoute: category" queryParamsHandling="merge">
       <ish-product-image [product]="product" imageType="M" class="product-image"></ish-product-image>
@@ -69,7 +69,6 @@
     <ng-template #standardInteractions>
       <ish-lazy-product-add-to-quote
         *ngIf="configuration.displayAddToQuote && !isMasterProduct(product)"
-        [product]="product"
         displayType="icon"
         class="btn-link"
       ></ish-lazy-product-add-to-quote>
@@ -81,22 +80,17 @@
       <ish-lazy-product-add-to-order-template
         *ngIf="configuration.displayAddToOrderTemplate"
         [class]="'btn btn-link mr-0'"
-        [product]="product"
-        [quantity]="1"
         displayType="icon"
       ></ish-lazy-product-add-to-order-template>
       <ish-lazy-product-add-to-wishlist
         *ngIf="configuration.displayAddToWishlist"
         class="btn-link"
-        [product]="product"
         displayType="icon"
       ></ish-lazy-product-add-to-wishlist>
       <ish-product-add-to-basket
         *ngIf="configuration.displayAddToBasket && !isMasterProduct(product)"
-        [product]="product"
         displayType="icon"
         class="btn-link"
-        (productToBasket)="addToBasket()"
       ></ish-product-add-to-basket>
     </ng-template>
   </div>

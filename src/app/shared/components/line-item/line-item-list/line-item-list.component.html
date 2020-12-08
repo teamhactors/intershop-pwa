@@ -13,11 +13,12 @@
   <div class="list-body">
     <ish-line-item-list-element
       *ngFor="let pli of lineItems; index as i; trackBy: trackByFn"
+      ishProductContext
+      [sku]="pli.productSKU"
+      [quantity]="pli.quantity.value"
       [pli]="pli"
       [lineItemViewType]="lineItemViewType"
-      [editable]="editable"
-      (updateItem)="onUpdateItem($event)"
-      (deleteItem)="onDeleteItem($event)"
+      [editable]="editable && pli.editable"
     ></ish-line-item-list-element>
   </div>
 

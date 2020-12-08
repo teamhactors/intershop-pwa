@@ -5,7 +5,11 @@
     <!-- TODO: carousel or better clearing after 4 elements with intended CSS classes -->
     <div class="product-list row">
       <div *ngFor="let productSku of products" class="col-6 col-lg-3 product-list-item">
-        <ish-product-item [productSku]="productSku" [configuration]="{ displayType: 'tile' }"></ish-product-item>
+        <ish-product-item
+          ishProductContext
+          [sku]="productSku"
+          [configuration]="{ displayType: 'tile' }"
+        ></ish-product-item>
       </div>
     </div>
 

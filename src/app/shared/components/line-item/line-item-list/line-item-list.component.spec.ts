@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { MockComponent, MockPipe } from 'ng-mocks';
+import { MockComponent, MockDirective, MockPipe } from 'ng-mocks';
 
+import { ProductContextDirective } from 'ish-core/directives/product-context.directive';
 import { Price } from 'ish-core/models/price/price.model';
 import { PricePipe } from 'ish-core/models/price/price.pipe';
 import { BasketMockData } from 'ish-core/utils/dev/basket-mock-data';
@@ -17,7 +18,12 @@ describe('Line Item List Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LineItemListComponent, MockComponent(LineItemListElementComponent), MockPipe(PricePipe)],
+      declarations: [
+        LineItemListComponent,
+        MockComponent(LineItemListElementComponent),
+        MockDirective(ProductContextDirective),
+        MockPipe(PricePipe),
+      ],
       imports: [TranslateModule.forRoot()],
     }).compileComponents();
   });
@@ -42,17 +48,6 @@ describe('Line Item List Component', () => {
         "ish-line-item-list-element",
       ]
     `);
-  });
-
-  it('should throw deleteItem event when delete item is clicked', done => {
-    let firedItem = '';
-    component.deleteItem.subscribe(itemId => {
-      firedItem = itemId;
-      done();
-    });
-
-    component.onDeleteItem('4712');
-    expect(firedItem).toBe('4712');
   });
 
   describe('totals', () => {

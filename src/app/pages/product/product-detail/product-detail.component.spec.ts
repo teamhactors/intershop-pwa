@@ -1,9 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MockComponent, MockDirective } from 'ng-mocks';
+import { of } from 'rxjs';
+import { instance, mock, when } from 'ts-mockito';
 
+import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
 import { FeatureToggleModule } from 'ish-core/feature-toggle.module';
 import { ProductView } from 'ish-core/models/product-view/product-view.model';
 import { AccordionItemComponent } from 'ish-shared/components/common/accordion-item/accordion-item.component';
@@ -32,19 +34,21 @@ import { ProductDetailComponent } from './product-detail.component';
 describe('Product Detail Component', () => {
   let component: ProductDetailComponent;
   let fixture: ComponentFixture<ProductDetailComponent>;
-  let product: ProductView;
   let element: HTMLElement;
 
   beforeEach(async () => {
-    product = { sku: 'sku' } as ProductView;
-    product.name = 'Test Product';
-    product.longDescription = 'long description';
-    product.manufacturer = undefined;
+    const context = mock(ProductContextFacade);
+    when(context.select('product')).thenReturn(
+      of({
+        sku: 'sku',
+        name: 'Test Product',
+        longDescription: 'long description',
+      } as ProductView)
+    );
 
     await TestBed.configureTestingModule({
       imports: [
         FeatureToggleModule.forTesting(),
-        ReactiveFormsModule,
         RouterTestingModule.withRoutes([{ path: 'search', component: ProductDetailComponent }]),
         TranslateModule.forRoot(),
       ],
@@ -70,6 +74,7 @@ describe('Product Detail Component', () => {
         MockDirective(IsTactonProductDirective),
         ProductDetailComponent,
       ],
+      providers: [{ provide: ProductContextFacade, useFactory: () => instance(context) }],
     }).compileComponents();
   });
 
@@ -77,7 +82,6 @@ describe('Product Detail Component', () => {
     fixture = TestBed.createComponent(ProductDetailComponent);
     component = fixture.componentInstance;
     element = fixture.nativeElement;
-    component.product = product;
   });
 
   it('should be created', () => {

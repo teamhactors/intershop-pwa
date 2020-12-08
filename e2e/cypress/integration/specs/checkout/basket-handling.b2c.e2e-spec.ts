@@ -79,7 +79,7 @@ describe('Basket Handling', () => {
       page.header.miniCart.total.should('contain', _.product.price * 3);
     });
     at(CartPage, page => {
-      page.lineItem(0).quantity.get().should('equal', '3');
+      page.lineItem(0).quantity.get().should('equal', 3);
     });
   });
 
@@ -115,10 +115,10 @@ describe('Basket Handling', () => {
     at(CartPage, page => {
       page.lineItems.should('have.length', 1);
       page.lineItem(0).quantity.set(2);
-      waitLoadingEnd();
+      waitLoadingEnd(2000);
       page.subtotal.should('contain', _.product.price * 2);
       page.lineItem(0).remove();
-      waitLoadingEnd();
+      waitLoadingEnd(2000);
       page.header.miniCart.text.should('contain', '0 items');
     });
   });

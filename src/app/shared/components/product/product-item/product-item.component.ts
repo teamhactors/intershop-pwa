@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
@@ -21,7 +12,6 @@ export type ProductItemContainerConfiguration = ProductTileComponentConfiguratio
 
 export const DEFAULT_CONFIGURATION: Readonly<ProductItemContainerConfiguration> = {
   readOnly: false,
-  allowZeroQuantity: false,
   quantityLabel: '',
   displayName: true,
   displayDescription: true,
@@ -41,30 +31,15 @@ export const DEFAULT_CONFIGURATION: Readonly<ProductItemContainerConfiguration> 
 };
 
 /**
- * The Product Item Container Component fetches the product data for a given product sku
- * and renders the product either as 'tile' or 'row'.
+ * The Product Item Component renders the product either as 'tile' or 'row'.
  * The 'tile' rendering is the default if no value is provided for the displayType.
- *
- * @example
- * <ish-product-item [productSku]="product.sku"></ish-product-item>
  */
 @Component({
   selector: 'ish-product-item',
   templateUrl: './product-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ProductContextFacade],
 })
 export class ProductItemComponent implements OnInit, OnChanges {
-  /**
-   * The Product SKU to render a product item for.
-   */
-  @Input() productSku: string;
-  @Output() productSkuChange = new EventEmitter<string>();
-  /**
-   * The quantity which should be set for this. Default is minOrderQuantity.
-   */
-  @Input() quantity: number;
-  @Output() quantityChange = new EventEmitter<number>();
   /**
    * The optional Category context.
    */
@@ -82,14 +57,10 @@ export class ProductItemComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.product$ = this.context.select('product');
     this.loading$ = this.context.select('loading');
-
-    this.context.hold(this.context.select('sku'), sku => this.productSkuChange.next(sku));
   }
 
   ngOnChanges(changes: SimpleChanges) {
     this.mergeConfiguration(changes);
-
-    this.context.set('sku', () => this.productSku);
   }
 
   private mergeConfiguration(changes: SimpleChanges) {
@@ -98,10 +69,6 @@ export class ProductItemComponent implements OnInit, OnChanges {
       // tslint:disable-next-line:no-assignement-to-inputs
       this.configuration = { ...DEFAULT_CONFIGURATION, ...oldConfig };
     }
-  }
-
-  addToBasket(quantity: number) {
-    this.context.addToBasket(quantity);
   }
 
   get isTile() {

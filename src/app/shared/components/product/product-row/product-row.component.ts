@@ -1,19 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
+import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
 import { CategoryView } from 'ish-core/models/category-view/category-view.model';
-import {
-  ProductView,
-  VariationProductMasterView,
-  VariationProductView,
-} from 'ish-core/models/product-view/product-view.model';
-import { ProductHelper } from 'ish-core/models/product/product.model';
+import { AnyProductViewType, ProductHelper } from 'ish-core/models/product/product.model';
 
 export interface ProductRowComponentConfiguration {
   readOnly: boolean;
-  allowZeroQuantity: boolean;
   quantityLabel: string;
   displayName: boolean;
   displayDescription: boolean;
@@ -36,41 +29,20 @@ export interface ProductRowComponentConfiguration {
   templateUrl: './product-row.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductRowComponent implements OnInit, OnDestroy {
+export class ProductRowComponent implements OnInit {
   @Input() configuration: Partial<ProductRowComponentConfiguration> = {};
-  @Input() product: ProductView | VariationProductView | VariationProductMasterView;
-  @Input() quantity: number;
-  @Output() quantityChange = new EventEmitter<number>();
   @Input() category?: CategoryView;
-  @Output() productToBasket = new EventEmitter<number>();
+
+  product$: Observable<AnyProductViewType>;
+  quantity$: Observable<number>;
 
   isMasterProduct = ProductHelper.isMasterProduct;
   isVariationProduct = ProductHelper.isVariationProduct;
 
-  productItemForm: FormGroup;
-  readonly quantityControlName = 'quantity';
-
-  private destroy$ = new Subject();
+  constructor(private context: ProductContextFacade) {}
 
   ngOnInit() {
-    this.productItemForm = new FormGroup({
-      [this.quantityControlName]: new FormControl(this.quantity || this.product.minOrderQuantity),
-    });
-    this.productItemForm
-      .get(this.quantityControlName)
-      .valueChanges.pipe(
-        map(val => +val),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(this.quantityChange);
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  addToBasket() {
-    this.productToBasket.emit(this.productItemForm.get(this.quantityControlName).value);
+    this.product$ = this.context.select('product');
+    this.quantity$ = this.context.select('quantity');
   }
 }

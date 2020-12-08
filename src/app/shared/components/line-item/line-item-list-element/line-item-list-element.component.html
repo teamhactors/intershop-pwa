@@ -53,7 +53,10 @@
           <ng-container *ngIf="editable">
             <ish-line-item-edit
               *ishNotFeature="'advancedVariationHandling'"
-              [lineItem]="pli"
+              ishProductContext
+              [sku]="pli.productSKU"
+              [quantity]="pli.quantity.value"
+              [itemId]="pli.id"
               (updateItem)="onUpdateItem($event)"
             ></ish-line-item-edit>
           </ng-container>
@@ -92,14 +95,11 @@
         <ish-lazy-product-add-to-order-template
           *ngIf="editable"
           [class]="'btn-link btn-tool pl-0 add-to-order-template'"
-          [product]="product"
           displayType="icon"
-          [quantity]="pli.quantity.value"
         ></ish-lazy-product-add-to-order-template>
         <ish-lazy-product-add-to-wishlist
           *ngIf="editable"
           [class]="'btn-link btn-tool pl-0'"
-          [product]="product"
           displayType="icon"
         ></ish-lazy-product-add-to-wishlist>
         <a
@@ -118,16 +118,9 @@
     <!-- mobile quantity -->
     <div class="quantity d-xl-none">
       <div class="form-group">
-        <ng-container
-          *ngTemplateOutlet="
-            quantityInputTemplate;
-            context: {
-              pli: pli,
-              editable: editable,
-              maxOrderQuantity: product.maxOrderQuantity
-            }
-          "
-        ></ng-container>
+        <label class="d-xl-none col-form-label">{{ 'shopping_cart.pli.qty.label' | translate }}</label>
+        <ish-product-quantity *ngIf="editable; else readonly"></ish-product-quantity>
+        <ng-template #readonly>{{ pli.quantity.value | number }}</ng-template>
       </div>
     </div>
   </div>
@@ -135,16 +128,9 @@
   <!-- desktop quantity -->
   <div class="quantity col-xl-2 list-item d-none d-xl-flex">
     <div class="form-group w-100" [ngClass]="{ 'text-right': editable }">
-      <ng-container
-        *ngTemplateOutlet="
-          quantityInputTemplate;
-          context: {
-            pli: pli,
-            editable: editable,
-            maxOrderQuantity: product.maxOrderQuantity
-          }
-        "
-      ></ng-container>
+      <label class="d-xl-none col-form-label">{{ 'shopping_cart.pli.qty.label' | translate }}</label>
+      <ish-product-quantity *ngIf="editable; else readonly"></ish-product-quantity>
+      <ng-template #readonly>{{ pli.quantity.value | number }}</ng-template>
     </div>
   </div>
 
@@ -170,29 +156,3 @@
     <div *ngIf="pli.isFreeGift" class="list-item-promo">{{ 'checkout.pli.freegift.text' | translate }}</div>
   </div>
 </div>
-
-<!-- template (ngTemplateOutlet) for quantity-input -->
-<ng-template #quantityInputTemplate let-pli="pli" let-editable="editable" let-maxOrderQuantity="maxOrderQuantity">
-  <ng-container *ngIf="!pli.isQuantityFixed && editable; else readonlyQuantity">
-    <ish-input
-      [form]="createDummyForm(pli, maxOrderQuantity)"
-      controlName="quantity"
-      type="number"
-      label="shopping_cart.pli.qty.label"
-      labelClass="d-xl-none col-form-label"
-      inputClass="w-100"
-      [min]="0"
-      markRequiredLabel="off"
-      [max]="maxOrderQuantity"
-      [errorMessages]="{
-        required: 'shopping_cart.quantity.invalid.error',
-        max: 'shopping_cart.quantity.invalid.error.maxvalue',
-        integer: 'shopping_cart.quantity.invalid.error'
-      }"
-    ></ish-input>
-  </ng-container>
-  <ng-template #readonlyQuantity>
-    <label class="d-xl-none col-form-label">{{ 'shopping_cart.pli.qty.label' | translate }}</label>
-    {{ pli.quantity.value | number }}
-  </ng-template>
-</ng-template>

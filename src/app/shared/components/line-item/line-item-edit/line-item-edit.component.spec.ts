@@ -22,11 +22,8 @@ describe('Line Item Edit Component', () => {
         MockComponent(LineItemEditDialogComponent),
         MockComponent(ModalDialogComponent),
       ],
-    })
-      .overrideComponent(LineItemEditComponent, {
-        set: { providers: [{ provide: ProductContextFacade, useFactory: () => instance(mock(ProductContextFacade)) }] },
-      })
-      .compileComponents();
+      providers: [{ provide: ProductContextFacade, useFactory: () => instance(mock(ProductContextFacade)) }],
+    }).compileComponents();
   });
 
   beforeEach(() => {

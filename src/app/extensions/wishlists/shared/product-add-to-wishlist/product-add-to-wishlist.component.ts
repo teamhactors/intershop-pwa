@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { AccountFacade } from 'ish-core/facades/account.facade';
-import { Product } from 'ish-core/models/product/product.model';
+import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
 import { GenerateLazyComponent } from 'ish-core/utils/module-loader/generate-lazy-component.decorator';
 
 import { WishlistsFacade } from '../../facades/wishlists.facade';
@@ -26,13 +26,17 @@ import { SelectWishlistModalComponent } from '../select-wishlist-modal/select-wi
  */
 @GenerateLazyComponent()
 export class ProductAddToWishlistComponent implements OnDestroy {
-  @Input() product: Product;
   @Input() displayType?: 'icon' | 'link' | 'animated' = 'link';
   @Input() class?: string;
 
   private destroy$ = new Subject();
 
-  constructor(private wishlistsFacade: WishlistsFacade, private accountFacade: AccountFacade, private router: Router) {}
+  constructor(
+    private wishlistsFacade: WishlistsFacade,
+    private accountFacade: AccountFacade,
+    private router: Router,
+    private context: ProductContextFacade
+  ) {}
 
   /**
    * if the user is not logged in display login dialog, else open select wishlist dialog
@@ -51,14 +55,18 @@ export class ProductAddToWishlistComponent implements OnDestroy {
 
   addProductToWishlist(wishlist: { id: string; title: string }) {
     if (!wishlist.id) {
-      this.wishlistsFacade.addProductToNewWishlist(wishlist.title, this.product.sku);
+      this.wishlistsFacade.addProductToNewWishlist(wishlist.title, this.context.get('sku'));
     } else {
-      this.wishlistsFacade.addProductToWishlist(wishlist.id, this.product.sku);
+      this.wishlistsFacade.addProductToWishlist(wishlist.id, this.context.get('sku'));
     }
   }
 
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  get product() {
+    return this.context.get('product');
   }
 }

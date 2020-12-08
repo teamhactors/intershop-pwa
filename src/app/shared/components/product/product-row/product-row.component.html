@@ -1,4 +1,4 @@
-<div class="product-tile-list row" [attr.data-testing-sku]="product.sku">
+<div *ngIf="product$ | async as product" class="product-tile-list row" [attr.data-testing-sku]="product.sku">
   <div class="col-3 col-md-2">
     <div class="product-image-container">
       <a [routerLink]="product | ishProductRoute: category" queryParamsHandling="merge">
@@ -39,7 +39,6 @@
           <div class="product-tile-actions btn-group">
             <ish-lazy-product-add-to-quote
               *ngIf="configuration.displayAddToQuote"
-              [product]="product"
               displayType="icon"
               class="btn-link"
             ></ish-lazy-product-add-to-quote>
@@ -52,14 +51,11 @@
               *ngIf="configuration.displayAddToWishlist"
               displayType="icon"
               class="btn-link"
-              [product]="product"
             ></ish-lazy-product-add-to-wishlist>
             <ish-lazy-product-add-to-order-template
               *ngIf="configuration.displayAddToOrderTemplate"
               displayType="icon"
-              [quantity]="1"
               class="btn-link"
-              [product]="product"
             ></ish-lazy-product-add-to-order-template>
           </div>
         </ng-template>
@@ -117,35 +113,27 @@
 
           <ng-template #standardInteractions>
             <ng-container *ngIf="!isMasterProduct(product); else masterProductActions">
-              <form [formGroup]="productItemForm" class="product-form form-horizontal row">
-                <div
-                  class="action-container"
-                  [ngClass]="
-                    configuration.quantityLabel === ' ' ? 'col-6 offset-md-6 col-lg-5 offset-lg-0' : 'col-12 col-xl-7'
-                  "
-                >
-                  <ish-product-quantity
-                    *ngIf="configuration.displayQuantity"
-                    [readOnly]="configuration.readOnly"
-                    [allowZeroQuantity]="configuration.allowZeroQuantity"
-                    [quantityLabel]="configuration.quantityLabel"
-                    [product]="product"
-                    [parentForm]="productItemForm"
-                    [controlName]="quantityControlName"
-                  ></ish-product-quantity>
-                </div>
+              <div class="product-form form-horizontal row">
+                <ng-container *ngIf="configuration.readOnly; else quantityInput">
+                  <div class="action-container col-12 col-xl-7">
+                    <span *ngIf="configuration.displayQuantity"
+                      >{{ 'product.quantity.label' | translate }}: {{ quantity$ | async }}</span
+                    >
+                  </div>
+                </ng-container>
+                <ng-template #quantityInput>
+                  <div class="action-container col-6 offset-md-6 col-lg-5 offset-lg-0">
+                    <ish-product-quantity *ngIf="configuration.displayQuantity"></ish-product-quantity>
+                  </div>
+                </ng-template>
 
                 <div
-                  class="action-container addtocart-container"
-                  [ngClass]="configuration.quantityLabel === ' ' ? 'col-12 col-lg-7' : 'col-12 col-xl-5'"
+                  *ngIf="configuration.displayAddToBasket"
+                  class="action-container addtocart-container col-12 col-lg-7"
                 >
-                  <ish-product-add-to-basket
-                    *ngIf="configuration.displayAddToBasket"
-                    [product]="product"
-                    (productToBasket)="addToBasket()"
-                  ></ish-product-add-to-basket>
+                  <ish-product-add-to-basket></ish-product-add-to-basket>
                 </div>
-              </form>
+              </div>
             </ng-container>
 
             <ng-template #masterProductActions>

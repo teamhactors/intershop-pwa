@@ -1,14 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ShoppingFacade } from 'ish-core/facades/shopping.facade';
+import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
 import { CategoryView } from 'ish-core/models/category-view/category-view.model';
-import {
-  ProductView,
-  VariationProductMasterView,
-  VariationProductView,
-} from 'ish-core/models/product-view/product-view.model';
-import { ProductHelper } from 'ish-core/models/product/product.model';
+import { AnyProductViewType, ProductHelper } from 'ish-core/models/product/product.model';
 
 export interface ProductTileComponentConfiguration {
   readOnly: boolean;
@@ -28,25 +23,20 @@ export interface ProductTileComponentConfiguration {
   templateUrl: './product-tile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductTileComponent implements OnChanges {
+export class ProductTileComponent implements OnInit {
   @Input() configuration: Partial<ProductTileComponentConfiguration> = {};
-  @Input() product: ProductView | VariationProductView | VariationProductMasterView;
-  @Input() quantity: number;
   @Input() category: CategoryView;
-  @Output() productToBasket = new EventEmitter<number>();
 
+  product$: Observable<AnyProductViewType>;
   variationCount$: Observable<number>;
 
   isMasterProduct = ProductHelper.isMasterProduct;
   isVariationProduct = ProductHelper.isVariationProduct;
 
-  constructor(private shoppingFacade: ShoppingFacade) {}
+  constructor(private context: ProductContextFacade) {}
 
-  ngOnChanges() {
-    this.variationCount$ = this.shoppingFacade.productVariationCount$(this.product?.sku);
-  }
-
-  addToBasket() {
-    this.productToBasket.emit(this.quantity || this.product.minOrderQuantity);
+  ngOnInit() {
+    this.product$ = this.context.select('product');
+    this.variationCount$ = this.context.select('variationCount');
   }
 }

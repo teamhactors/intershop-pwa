@@ -3,10 +3,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { MockComponent, MockPipe } from 'ng-mocks';
-import { of } from 'rxjs';
+import { MockComponent, MockDirective, MockPipe } from 'ng-mocks';
+import { EMPTY, of } from 'rxjs';
 import { instance, mock, when } from 'ts-mockito';
 
+import { ProductContextDirective } from 'ish-core/directives/product-context.directive';
+import { CheckoutFacade } from 'ish-core/facades/checkout.facade';
 import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
 import { FeatureToggleModule } from 'ish-core/feature-toggle.module';
 import { PricePipe } from 'ish-core/models/price/price.pipe';
@@ -19,9 +21,9 @@ import { LineItemEditComponent } from 'ish-shared/components/line-item/line-item
 import { ProductBundleDisplayComponent } from 'ish-shared/components/product/product-bundle-display/product-bundle-display.component';
 import { ProductIdComponent } from 'ish-shared/components/product/product-id/product-id.component';
 import { ProductInventoryComponent } from 'ish-shared/components/product/product-inventory/product-inventory.component';
+import { ProductQuantityComponent } from 'ish-shared/components/product/product-quantity/product-quantity.component';
 import { ProductShipmentComponent } from 'ish-shared/components/product/product-shipment/product-shipment.component';
 import { ProductVariationDisplayComponent } from 'ish-shared/components/product/product-variation-display/product-variation-display.component';
-import { InputComponent } from 'ish-shared/forms/components/input/input.component';
 import { ProductImageComponent } from 'ish-shell/header/product-image/product-image.component';
 
 import { LazyProductAddToOrderTemplateComponent } from '../../../../extensions/order-templates/exports/lazy-product-add-to-order-template/lazy-product-add-to-order-template.component';
@@ -38,6 +40,7 @@ describe('Line Item List Element Component', () => {
   beforeEach(async () => {
     context = mock(ProductContextFacade);
     when(context.select('product')).thenReturn(of({} as ProductView));
+    when(context.select('quantity')).thenReturn(EMPTY);
 
     await TestBed.configureTestingModule({
       imports: [FeatureToggleModule.forTesting(), RouterTestingModule, TranslateModule.forRoot()],
@@ -45,7 +48,6 @@ describe('Line Item List Element Component', () => {
         LineItemListElementComponent,
         MockComponent(BasketPromotionComponent),
         MockComponent(FaIconComponent),
-        MockComponent(InputComponent),
         MockComponent(LazyProductAddToOrderTemplateComponent),
         MockComponent(LazyProductAddToWishlistComponent),
         MockComponent(LineItemEditComponent),
@@ -54,16 +56,18 @@ describe('Line Item List Element Component', () => {
         MockComponent(ProductIdComponent),
         MockComponent(ProductImageComponent),
         MockComponent(ProductInventoryComponent),
+        MockComponent(ProductQuantityComponent),
         MockComponent(ProductShipmentComponent),
         MockComponent(ProductVariationDisplayComponent),
+        MockDirective(ProductContextDirective),
         MockPipe(PricePipe),
         MockPipe(ProductRoutePipe),
       ],
-    })
-      .overrideComponent(LineItemListElementComponent, {
-        set: { providers: [{ provide: ProductContextFacade, useFactory: () => instance(context) }] },
-      })
-      .compileComponents();
+      providers: [
+        { provide: ProductContextFacade, useFactory: () => instance(context) },
+        { provide: CheckoutFacade, useFactory: () => instance(mock(CheckoutFacade)) },
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -86,13 +90,13 @@ describe('Line Item List Element Component', () => {
 
     it('should render item quantity change input field if editable === true', () => {
       fixture.detectChanges();
-      expect(element.querySelector('ish-input[controlname=quantity]')).toBeTruthy();
+      expect(element.querySelector('ish-product-quantity')).toBeTruthy();
     });
 
     it('should not render item quantity change input field if editable === false', () => {
       component.editable = false;
       fixture.detectChanges();
-      expect(element.querySelector('ish-input[controlname=quantity]')).not.toBeTruthy();
+      expect(element.querySelector('ish-product-quantity')).not.toBeTruthy();
     });
 
     it('should render item delete button if editable === true', () => {
@@ -136,8 +140,8 @@ describe('Line Item List Element Component', () => {
         "ish-lazy-product-add-to-order-template",
         "ish-lazy-product-add-to-wishlist",
         "fa-icon",
-        "ish-input",
-        "ish-input",
+        "ish-product-quantity",
+        "ish-product-quantity",
       ]
     `);
   });

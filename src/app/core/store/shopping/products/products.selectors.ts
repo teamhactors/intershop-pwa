@@ -75,19 +75,6 @@ export const getProduct = createSelector(
     createFailedOrProductView(props.sku, failed, entities, tree)
 );
 
-export const getProducts = createSelector(
-  getCategoryTree,
-  getProductEntities,
-  getFailed,
-  (
-    tree,
-    entities,
-    failed,
-    props: { skus: string[] }
-  ): (ProductView | VariationProductView | VariationProductMasterView)[] =>
-    props.skus.map(sku => createFailedOrProductView(sku, failed, entities, tree)).filter(x => !!x)
-);
-
 export const getSelectedProduct = createSelector(
   state => state,
   selectRouteParam('sku'),

@@ -8,10 +8,7 @@
       <ng-template #standardInteractions>
         <ng-container *ishFeature="'wishlists'">
           <li class="mr-2" [attr.data-testing-id]="'wishlist-' + product.sku">
-            <ish-lazy-product-add-to-wishlist
-              [product]="product"
-              displayType="animated"
-            ></ish-lazy-product-add-to-wishlist>
+            <ish-lazy-product-add-to-wishlist displayType="animated"></ish-lazy-product-add-to-wishlist>
           </li>
         </ng-container>
         <ng-container *ishFeature="'compare'">

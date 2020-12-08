@@ -2,9 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MockComponent, MockDirective, MockPipe } from 'ng-mocks';
-import { instance, mock } from 'ts-mockito';
+import { of } from 'rxjs';
+import { instance, mock, when } from 'ts-mockito';
 
-import { ShoppingFacade } from 'ish-core/facades/shopping.facade';
+import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
 import { FeatureToggleModule } from 'ish-core/feature-toggle.module';
 import { ProductView } from 'ish-core/models/product-view/product-view.model';
 import { ProductRoutePipe } from 'ish-core/routing/product/product-route.pipe';
@@ -34,6 +35,9 @@ describe('Product Tile Component', () => {
   let element: HTMLElement;
 
   beforeEach(async () => {
+    const context = mock(ProductContextFacade);
+    when(context.select('product')).thenReturn(of({ sku: 'SKU' } as ProductView));
+
     await TestBed.configureTestingModule({
       imports: [FeatureToggleModule.forTesting(), RouterTestingModule, TranslateModule.forRoot()],
       declarations: [
@@ -54,7 +58,7 @@ describe('Product Tile Component', () => {
         MockPipe(ProductRoutePipe),
         ProductTileComponent,
       ],
-      providers: [{ provide: ShoppingFacade, useFactory: () => instance(mock(ShoppingFacade)) }],
+      providers: [{ provide: ProductContextFacade, useFactory: () => instance(context) }],
     }).compileComponents();
   });
 
@@ -62,7 +66,6 @@ describe('Product Tile Component', () => {
     fixture = TestBed.createComponent(ProductTileComponent);
     component = fixture.componentInstance;
     element = fixture.nativeElement;
-    component.product = { sku: 'sku' } as ProductView;
   });
 
   it('should be created', () => {
