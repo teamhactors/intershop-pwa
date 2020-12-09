@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 
 @Component({
@@ -7,6 +8,8 @@ import { FieldType } from '@ngx-formly/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomTextareaFieldComponent extends FieldType {
+  formControl: FormControl;
+
   defaultOptions = {
     templateOptions: {
       cols: 1,

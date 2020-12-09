@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { Observable, isObservable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export class CreateFieldConfig {
   key: string;
@@ -42,8 +43,8 @@ export class FormlyService {
       expressionProperties: {
         ...generalFormField.expressionProperties,
         'templateOptions.description': (_model, _formState, field) =>
-          this.translate.instant('textarea.description', {
-            value: field.templateOptions.maxLength - (field.model[field.key as string] as string).length,
+          this.translate.instant('textarea.max_limit', {
+            0: field.templateOptions.maxLength - (field.model[field.key as string] as string).length,
           }),
       },
     };
@@ -51,15 +52,24 @@ export class FormlyService {
 
   createSelectField(
     config: CreateFieldConfig,
-    optionsSource: Observable<{ value: number; label: string }[]> | { value: number; label: string }[]
+    optionsSource: Observable<{ value: number | string; label: string }[]> | { value: number | string; label: string }[]
   ): FormlyFieldConfig {
     const generalField = this.createGeneralFormField(config);
+    let options;
+    if (isObservable(optionsSource)) {
+      options = optionsSource.pipe(
+        map(subjects => [{ value: undefined, label: 'account.option.select.text' }].concat(subjects))
+      );
+    } else {
+      options = [{ value: undefined, label: 'account.option.select.text' }].concat(optionsSource);
+    }
     return {
       ...generalField,
       type: 'custom-select',
+      defaultValue: 0,
       templateOptions: {
         ...generalField.templateOptions,
-        options: optionsSource,
+        options,
       },
     };
   }

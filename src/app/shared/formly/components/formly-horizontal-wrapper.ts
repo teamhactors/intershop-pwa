@@ -4,7 +4,7 @@ import { FieldWrapper } from '@ngx-formly/core';
 @Component({
   selector: 'ish-horizontal-wrapper',
   template: `
-    <div class="form-group row" [class.has-error]="showError">
+    <div class="form-group row" [class.formly-has-error]="showError">
       <label [attr.for]="id" class="col-5 col-form-label" *ngIf="to.label">
         {{ to.label | translate }}
         <ng-container *ngIf="to.required && to.hideRequiredMarker !== true">*</ng-container>
