@@ -1,0 +1,14 @@
+<ng-container>
+  <fa-icon
+    *ngIf="showError; else noError"
+    class="validation-icon"
+    [icon]="['fas', 'times']"
+  ></fa-icon>
+  <ng-template #noError>
+    <fa-icon
+      *ngIf="field.formControl.valid && (field.formControl.dirty ||  field.options.parentForm.submitted)"
+      class="validation-icon"
+      [icon]="['fas', 'check']"
+    ></fa-icon>
+  </ng-template>
+</ng-container>
