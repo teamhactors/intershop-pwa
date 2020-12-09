@@ -33,13 +33,13 @@ export class ContactFormComponent implements OnInit {
   /** The form for customer message to the shop. */
   submitted = false;
   contactForm = new FormGroup({});
-  model = {
+  model: Contact = {
     name: '',
     email: '',
     phone: '',
     order: '',
     subject: undefined,
-    comments: '',
+    comment: '',
   };
 
   fields: FormlyFieldConfig[] = [];
@@ -81,7 +81,7 @@ export class ContactFormComponent implements OnInit {
         this.subjectOptions
       ),
       this.formly.createTextAreaField({
-        key: 'comments',
+        key: 'comment',
         label: 'helpdesk.contactus.comments.label',
         required: true,
         errorMessages: { required: 'helpdesk.contactus.comments.error' },
@@ -93,7 +93,7 @@ export class ContactFormComponent implements OnInit {
   /** emit contact request, when for is valid or mark form as dirty, when form is invalid */
   submitForm() {
     if (this.contactForm.valid) {
-      const contact: Contact = this.contactForm.value;
+      const contact: Contact = this.model;
 
       this.request.emit(contact);
     } else {

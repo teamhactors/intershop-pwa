@@ -58,15 +58,15 @@ export class FormlyService {
     let options;
     if (isObservable(optionsSource)) {
       options = optionsSource.pipe(
-        map(subjects => [{ value: undefined, label: 'account.option.select.text' }].concat(subjects))
+        map(subjects => [{ value: null, label: 'account.option.select.text' }].concat(subjects))
       );
     } else {
-      options = [{ value: undefined, label: 'account.option.select.text' }].concat(optionsSource);
+      options = [{ value: null, label: 'account.option.select.text' }].concat(optionsSource);
     }
     return {
       ...generalField,
       type: 'custom-select',
-      defaultValue: 0,
+      defaultValue: null,
       templateOptions: {
         ...generalField.templateOptions,
         options,
