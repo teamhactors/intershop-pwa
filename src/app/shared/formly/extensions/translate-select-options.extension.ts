@@ -1,6 +1,5 @@
 import { FormlyExtension } from '@ngx-formly/core';
 import { TranslateService } from '@ngx-translate/core';
-import { isArray } from 'lodash-es';
 import { isObservable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -23,7 +22,7 @@ export class TranslateSelectOptionsExtension implements FormlyExtension {
               options.map(option => ({ ...option, label: this.translate.instant(option.label) }))
             )
           );
-        } else if (isArray(to.options) && to.options.length > 0) {
+        } else if (to.options && to.options.length > 0) {
           to.options = to.options.map(option => ({ ...option, label: this.translate.instant(option.label) }));
         }
       },
