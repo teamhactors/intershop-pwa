@@ -4,7 +4,6 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, isObservable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CaptchaTopic } from 'src/app/extensions/captcha/facades/captcha.facade';
 
 export class CreateFieldConfig {
   key: string;
@@ -44,6 +43,7 @@ export class FormlyService {
       },
       expressionProperties: {
         ...generalFormField.expressionProperties,
+        // tslint:disable-next-line:variable-name
         'templateOptions.description': (_model, _formState, field) =>
           this.translate.instant('textarea.max_limit', {
             0: field.templateOptions.maxLength - (field.model[field.key as string] as string).length,
@@ -60,14 +60,17 @@ export class FormlyService {
     let options;
     if (isObservable(optionsSource)) {
       options = optionsSource.pipe(
+        // tslint:disable-next-line:no-null-keyword
         map(subjects => [{ value: null, label: 'account.option.select.text' }].concat(subjects))
       );
     } else {
+      // tslint:disable-next-line:no-null-keyword
       options = [{ value: null, label: 'account.option.select.text' }].concat(optionsSource);
     }
     return {
       ...generalField,
       type: 'custom-select',
+      // tslint:disable-next-line:no-null-keyword
       defaultValue: null,
       templateOptions: {
         ...generalField.templateOptions,
@@ -89,14 +92,14 @@ export class FormlyService {
     };
   }
 
-  createCaptchaField(topic: CaptchaTopic): FormlyFieldConfig {
+  createCaptchaField(topic: string): FormlyFieldConfig {
     return {
       type: 'custom-captcha',
       templateOptions: {
         topic,
       },
       hooks: {
-        onInit: (field: FormlyFieldConfig) => {
+        onInit: field => {
           field.form.addControl('captcha', new FormControl(''));
           field.form.addControl('captchaAction', new FormControl(topic));
         },

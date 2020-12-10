@@ -99,9 +99,6 @@ export class ContactFormComponent implements OnInit {
         captcha: this.contactForm.get('captcha').value,
         captchaAction: this.contactForm.get('captchaAction').value,
       };
-      console.log(this.contactForm.value);
-      console.log(contact);
-
       this.request.emit(contact);
     } else {
       markAsDirtyRecursive(this.contactForm);
