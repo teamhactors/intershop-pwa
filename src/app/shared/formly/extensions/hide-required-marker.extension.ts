@@ -5,8 +5,10 @@ export const hideRequiredMarkerExtension: FormlyExtension = {
     field.expressionProperties = {
       ...field.expressionProperties,
       // tslint:disable-next-line:variable-name
-      'templateOptions.hideRequiredMarker': (_model, _formState, fld) =>
-        (fld.parent.fieldGroup as FormlyFieldConfig[])?.every(f => f.templateOptions.required)
+      'templateOptions.hideRequiredMarker': (model, _formState, fld) =>
+        (fld.parent.fieldGroup as FormlyFieldConfig[])
+          .filter(f => !Array.isArray(f.key) && f.key in model)
+          ?.every(f => f.templateOptions.required)
           ? true
           : !fld.templateOptions.required,
     };
