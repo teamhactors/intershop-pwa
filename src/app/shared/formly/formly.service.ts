@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, isObservable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CaptchaTopic } from 'src/app/extensions/captcha/facades/captcha.facade';
 
 export class CreateFieldConfig {
   key: string;
@@ -82,6 +84,21 @@ export class FormlyService {
         ...inputField.validators,
         email: {
           expression: c => EMAIL_REGEXP.test(c.value),
+        },
+      },
+    };
+  }
+
+  createCaptchaField(topic: CaptchaTopic): FormlyFieldConfig {
+    return {
+      type: 'custom-captcha',
+      templateOptions: {
+        topic,
+      },
+      hooks: {
+        onInit: (field: FormlyFieldConfig) => {
+          field.form.addControl('captcha', new FormControl(''));
+          field.form.addControl('captchaAction', new FormControl(topic));
         },
       },
     };

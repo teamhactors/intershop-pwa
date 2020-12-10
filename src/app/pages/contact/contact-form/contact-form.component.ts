@@ -86,6 +86,7 @@ export class ContactFormComponent implements OnInit {
         required: true,
         errorMessages: { required: 'helpdesk.contactus.comments.error' },
       }),
+      this.formly.createCaptchaField('contactUs'),
     ];
     this.initForm();
   }
@@ -93,7 +94,13 @@ export class ContactFormComponent implements OnInit {
   /** emit contact request, when for is valid or mark form as dirty, when form is invalid */
   submitForm() {
     if (this.contactForm.valid) {
-      const contact: Contact = this.model;
+      const contact: Contact = {
+        ...this.model,
+        captcha: this.contactForm.get('captcha').value,
+        captchaAction: this.contactForm.get('captchaAction').value,
+      };
+      console.log(this.contactForm.value);
+      console.log(contact);
 
       this.request.emit(contact);
     } else {

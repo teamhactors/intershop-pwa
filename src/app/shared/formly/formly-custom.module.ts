@@ -6,12 +6,14 @@ import { FormlySelectModule } from '@ngx-formly/core/select';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { IconModule } from 'ish-core/icon.module';
+import { ShellModule } from 'ish-shell/shell.module';
 
 import { HorizontalWrapperComponent } from './components/formly-horizontal-wrapper';
 import { ValidationIconsComponent } from './components/validation-icons/validation-icons.component';
-import { ValidationMessageComponent } from './components/validation-message';
+import { ValidationMessageComponent } from './components/validation-message/validation-message';
 import { hideRequiredMarkerExtension } from './extensions/hide-required-marker.extension';
 import { registerTranslateSelectOptionsExtension } from './extensions/translate-select-options.extension';
+import { CustomCatpchaFieldComponent } from './templates/custom-catpcha-field/custom-catpcha-field.component';
 import { CustomInputFieldComponent } from './templates/custom-input-field/custom-input-field.component';
 import { CustomSelectFieldComponent } from './templates/custom-select-field/custom-select-field.component';
 import { CustomTextareaFieldComponent } from './templates/custom-textarea-field/custom-textarea-field.component';
@@ -36,6 +38,7 @@ import { CustomTextareaFieldComponent } from './templates/custom-textarea-field/
           component: CustomTextareaFieldComponent,
           wrappers: ['form-field-horizontal'],
         },
+        { name: 'custom-captcha', component: CustomCatpchaFieldComponent },
       ],
       wrappers: [{ name: 'form-field-horizontal', component: HorizontalWrapperComponent }],
       extras: {
@@ -57,6 +60,7 @@ import { CustomTextareaFieldComponent } from './templates/custom-textarea-field/
     FormlySelectModule,
     IconModule,
     ReactiveFormsModule,
+    ShellModule,
     TranslateModule,
   ],
   providers: [
@@ -68,6 +72,7 @@ import { CustomTextareaFieldComponent } from './templates/custom-textarea-field/
     },
   ],
   declarations: [
+    CustomCatpchaFieldComponent,
     CustomInputFieldComponent,
     CustomSelectFieldComponent,
     CustomTextareaFieldComponent,
