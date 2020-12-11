@@ -8,15 +8,15 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { IconModule } from 'ish-core/icon.module';
 import { ShellModule } from 'ish-shell/shell.module';
 
-import { HorizontalWrapperComponent } from './components/formly-horizontal-wrapper';
+import { HorizontalWrapperComponent } from './components/horizontal-wrapper/horizontal-wrapper';
 import { ValidationIconsComponent } from './components/validation-icons/validation-icons.component';
 import { ValidationMessageComponent } from './components/validation-message/validation-message';
 import { hideRequiredMarkerExtension } from './extensions/hide-required-marker.extension';
 import { registerTranslateSelectOptionsExtension } from './extensions/translate-select-options.extension';
-import { CustomCatpchaFieldComponent } from './templates/custom-catpcha-field/custom-catpcha-field.component';
-import { CustomInputFieldComponent } from './templates/custom-input-field/custom-input-field.component';
-import { CustomSelectFieldComponent } from './templates/custom-select-field/custom-select-field.component';
-import { CustomTextareaFieldComponent } from './templates/custom-textarea-field/custom-textarea-field.component';
+import { CaptchaFieldComponent } from './templates/catpcha-field/captcha-field.component';
+import { InputFieldComponent } from './templates/input-field/input-field.component';
+import { SelectFieldComponent } from './templates/select-field/select-field.component';
+import { TextareaFieldComponent } from './templates/textarea-field/textarea-field.component';
 
 @NgModule({
   imports: [
@@ -24,21 +24,21 @@ import { CustomTextareaFieldComponent } from './templates/custom-textarea-field/
     FormlyModule.forRoot({
       types: [
         {
-          name: 'custom-input',
-          component: CustomInputFieldComponent,
+          name: 'ish-input-field',
+          component: InputFieldComponent,
           wrappers: ['form-field-horizontal'],
         },
         {
-          name: 'custom-select',
-          component: CustomSelectFieldComponent,
+          name: 'ish-select-field',
+          component: SelectFieldComponent,
           wrappers: ['form-field-horizontal'],
         },
         {
-          name: 'custom-textarea',
-          component: CustomTextareaFieldComponent,
+          name: 'ish-textarea-field',
+          component: TextareaFieldComponent,
           wrappers: ['form-field-horizontal'],
         },
-        { name: 'custom-captcha', component: CustomCatpchaFieldComponent },
+        { name: 'ish-captcha-field', component: CaptchaFieldComponent },
       ],
       wrappers: [{ name: 'form-field-horizontal', component: HorizontalWrapperComponent }],
       extras: {
@@ -72,14 +72,14 @@ import { CustomTextareaFieldComponent } from './templates/custom-textarea-field/
     },
   ],
   declarations: [
-    CustomCatpchaFieldComponent,
-    CustomInputFieldComponent,
-    CustomSelectFieldComponent,
-    CustomTextareaFieldComponent,
+    CaptchaFieldComponent,
     HorizontalWrapperComponent,
+    InputFieldComponent,
+    SelectFieldComponent,
+    TextareaFieldComponent,
     ValidationIconsComponent,
     ValidationMessageComponent,
   ],
-  exports: [CustomInputFieldComponent, CustomSelectFieldComponent, CustomTextareaFieldComponent],
+  exports: [CaptchaFieldComponent, InputFieldComponent, SelectFieldComponent, TextareaFieldComponent],
 })
 export class FormlyCustomModule {}

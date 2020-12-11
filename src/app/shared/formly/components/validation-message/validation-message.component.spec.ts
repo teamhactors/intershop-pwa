@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslatePipe } from '@ngx-translate/core';
+import { MockPipe } from 'ng-mocks';
 
 import { ValidationMessageComponent } from './validation-message';
 
@@ -9,7 +11,7 @@ describe('Validation Message Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ValidationMessageComponent],
+      declarations: [MockPipe(TranslatePipe), ValidationMessageComponent],
     }).compileComponents();
   });
 

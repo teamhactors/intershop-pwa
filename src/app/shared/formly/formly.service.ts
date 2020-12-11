@@ -24,7 +24,7 @@ export class FormlyService {
     const generalField = this.createGeneralFormField(config);
     return {
       ...generalField,
-      type: 'custom-input',
+      type: 'ish-input-field',
       templateOptions: {
         ...generalField.templateOptions,
       },
@@ -35,7 +35,7 @@ export class FormlyService {
     const generalFormField = this.createGeneralFormField(config);
     return {
       ...generalFormField,
-      type: 'custom-textarea',
+      type: 'ish-textarea-field',
       templateOptions: {
         ...generalFormField.templateOptions,
         maxLength,
@@ -69,7 +69,7 @@ export class FormlyService {
     }
     return {
       ...generalField,
-      type: 'custom-select',
+      type: 'ish-select-field',
       // tslint:disable-next-line:no-null-keyword
       defaultValue: null,
       templateOptions: {
@@ -94,7 +94,7 @@ export class FormlyService {
 
   createCaptchaField(topic: string): FormlyFieldConfig {
     return {
-      type: 'custom-captcha',
+      type: 'ish-captcha-field',
       templateOptions: {
         topic,
       },

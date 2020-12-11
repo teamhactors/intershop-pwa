@@ -4,11 +4,11 @@ import { FieldType } from '@ngx-formly/core';
 import { take } from 'rxjs/operators';
 
 @Component({
-  selector: 'ish-custom-select-field',
-  templateUrl: './custom-select-field.component.html',
+  selector: 'ish-select-field',
+  templateUrl: './select-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomSelectFieldComponent extends FieldType {
+export class SelectFieldComponent extends FieldType {
   formControl: FormControl;
   defaultOptions = {
     templateOptions: {

@@ -3,17 +3,14 @@ import { FormControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/core';
 
 @Component({
-  selector: 'ish-custom-textarea-field',
-  templateUrl: './custom-textarea-field.component.html',
+  selector: 'ish-input-field',
+  templateUrl: './input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomTextareaFieldComponent extends FieldType {
+export class InputFieldComponent extends FieldType {
   formControl: FormControl;
 
-  defaultOptions = {
-    templateOptions: {
-      cols: 1,
-      rows: 1,
-    },
-  };
+  get type() {
+    return this.to.type || 'text';
+  }
 }

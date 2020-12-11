@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { TranslatePipe } from '@ngx-translate/core';
+import { MockComponent, MockPipe } from 'ng-mocks';
 
 import { ValidationIconsComponent } from './validation-icons.component';
 
@@ -9,7 +12,7 @@ describe('Validation Icons Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ValidationIconsComponent],
+      declarations: [MockComponent(FaIconComponent), MockPipe(TranslatePipe), ValidationIconsComponent],
     }).compileComponents();
   });
 
@@ -17,6 +20,7 @@ describe('Validation Icons Component', () => {
     fixture = TestBed.createComponent(ValidationIconsComponent);
     component = fixture.componentInstance;
     element = fixture.nativeElement;
+    component.field = {};
   });
 
   it('should be created', () => {
