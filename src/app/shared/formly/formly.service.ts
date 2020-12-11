@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, isObservable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 export class CreateFieldConfig {
   key: string;
@@ -54,19 +53,11 @@ export class FormlyService {
 
   createSelectField(
     config: CreateFieldConfig,
-    optionsSource: Observable<{ value: number | string; label: string }[]> | { value: number | string; label: string }[]
+    optionsSource?:
+      | Observable<{ value: number | string; label: string }[]>
+      | { value: number | string; label: string }[]
   ): FormlyFieldConfig {
     const generalField = this.createGeneralFormField(config);
-    let options;
-    if (isObservable(optionsSource)) {
-      options = optionsSource.pipe(
-        // tslint:disable-next-line:no-null-keyword
-        map(subjects => [{ value: null, label: 'account.option.select.text' }].concat(subjects))
-      );
-    } else {
-      // tslint:disable-next-line:no-null-keyword
-      options = [{ value: null, label: 'account.option.select.text' }].concat(optionsSource);
-    }
     return {
       ...generalField,
       type: 'ish-select-field',
@@ -74,7 +65,7 @@ export class FormlyService {
       defaultValue: null,
       templateOptions: {
         ...generalField.templateOptions,
-        options,
+        options: optionsSource,
       },
     };
   }

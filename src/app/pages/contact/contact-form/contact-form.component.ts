@@ -6,6 +6,7 @@ import { map, startWith } from 'rxjs/operators';
 
 import { Contact } from 'ish-core/models/contact/contact.model';
 import { User } from 'ish-core/models/user/user.model';
+import { FormlyHelper } from 'ish-shared/formly/formly.helper';
 import { FormlyService } from 'ish-shared/formly/formly.service';
 import { SelectOption } from 'ish-shared/forms/components/select/select.component';
 import { markAsDirtyRecursive } from 'ish-shared/forms/utils/form-utils';
@@ -28,8 +29,6 @@ export class ContactFormComponent implements OnInit {
   /** The contact request to send. */
   @Output() request = new EventEmitter<Contact>();
 
-  subjectOptions: Observable<SelectOption[]>;
-
   /** The form for customer message to the shop. */
   submitted = false;
   contactForm = new FormGroup({});
@@ -42,52 +41,56 @@ export class ContactFormComponent implements OnInit {
     comment: '',
   };
 
-  fields: FormlyFieldConfig[] = [];
+  fields: FormlyFieldConfig[] = [
+    this.formly.createInputField({
+      key: 'name',
+      label: 'helpdesk.contactus.name.label',
+      required: true,
+      errorMessages: { required: 'helpdesk.contactus.name.error' },
+    }),
+    this.formly.createEmailField({
+      key: 'email',
+      label: 'helpdesk.contactus.email.label',
+      required: true,
+      errorMessages: { required: 'helpdesk.contactus.email.error', email: 'helpdesk.contactus.email.error' },
+    }),
+    this.formly.createInputField({
+      key: 'phone',
+      label: 'helpdesk.contactus.phone.label',
+      required: true,
+      errorMessages: { required: 'helpdesk.contactus.phone.error' },
+    }),
+    this.formly.createInputField({ key: 'order', label: 'helpdesk.contactus.order.label' }),
+    this.formly.createSelectField({
+      key: 'subject',
+      label: 'helpdesk.contactus.subject.label',
+      required: true,
+      errorMessages: { required: 'helpdesk.contactus.subject.error' },
+    }),
+    this.formly.createTextAreaField({
+      key: 'comment',
+      label: 'helpdesk.contactus.comments.label',
+      required: true,
+      errorMessages: { required: 'helpdesk.contactus.comments.error' },
+    }),
+    this.formly.createCaptchaField('contactUs'),
+  ];
 
   constructor(private formly: FormlyService) {}
 
   ngOnInit() {
-    this.subjectOptions = this.subjects.pipe(
+    const subjectOptions$ = this.subjects.pipe(
       startWith([]),
       map(subjects => this.mapSubjectOptions(subjects))
     );
-    this.fields = [
-      this.formly.createInputField({
-        key: 'name',
-        label: 'helpdesk.contactus.name.label',
-        required: true,
-        errorMessages: { required: 'helpdesk.contactus.name.error' },
-      }),
-      this.formly.createEmailField({
-        key: 'email',
-        label: 'helpdesk.contactus.email.label',
-        required: true,
-        errorMessages: { required: 'helpdesk.contactus.email.error', email: 'helpdesk.contactus.email.error' },
-      }),
-      this.formly.createInputField({
-        key: 'phone',
-        label: 'helpdesk.contactus.phone.label',
-        required: true,
-        errorMessages: { required: 'helpdesk.contactus.phone.error' },
-      }),
-      this.formly.createInputField({ key: 'order', label: 'helpdesk.contactus.order.label' }),
-      this.formly.createSelectField(
-        {
-          key: 'subject',
-          label: 'helpdesk.contactus.subject.label',
-          required: true,
-          errorMessages: { required: 'helpdesk.contactus.subject.error' },
-        },
-        this.subjectOptions
-      ),
-      this.formly.createTextAreaField({
-        key: 'comment',
-        label: 'helpdesk.contactus.comments.label',
-        required: true,
-        errorMessages: { required: 'helpdesk.contactus.comments.error' },
-      }),
-      this.formly.createCaptchaField('contactUs'),
-    ];
+    const subjectIndex = FormlyHelper.findFieldIndex('subject', this.fields);
+    if (subjectIndex !== -1) {
+      this.fields[subjectIndex] = FormlyHelper.updateSelectOptionsSource(
+        this.fields[subjectIndex],
+        subjectOptions$,
+        'account.option.select.text'
+      );
+    }
     this.initForm();
   }
 
