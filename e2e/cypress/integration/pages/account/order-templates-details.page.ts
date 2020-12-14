@@ -63,6 +63,8 @@ export class OrderTemplatesDetailsPage {
 
     return cy
       .wait('@basket')
-      .then(result => (result.status >= 400 ? result : cy.wait('@basketCurrent').then(() => result))) as any;
+      .then(result =>
+        result.response.statusCode >= 400 ? result : cy.wait('@basketCurrent').then(() => result)
+      ) as any;
   }
 }
