@@ -5,11 +5,11 @@ import { FieldWrapper } from '@ngx-formly/core';
   selector: 'ish-horizontal-wrapper',
   template: `
     <div class="form-group row" [class.formly-has-error]="showError">
-      <label [attr.for]="id" class="col-5 col-form-label" *ngIf="to.label">
+      <label [attr.for]="id" class="col-form-label" [ngClass]="to.labelClass" *ngIf="to.label">
         {{ to.label | translate }}
         <ng-container *ngIf="to.required && to.hideRequiredMarker !== true">*</ng-container>
       </label>
-      <div class="col-7">
+      <div [ngClass]="to.fieldClass">
         <ng-template #fieldComponent></ng-template>
         <ish-validation-icons [field]="field" [showError]="showError"></ish-validation-icons>
         <ng-container *ngIf="showError" class="invalid-feedback d-block">

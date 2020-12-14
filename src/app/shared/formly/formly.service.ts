@@ -9,6 +9,8 @@ export class CreateFieldConfig {
   label: string;
   required?: boolean;
   errorMessages?: { [error: string]: string };
+  labelClass?: string;
+  fieldClass?: string;
 }
 
 const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -104,6 +106,8 @@ export class FormlyService {
       templateOptions: {
         label: config.label,
         required: config.required ?? false,
+        labelClass: config.labelClass ?? 'col-5',
+        fieldClass: config.fieldClass ?? 'col-7',
       },
       validation: {
         messages: config.errorMessages,
