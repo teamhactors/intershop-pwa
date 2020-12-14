@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormlyModule } from '@ngx-formly/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { IconModule } from 'ish-core/icon.module';
@@ -21,6 +22,7 @@ import { AddressFormUSComponent } from './components/address-form-us/address-for
 import { AddressFormUSFactory } from './components/address-form-us/address-form-us.factory';
 import { AddressFormComponent } from './components/address-form/address-form.component';
 import { CustomerAddressFormComponent } from './components/customer-address-form/customer-address-form.component';
+import { FormlyAddressFormComponent } from './components/formly-address-form/formly-address-form.component';
 import { ADDRESS_FORM_FACTORY, AddressFormFactoryProvider } from './configurations/address-form-factory.provider';
 
 const declaredComponents = [
@@ -31,12 +33,21 @@ const declaredComponents = [
   AddressFormFRComponent,
   AddressFormGBComponent,
   AddressFormUSComponent,
+  FormlyAddressFormComponent,
 ];
 
 const exportedComponents = [AddressFormContainerComponent, CustomerAddressFormComponent];
 
 @NgModule({
-  imports: [CommonModule, FormsSharedModule, IconModule, NgbPopoverModule, ReactiveFormsModule, TranslateModule],
+  imports: [
+    CommonModule,
+    FormlyModule,
+    FormsSharedModule,
+    IconModule,
+    NgbPopoverModule,
+    ReactiveFormsModule,
+    TranslateModule,
+  ],
   declarations: [...declaredComponents, ...exportedComponents],
   exports: [...exportedComponents],
   providers: [
