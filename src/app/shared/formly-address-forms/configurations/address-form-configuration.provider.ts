@@ -9,7 +9,7 @@ export class AddressFormConfigurationProvider {
   constructor(@Inject(ADDRESS_FORM_CONFIGURATION) private configurations: AddressFormConfiguration[]) {}
 
   /**
-   * gets the appropriate address factory for the given countryCode
+   * gets the appropriate address configuration for the given countryCode
    */
   getConfiguration(countryCode: string = 'default'): AddressFormConfiguration {
     let configuration = this.findConfiguration(countryCode);

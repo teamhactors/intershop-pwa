@@ -1,4 +1,4 @@
-import { FormlyExtension } from '@ngx-formly/core';
+import { FormlyExtension, FormlyFieldConfig } from '@ngx-formly/core';
 import { TranslateService } from '@ngx-translate/core';
 import { isObservable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -6,25 +6,29 @@ import { map } from 'rxjs/operators';
 export class TranslateSelectOptionsExtension implements FormlyExtension {
   constructor(private translate: TranslateService) {}
 
-  prePopulate(field): void {
+  prePopulate(field: FormlyFieldConfig): void {
     const to = field.templateOptions;
     if (!to || !to.options || to._selectOptionsTranslated) {
       return;
     }
-    to._selectOptionsTranslated = true;
-    field.expressionProperties = {
-      ...field.expressionProperties,
-      // tslint:disable-next-line:variable-name
-      'templateOptions.options': () => {
+    const oldOnChanges = field.hooks?.onChanges;
+    field.hooks = {
+      ...field.hooks,
+      onChanges: (fld: FormlyFieldConfig) => {
+        if (oldOnChanges) {
+          oldOnChanges(fld);
+        }
+        let opts;
         if (isObservable(to.options) && to.options) {
-          return to.options.pipe(
+          opts = to.options.pipe(
             map((options: { value: unknown; label: string }[]) =>
               options.map(option => ({ ...option, label: this.translate.instant(option.label) }))
             )
           );
-        } else if (to.options && to.options.length > 0) {
-          to.options = to.options.map(option => ({ ...option, label: this.translate.instant(option.label) }));
+        } else if (!isObservable(to.options) && to.options && to.options.length > 0) {
+          opts = to.options.map(option => ({ ...option, label: this.translate.instant(option.label) }));
         }
+        fld.templateOptions.options = opts;
       },
     };
   }
