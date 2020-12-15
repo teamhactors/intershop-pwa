@@ -103,6 +103,7 @@ import { ProductVariationSelectComponent } from './components/product/product-va
 import { PromotionDetailsComponent } from './components/promotion/promotion-details/promotion-details.component';
 import { PromotionRemoveComponent } from './components/promotion/promotion-remove/promotion-remove.component';
 import { RecentlyViewedComponent } from './components/recently/recently-viewed/recently-viewed.component';
+import { FormlyAddressFormsModule } from './formly-address-forms/formly-address-forms.module';
 import { FormlyCustomModule } from './formly/formly-custom.module';
 import { FormsDynamicModule } from './forms-dynamic/forms-dynamic.module';
 import { FormsSharedModule } from './forms/forms.module';
@@ -114,6 +115,7 @@ const importExportModules = [
   CommonModule,
   DeferLoadModule,
   FeatureToggleModule,
+  FormlyAddressFormsModule,
   FormlyCustomModule,
   FormlyModule,
   FormsDynamicModule,
