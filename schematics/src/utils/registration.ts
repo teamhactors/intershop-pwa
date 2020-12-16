@@ -1,4 +1,4 @@
-import { strings } from '@angular-devkit/core';
+import { path, strings } from '@angular-devkit/core';
 import { Rule, UpdateRecorder } from '@angular-devkit/schematics';
 import { tsquery } from '@phenomnomnominal/tsquery';
 import {
@@ -9,10 +9,12 @@ import {
 } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
 import { buildRelativePath, findModule } from '@schematics/angular/utility/find-module';
+import { ArrayLiteralExpression, ObjectLiteralExpression, SyntaxKind } from 'ts-morph';
 import { ImportKind, findImports, forEachToken } from 'tsutils';
 import * as ts from 'typescript';
 
 import { readIntoSourceFile } from './filesystem';
+import { createTsMorphProject } from './ts-morph';
 
 export function addExportToNgModule(options: {
   module?: string;
@@ -110,6 +112,35 @@ export function addProviderToNgModule(options: {
     }
     host.commitUpdate(declarationRecorder);
 
+    return host;
+  };
+}
+
+export function addTokenProviderToNgModule(options: {
+  module?: string;
+  token?: string;
+  class?: string;
+  relativeClassImportPath?: string;
+  multi?: boolean;
+}): Rule {
+  return host => {
+    const tsMorphProject = createTsMorphProject(host);
+    tsMorphProject.addSourceFileAtPath(options.module);
+    const sourceFile = tsMorphProject.getSourceFile(options.module);
+
+    (sourceFile.getClasses()[0].getDecorator('NgModule').getArguments()[0] as ObjectLiteralExpression)
+      .getChildrenOfKind(SyntaxKind.PropertyAssignment)
+      .find(child => child.getName() === 'providers')
+      .getInitializerIfKindOrThrow(SyntaxKind.ArrayLiteralExpression)
+      .addElement(`{ provide: ${options.token}, useClass: ${options.class}, multi: ${options.multi} }`);
+
+    sourceFile
+      .addImportDeclaration({
+        moduleSpecifier: options.relativeClassImportPath,
+      })
+      .addNamedImport({ name: options.class });
+
+    host.overwrite(options.module, sourceFile.getText());
     return host;
   };
 }

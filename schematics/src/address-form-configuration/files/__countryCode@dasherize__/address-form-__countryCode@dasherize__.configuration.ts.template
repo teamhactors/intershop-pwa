@@ -1,0 +1,25 @@
+import { Injectable } from '@angular/core';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+
+import { AppFacade } from 'ish-core/facades/app.facade';
+import { AddressFormConfiguration } from 'ish-shared/formly-address-forms/configurations/address-form.configuration';
+import { FormlyService } from 'ish-shared/formly/formly.service';
+
+@Injectable()
+export class AddressForm<%= countryCodeCaps %>Configuration extends AddressFormConfiguration {
+  countryCode = '<%= countryCodeCaps %>';
+
+  constructor() {
+    super();
+  }
+
+  getModel(model: { [key: string]: unknown } = {}) : { [key: string] : unknown } {
+    return {
+      ...model,
+    };
+  }
+
+  getFieldConfiguration() : FormlyFieldConfig[] {
+    return [];
+  }
+}
