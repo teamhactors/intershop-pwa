@@ -29,7 +29,6 @@ export class AddressFormDEConfiguration extends AddressFormConfiguration {
       addressLine2: model.addressLine2 ?? '',
       postalCode: model.postalCode ?? '',
       city: model.city ?? '',
-      state: model.state ?? '',
     };
   }
 
@@ -100,6 +99,12 @@ export class AddressFormDEConfiguration extends AddressFormConfiguration {
         fieldClass: 'col-md-8',
       }),
       this.formly.createInputField({
+        key: 'addressLine3',
+        label: 'account.default_address.street3.label',
+        labelClass: 'col-md-4',
+        fieldClass: 'col-md-8',
+      }),
+      this.formly.createInputField({
         key: 'postalCode',
         label: 'account.default_address.postalcode.label',
         required: true,
@@ -116,12 +121,10 @@ export class AddressFormDEConfiguration extends AddressFormConfiguration {
         errorMessages: { required: 'account.address.city.missing.error' },
       }),
       this.formly.createSelectField({
-        key: 'state',
-        label: 'account.default_address.state.label',
-        required: true,
+        key: 'phone',
+        label: 'account.profile.phone.label',
         labelClass: 'col-md-4',
         fieldClass: 'col-md-8',
-        errorMessages: { required: 'account.address.state.error.default' },
       }),
     ];
 

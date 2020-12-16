@@ -7,7 +7,6 @@ import { Credentials } from 'ish-core/models/credentials/credentials.model';
 import { Customer, CustomerRegistrationType } from 'ish-core/models/customer/customer.model';
 import { HttpError } from 'ish-core/models/http-error/http-error.model';
 import { User } from 'ish-core/models/user/user.model';
-import { AddressFormFactoryProvider } from 'ish-shared/address-forms/configurations/address-form-factory.provider';
 import { markAsDirtyRecursive } from 'ish-shared/forms/utils/form-utils';
 import { SpecialValidators } from 'ish-shared/forms/validators/special-validators';
 
@@ -28,11 +27,7 @@ export class RegistrationFormComponent implements OnInit {
   form: FormGroup;
   submitted = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private afs: AddressFormFactoryProvider,
-    private featureToggle: FeatureToggleService
-  ) {}
+  constructor(private fb: FormBuilder, private featureToggle: FeatureToggleService) {}
 
   ngOnInit() {
     // toggles business / private customer registration
@@ -63,7 +58,8 @@ export class RegistrationFormComponent implements OnInit {
       termsAndConditions: [false, [Validators.required, Validators.pattern('true')]],
       captcha: [''],
       captchaAction: ['register'],
-      address: this.afs.getFactory('default').getGroup({ isBusinessAddress: this.businessCustomerRegistration }), // filled dynamically when country code changes
+      address: this.fb.group({}),
+      // address: this.afs.getFactory('default').getGroup({ isBusinessAddress: this.businessCustomerRegistration }), // filled dynamically when country code changes
     });
 
     // add form control(s) for business customers

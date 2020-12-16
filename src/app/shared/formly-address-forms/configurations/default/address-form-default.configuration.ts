@@ -115,6 +115,12 @@ export class AddressFormDefaultConfiguration extends AddressFormConfiguration {
         fieldClass: 'col-md-8',
         errorMessages: { required: 'account.address.state.error.default' },
       }),
+      this.formly.createSelectField({
+        key: 'phone',
+        label: 'account.profile.phone.label',
+        labelClass: 'col-md-4',
+        fieldClass: 'col-md-8',
+      }),
     ];
 
     const countryIndex = FormlyHelper.findFieldIndex('countryCode', fieldConfig);

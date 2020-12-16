@@ -14,7 +14,7 @@ export class TranslateSelectOptionsExtension implements FormlyExtension {
     const oldOnChanges = field.hooks?.onChanges;
     field.hooks = {
       ...field.hooks,
-      onChanges: (fld: FormlyFieldConfig) => {
+      onChanges: fld => {
         if (oldOnChanges) {
           oldOnChanges(fld);
         }

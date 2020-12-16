@@ -4,7 +4,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 @Component({
   selector: 'ish-validation-icons',
   templateUrl: './validation-icons.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ValidationIconsComponent {
   @Input() field: FormlyFieldConfig;

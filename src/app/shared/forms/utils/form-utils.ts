@@ -16,6 +16,21 @@ export function markAsDirtyRecursive(formGroup: FormGroup) {
 }
 
 /**
+ * Marks all fields in a form group as pristine recursively (i.e. for nested form groups also)
+ * @param formGroup The form group
+ */
+export function markAsPristineRecursive(formGroup: FormGroup) {
+  Object.keys(formGroup.controls).forEach(key => {
+    if (formGroup.controls[key] instanceof FormGroup) {
+      markAsPristineRecursive(formGroup.controls[key] as FormGroup);
+    } else {
+      formGroup.controls[key].markAsPristine();
+      formGroup.controls[key].updateValueAndValidity();
+    }
+  });
+}
+
+/**
  * Updates validators for control
  * - enables required validator when there are elements in the array
  * - disables validator when no elements present
