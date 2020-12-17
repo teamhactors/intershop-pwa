@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { Observable, isObservable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { AppFacade } from 'ish-core/facades/app.facade';
 
 export class CreateFieldConfig {
   key: string;
@@ -13,13 +16,17 @@ export class CreateFieldConfig {
   fieldClass?: string;
 }
 
+export type SelectOptionsSource =
+  | Observable<{ value: number | string; label: string }[]>
+  | { value: number | string; label: string }[];
+
 const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormlyService {
-  constructor(private translate: TranslateService) {}
+  constructor(private translate: TranslateService, private appFacade: AppFacade) {}
 
   createInputField(config: CreateFieldConfig): FormlyFieldConfig {
     const generalField = this.createGeneralFormField(config);
@@ -55,9 +62,8 @@ export class FormlyService {
 
   createSelectField(
     config: CreateFieldConfig,
-    optionsSource?:
-      | Observable<{ value: number | string; label: string }[]>
-      | { value: number | string; label: string }[]
+    optionsSource?: SelectOptionsSource,
+    placeholder?: string
   ): FormlyFieldConfig {
     const generalField = this.createGeneralFormField(config);
     return {
@@ -67,7 +73,7 @@ export class FormlyService {
       defaultValue: null,
       templateOptions: {
         ...generalField.templateOptions,
-        options: optionsSource,
+        options: this.translateSelectOptionsAndAddPlaceholder(optionsSource, placeholder),
       },
     };
   }
@@ -100,6 +106,37 @@ export class FormlyService {
     };
   }
 
+  createCountrySelectField(key = 'countryCode'): FormlyFieldConfig {
+    return this.createSelectField(
+      {
+        key,
+        label: 'account.address.country.label',
+        required: true,
+        labelClass: 'col-md-4',
+        fieldClass: 'col-md-8',
+        errorMessages: { required: 'account.address.country.error.default' },
+      },
+      this.appFacade
+        .countries$()
+        ?.pipe(map(countries => countries?.map(country => ({ value: country.countryCode, label: country.name })))),
+      'account.option.select.text'
+    );
+  }
+
+  updateSelectFieldOptions(
+    field: FormlyFieldConfig,
+    optionsSource: SelectOptionsSource,
+    placeholder?: string
+  ): FormlyFieldConfig {
+    return {
+      ...field,
+      templateOptions: {
+        ...field.templateOptions,
+        options: this.translateSelectOptionsAndAddPlaceholder(optionsSource, placeholder),
+      },
+    };
+  }
+
   private createGeneralFormField(config: CreateFieldConfig): FormlyFieldConfig {
     return {
       key: config.key,
@@ -113,5 +150,28 @@ export class FormlyService {
         messages: config.errorMessages,
       },
     };
+  }
+
+  private translateSelectOptionsAndAddPlaceholder(
+    optionsSource: SelectOptionsSource,
+    placeholder?: string
+  ): SelectOptionsSource | undefined {
+    if (!optionsSource) {
+      return;
+    }
+    let opts: SelectOptionsSource;
+    if (isObservable(optionsSource)) {
+      opts = optionsSource.pipe(
+        // tslint:disable-next-line:no-null-keyword
+        map(options => (placeholder ? [{ value: null, label: placeholder }] : []).concat(options ?? [])),
+        map(options => options?.map(option => ({ ...option, label: this.translate.instant(option.label) })))
+      );
+    } else {
+      // tslint:disable-next-line:no-null-keyword
+      opts = (placeholder ? [{ value: null, label: placeholder }] : [])
+        .concat(optionsSource)
+        .map(option => ({ ...option, label: this.translate.instant(option.label) }));
+    }
+    return opts;
   }
 }

@@ -1,24 +1,19 @@
 import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { map } from 'rxjs/operators';
 
-import { AppFacade } from 'ish-core/facades/app.facade';
 import { AddressFormConfiguration } from 'ish-shared/formly-address-forms/configurations/address-form.configuration';
-import { FormlyHelper } from 'ish-shared/formly/formly.helper';
 import { FormlyService } from 'ish-shared/formly/formly.service';
 
 @Injectable()
 export class AddressFormDefaultConfiguration extends AddressFormConfiguration {
   countryCode = 'default';
 
-  constructor(private formly: FormlyService, private appFacade: AppFacade) {
+  constructor(private formly: FormlyService) {
     super();
   }
 
   getModel(model: { [key: string]: unknown } = {}): { [key: string]: unknown } {
     return {
-      ...model,
-      countryCode: model.countryCode ?? '',
       companyName1: model.companyName1 ?? '',
       companyName2: model.companyName2 ?? '',
       firstName: model.firstName ?? '',
@@ -27,20 +22,12 @@ export class AddressFormDefaultConfiguration extends AddressFormConfiguration {
       addressLine2: model.addressLine2 ?? '',
       postalCode: model.postalCode ?? '',
       city: model.city ?? '',
-      state: model.state ?? '',
+      phone: model.phone ?? '',
     };
   }
 
   getFieldConfiguration(): FormlyFieldConfig[] {
-    const fieldConfig = [
-      this.formly.createSelectField({
-        key: 'countryCode',
-        label: 'account.address.country.label',
-        required: true,
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
-        errorMessages: { required: 'account.address.country.error.default' },
-      }),
+    return [
       this.formly.createInputField({
         key: 'companyName1',
         label: 'account.address.company_name.label',
@@ -107,41 +94,12 @@ export class AddressFormDefaultConfiguration extends AddressFormConfiguration {
         fieldClass: 'col-md-8',
         errorMessages: { required: 'account.address.city.missing.error' },
       }),
-      this.formly.createSelectField({
-        key: 'state',
-        label: 'account.default_address.state.label',
-        required: true,
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
-        errorMessages: { required: 'account.address.state.error.default' },
-      }),
-      this.formly.createSelectField({
+      this.formly.createInputField({
         key: 'phone',
         label: 'account.profile.phone.label',
         labelClass: 'col-md-4',
         fieldClass: 'col-md-8',
       }),
     ];
-
-    const countryIndex = FormlyHelper.findFieldIndex('countryCode', fieldConfig);
-    if (countryIndex !== -1) {
-      fieldConfig[countryIndex] = FormlyHelper.updateSelectOptionsSource(
-        fieldConfig[countryIndex],
-        this.appFacade
-          .countries$()
-          ?.pipe(map(countries => countries?.map(country => ({ value: country.countryCode, label: country.name })))),
-        'account.option.select.text'
-      );
-    }
-
-    // const regionIndex = FormlyHelper.findFieldIndex('state', this.fields);
-    // if (regionIndex !== -1) {
-    //   this.fields[regionIndex] = FormlyHelper.updateSelectOptionsSource(
-    //     this.fields[regionIndex],
-    //     this.regions?.pipe(map(regions => regions?.map(region => ({ value: region.id, label: region.name }))))
-    //   );
-    // }
-
-    return fieldConfig;
   }
 }

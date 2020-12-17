@@ -52,7 +52,6 @@ export class RegistrationFormComponent implements OnInit {
           ],
         }
       ),
-      countryCodeSwitch: ['', [Validators.required]],
       preferredLanguage: ['en_US', [Validators.required]],
       birthday: [''],
       termsAndConditions: [false, [Validators.required, Validators.pattern('true')]],

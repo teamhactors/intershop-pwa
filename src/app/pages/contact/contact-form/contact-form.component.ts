@@ -85,7 +85,7 @@ export class ContactFormComponent implements OnInit {
     );
     const subjectIndex = FormlyHelper.findFieldIndex('subject', this.fields);
     if (subjectIndex !== -1) {
-      this.fields[subjectIndex] = FormlyHelper.updateSelectOptionsSource(
+      this.fields[subjectIndex] = this.formly.updateSelectFieldOptions(
         this.fields[subjectIndex],
         subjectOptions$,
         'account.option.select.text'

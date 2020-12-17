@@ -1,3 +1,8 @@
-<form class="form-horizontal" [formGroup]="addressForm" name="addressForm">
-  <formly-form [form]="addressForm" [fields]="fields" [model]="model"></formly-form>
-</form>
+<formly-form
+  [form]="countryForm"
+  [fields]="countryFields"
+  [model]="countryModel"
+  (modelChange)="handleCountryChange($event)"
+></formly-form>
+
+<formly-form [form]="addressForm" [fields]="addressFields" [model]="addressModel"></formly-form>

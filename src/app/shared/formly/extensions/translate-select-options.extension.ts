@@ -18,6 +18,9 @@ export class TranslateSelectOptionsExtension implements FormlyExtension {
         if (oldOnChanges) {
           oldOnChanges(fld);
         }
+        if (!to.opts) {
+          return;
+        }
         let opts;
         if (isObservable(to.options) && to.options) {
           opts = to.options.pipe(

@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { map } from 'rxjs/operators';
 
+import { AppFacade } from 'ish-core/facades/app.facade';
 import { AddressFormConfiguration } from 'ish-shared/formly-address-forms/configurations/address-form.configuration';
 import { FormlyService } from 'ish-shared/formly/formly.service';
-import { determineSalutations } from 'ish-shared/forms/utils/form-utils';
 
 @Injectable()
-export class AddressFormDEConfiguration extends AddressFormConfiguration {
-  countryCode = 'DE';
+export class AddressFormUSConfiguration extends AddressFormConfiguration {
+  countryCode = 'US';
 
-  constructor(private formly: FormlyService) {
+  constructor(private formly: FormlyService, private appFacade: AppFacade) {
     super();
   }
 
   getModel(model: { [key: string]: unknown } = {}): { [key: string]: unknown } {
     return {
-      title: undefined,
+      countryCode: model.countryCode ?? '',
       companyName1: model.companyName1 ?? '',
       companyName2: model.companyName2 ?? '',
       firstName: model.firstName ?? '',
       lastName: model.lastName ?? '',
       addressLine1: model.addressLine1 ?? '',
       addressLine2: model.addressLine2 ?? '',
+      state: undefined,
       postalCode: model.postalCode ?? '',
       city: model.city ?? '',
       phone: model.phone ?? '',
@@ -30,16 +32,6 @@ export class AddressFormDEConfiguration extends AddressFormConfiguration {
 
   getFieldConfiguration(): FormlyFieldConfig[] {
     return [
-      this.formly.createSelectField(
-        {
-          key: 'title',
-          label: 'account.default_address.title.label',
-          labelClass: 'col-md-4',
-          fieldClass: 'col-md-8',
-        },
-        determineSalutations(this.countryCode).map(salutation => ({ value: salutation, label: salutation })),
-        'account.option.select.text'
-      ),
       this.formly.createInputField({
         key: 'companyName1',
         label: 'account.address.company_name.label',
@@ -91,20 +83,6 @@ export class AddressFormDEConfiguration extends AddressFormConfiguration {
         fieldClass: 'col-md-8',
       }),
       this.formly.createInputField({
-        key: 'addressLine3',
-        label: 'account.default_address.street3.label',
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
-      }),
-      this.formly.createInputField({
-        key: 'postalCode',
-        label: 'account.default_address.postalcode.label',
-        required: true,
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
-        errorMessages: { required: 'account.address.postalcode.missing.error' },
-      }),
-      this.formly.createInputField({
         key: 'city',
         label: 'account.default_address.city.label',
         required: true,
@@ -112,11 +90,27 @@ export class AddressFormDEConfiguration extends AddressFormConfiguration {
         fieldClass: 'col-md-8',
         errorMessages: { required: 'account.address.city.missing.error' },
       }),
+      this.formly.createSelectField(
+        {
+          key: 'state',
+          label: 'account.default_address.state.label',
+          required: true,
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+          errorMessages: { required: 'account.address.state.error.default' },
+        },
+        this.appFacade
+          .regions$(this.countryCode)
+          .pipe(map(regions => regions?.map(region => ({ value: region.id, label: region.name })))),
+        'account.option.select.text'
+      ),
       this.formly.createInputField({
-        key: 'phone',
-        label: 'account.profile.phone.label',
+        key: 'postalCode',
+        label: 'account.default_address.postalcode.label',
+        required: true,
         labelClass: 'col-md-4',
         fieldClass: 'col-md-8',
+        errorMessages: { required: 'account.address.postalcode.missing.error' },
       }),
     ];
   }

@@ -11,6 +11,7 @@ import {
 } from './configurations/address-form-configuration.provider';
 import { AddressFormDEConfiguration } from './configurations/de/address-form-de.configuration';
 import { AddressFormDefaultConfiguration } from './configurations/default/address-form-default.configuration';
+import { AddressFormUSConfiguration } from './configurations/us/address-form-us.configuration';
 
 @NgModule({
   imports: [FormlyModule, FormsSharedModule, ReactiveFormsModule],
@@ -20,6 +21,7 @@ import { AddressFormDefaultConfiguration } from './configurations/default/addres
     AddressFormConfigurationProvider,
     { provide: ADDRESS_FORM_CONFIGURATION, useClass: AddressFormDEConfiguration, multi: true },
     { provide: ADDRESS_FORM_CONFIGURATION, useClass: AddressFormDefaultConfiguration, multi: true },
+    { provide: ADDRESS_FORM_CONFIGURATION, useClass: AddressFormUSConfiguration, multi: true },
   ],
 })
 export class FormlyAddressFormsModule {}

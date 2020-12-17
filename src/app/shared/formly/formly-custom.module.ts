@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FORMLY_CONFIG, FormlyModule } from '@ngx-formly/core';
+import { FormlyModule } from '@ngx-formly/core';
 import { FormlySelectModule } from '@ngx-formly/core/select';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { IconModule } from 'ish-core/icon.module';
 import { ShellModule } from 'ish-shell/shell.module';
@@ -12,7 +12,6 @@ import { HorizontalWrapperComponent } from './components/horizontal-wrapper/hori
 import { ValidationIconsComponent } from './components/validation-icons/validation-icons.component';
 import { ValidationMessageComponent } from './components/validation-message/validation-message';
 import { hideRequiredMarkerExtension } from './extensions/hide-required-marker.extension';
-import { registerTranslateSelectOptionsExtension } from './extensions/translate-select-options.extension';
 import { CaptchaFieldComponent } from './templates/catpcha-field/captcha-field.component';
 import { InputFieldComponent } from './templates/input-field/input-field.component';
 import { SelectFieldComponent } from './templates/select-field/select-field.component';
@@ -62,14 +61,6 @@ import { TextareaFieldComponent } from './templates/textarea-field/textarea-fiel
     ReactiveFormsModule,
     ShellModule,
     TranslateModule,
-  ],
-  providers: [
-    {
-      provide: FORMLY_CONFIG,
-      multi: true,
-      useFactory: registerTranslateSelectOptionsExtension,
-      deps: [TranslateService],
-    },
   ],
   declarations: [
     CaptchaFieldComponent,
