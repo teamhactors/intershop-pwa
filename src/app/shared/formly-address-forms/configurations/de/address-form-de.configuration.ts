@@ -15,13 +15,14 @@ export class AddressFormDEConfiguration extends AddressFormConfiguration {
 
   getModel(model: { [key: string]: unknown } = {}): { [key: string]: unknown } {
     return {
-      title: undefined,
       companyName1: model.companyName1 ?? '',
       companyName2: model.companyName2 ?? '',
+      title: undefined,
       firstName: model.firstName ?? '',
       lastName: model.lastName ?? '',
       addressLine1: model.addressLine1 ?? '',
       addressLine2: model.addressLine2 ?? '',
+      addressLine3: model.addressLine3 ?? '',
       postalCode: model.postalCode ?? '',
       city: model.city ?? '',
       phone: model.phone ?? '',
@@ -30,16 +31,6 @@ export class AddressFormDEConfiguration extends AddressFormConfiguration {
 
   getFieldConfiguration(): FormlyFieldConfig[] {
     return [
-      this.formly.createSelectField(
-        {
-          key: 'title',
-          label: 'account.default_address.title.label',
-          labelClass: 'col-md-4',
-          fieldClass: 'col-md-8',
-        },
-        determineSalutations(this.countryCode).map(salutation => ({ value: salutation, label: salutation })),
-        'account.option.select.text'
-      ),
       this.formly.createInputField({
         key: 'companyName1',
         label: 'account.address.company_name.label',
@@ -53,7 +44,18 @@ export class AddressFormDEConfiguration extends AddressFormConfiguration {
         label: 'account.address.company_name_2.label',
         labelClass: 'col-md-4',
         fieldClass: 'col-md-8',
+        fieldsetMargin: true,
       }),
+      this.formly.createSelectField(
+        {
+          key: 'title',
+          label: 'account.default_address.title.label',
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+        },
+        determineSalutations(this.countryCode).map(salutation => ({ value: salutation, label: salutation })),
+        'account.option.select.text'
+      ),
       this.formly.createInputField({
         key: 'firstName',
         label: 'account.default_address.firstname.label',
@@ -71,6 +73,7 @@ export class AddressFormDEConfiguration extends AddressFormConfiguration {
         required: true,
         labelClass: 'col-md-4',
         fieldClass: 'col-md-8',
+        fieldsetMargin: true,
         errorMessages: {
           required: 'account.address.lastname.missing.error',
           noSpecialChars: 'account.name.error.forbidden.chars',
@@ -95,6 +98,7 @@ export class AddressFormDEConfiguration extends AddressFormConfiguration {
         label: 'account.default_address.street3.label',
         labelClass: 'col-md-4',
         fieldClass: 'col-md-8',
+        fieldsetMargin: true,
       }),
       this.formly.createInputField({
         key: 'postalCode',
@@ -110,6 +114,7 @@ export class AddressFormDEConfiguration extends AddressFormConfiguration {
         required: true,
         labelClass: 'col-md-4',
         fieldClass: 'col-md-8',
+        fieldsetMargin: true,
         errorMessages: { required: 'account.address.city.missing.error' },
       }),
       this.formly.createInputField({

@@ -1,4 +1,4 @@
-import { path, strings } from '@angular-devkit/core';
+import { strings } from '@angular-devkit/core';
 import { Rule, UpdateRecorder } from '@angular-devkit/schematics';
 import { tsquery } from '@phenomnomnominal/tsquery';
 import {
@@ -9,7 +9,7 @@ import {
 } from '@schematics/angular/utility/ast-utils';
 import { InsertChange } from '@schematics/angular/utility/change';
 import { buildRelativePath, findModule } from '@schematics/angular/utility/find-module';
-import { ArrayLiteralExpression, ObjectLiteralExpression, SyntaxKind } from 'ts-morph';
+import { ObjectLiteralExpression, SyntaxKind } from 'ts-morph';
 import { ImportKind, findImports, forEachToken } from 'tsutils';
 import * as ts from 'typescript';
 

@@ -41,6 +41,7 @@ export class AddressFormDefaultConfiguration extends AddressFormConfiguration {
         label: 'account.address.company_name_2.label',
         labelClass: 'col-md-4',
         fieldClass: 'col-md-8',
+        fieldsetMargin: true,
       }),
       this.formly.createInputField({
         key: 'firstName',
@@ -59,6 +60,7 @@ export class AddressFormDefaultConfiguration extends AddressFormConfiguration {
         required: true,
         labelClass: 'col-md-4',
         fieldClass: 'col-md-8',
+        fieldsetMargin: true,
         errorMessages: {
           required: 'account.address.lastname.missing.error',
           noSpecialChars: 'account.name.error.forbidden.chars',
@@ -77,6 +79,7 @@ export class AddressFormDefaultConfiguration extends AddressFormConfiguration {
         label: 'account.default_address.street2.label',
         labelClass: 'col-md-4',
         fieldClass: 'col-md-8',
+        fieldsetMargin: true,
       }),
       this.formly.createInputField({
         key: 'postalCode',
@@ -92,6 +95,7 @@ export class AddressFormDefaultConfiguration extends AddressFormConfiguration {
         required: true,
         labelClass: 'col-md-4',
         fieldClass: 'col-md-8',
+        fieldsetMargin: true,
         errorMessages: { required: 'account.address.city.missing.error' },
       }),
       this.formly.createInputField({

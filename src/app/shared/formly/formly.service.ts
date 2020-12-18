@@ -11,9 +11,11 @@ export class CreateFieldConfig {
   key: string;
   label: string;
   required?: boolean;
+  forceRequiredStar?: boolean;
   errorMessages?: { [error: string]: string };
   labelClass?: string;
   fieldClass?: string;
+  fieldsetMargin?: boolean;
 }
 
 export type SelectOptionsSource =
@@ -112,9 +114,11 @@ export class FormlyService {
         key,
         label: 'account.address.country.label',
         required: true,
+        forceRequiredStar: true,
         labelClass: 'col-md-4',
         fieldClass: 'col-md-8',
         errorMessages: { required: 'account.address.country.error.default' },
+        fieldsetMargin: true,
       },
       this.appFacade
         .countries$()
@@ -143,8 +147,10 @@ export class FormlyService {
       templateOptions: {
         label: config.label,
         required: config.required ?? false,
+        forceRequiredStar: config.required ?? false,
         labelClass: config.labelClass ?? 'col-5',
         fieldClass: config.fieldClass ?? 'col-7',
+        fieldsetMargin: config.fieldsetMargin ?? false,
       },
       validation: {
         messages: config.errorMessages,
@@ -159,19 +165,19 @@ export class FormlyService {
     if (!optionsSource) {
       return;
     }
-    let opts: SelectOptionsSource;
+    let opts$: SelectOptionsSource;
     if (isObservable(optionsSource)) {
-      opts = optionsSource.pipe(
+      opts$ = optionsSource.pipe(
         // tslint:disable-next-line:no-null-keyword
         map(options => (placeholder ? [{ value: null, label: placeholder }] : []).concat(options ?? [])),
         map(options => options?.map(option => ({ ...option, label: this.translate.instant(option.label) })))
       );
     } else {
       // tslint:disable-next-line:no-null-keyword
-      opts = (placeholder ? [{ value: null, label: placeholder }] : [])
+      opts$ = (placeholder ? [{ value: null, label: placeholder }] : [])
         .concat(optionsSource)
         .map(option => ({ ...option, label: this.translate.instant(option.label) }));
     }
-    return opts;
+    return opts$;
   }
 }

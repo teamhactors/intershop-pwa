@@ -3,7 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyForm, FormlyModule } from '@ngx-formly/core';
 import { MockComponent } from 'ng-mocks';
-import { LazyCaptchaComponent } from 'src/app/extensions/captcha/exports/lazy-captcha/lazy-captcha.component';
+
+import { LazyCaptchaComponent } from '../../../../extensions/captcha/exports/lazy-captcha/lazy-captcha.component';
 
 import { CaptchaFieldComponent } from './captcha-field.component';
 
