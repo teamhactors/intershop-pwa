@@ -5,4 +5,10 @@
   (modelChange)="handleCountryChange($event)"
 ></formly-form>
 
-<formly-form [form]="addressForm" [fields]="addressFields" [model]="addressModel"></formly-form>
+<formly-form
+  immutable
+  [form]="addressForm"
+  [fields]="addressFields"
+  [model]="addressModel"
+  (modelChange)="addressModel = $event"
+></formly-form>

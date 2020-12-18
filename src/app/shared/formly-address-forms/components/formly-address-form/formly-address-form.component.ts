@@ -30,7 +30,6 @@ export class FormlyAddressFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.parentForm?.setControl('address', this.addressForm);
-    this.addressForm.setParent(this.parentForm);
   }
 
   handleCountryChange(model: { countryCode: string }) {
@@ -38,6 +37,8 @@ export class FormlyAddressFormComponent implements OnInit {
       this.countryCode = model.countryCode;
 
       const configuration = this.afcProvider.getConfiguration(model.countryCode);
+      this.addressForm = new FormGroup({});
+      this.parentForm?.setControl('address', this.addressForm);
       this.addressModel = configuration.getModel(this.addressModel);
       this.addressFields = configuration.getFieldConfiguration();
 

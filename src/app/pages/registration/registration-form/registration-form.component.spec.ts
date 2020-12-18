@@ -9,6 +9,7 @@ import { AddressFormContainerComponent } from 'ish-shared/address-forms/componen
 import { AddressFormFactory } from 'ish-shared/address-forms/components/address-form/address-form.factory';
 import { AddressFormFactoryProvider } from 'ish-shared/address-forms/configurations/address-form-factory.provider';
 import { ErrorMessageComponent } from 'ish-shared/components/common/error-message/error-message.component';
+import { FormlyAddressFormComponent } from 'ish-shared/formly-address-forms/components/formly-address-form/formly-address-form.component';
 import { TacCheckboxComponent } from 'ish-shared/forms/components/tac-checkbox/tac-checkbox.component';
 
 import { LazyCaptchaComponent } from '../../../extensions/captcha/exports/lazy-captcha/lazy-captcha.component';
@@ -34,6 +35,7 @@ describe('Registration Form Component', () => {
       declarations: [
         MockComponent(AddressFormContainerComponent),
         MockComponent(ErrorMessageComponent),
+        MockComponent(FormlyAddressFormComponent),
         MockComponent(LazyCaptchaComponent),
         MockComponent(RegistrationCompanyFormComponent),
         MockComponent(RegistrationCredentialsFormComponent),
