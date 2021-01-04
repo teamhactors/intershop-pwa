@@ -11,14 +11,7 @@ import { FieldWrapper } from '@ngx-formly/core';
       </label>
       <div [ngClass]="to.fieldClass" [class.fieldset-margin]="to.fieldsetMargin">
         <ng-template #fieldComponent></ng-template>
-        <ish-validation-icons [field]="field" [showError]="showError"></ish-validation-icons>
         <ish-field-tooltip [tooltipInfo]="to.tooltip"> </ish-field-tooltip>
-        <ng-container *ngIf="showError" class="invalid-feedback d-block">
-          <ish-validation-message [field]="field" class="validation-message"></ish-validation-message>
-        </ng-container>
-        <div *ngIf="to.description">
-          <small class="form-text text-muted ng-star-inserted"> {{ to.description }} </small>
-        </div>
       </div>
     </div>
   `,

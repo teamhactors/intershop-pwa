@@ -44,12 +44,10 @@ export class FormlyAddressFormComponent implements OnInit {
 
       const countryCodeControl = this.countryForm.get('countryCode');
       markAsPristineRecursive(this.addressForm);
-      this.addressForm.updateValueAndValidity();
-      // countryCodeControl.markAsDirty();
-      // countryCodeControl.updateValueAndValidity();
 
       this.addressForm.setControl('countryCode', countryCodeControl);
       this.addressModel.countryCode = countryCodeControl.value;
+      this.addressForm.updateValueAndValidity();
     }
   }
 }

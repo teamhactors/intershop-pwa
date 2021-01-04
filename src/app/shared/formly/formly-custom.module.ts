@@ -11,8 +11,10 @@ import { ShellModule } from 'ish-shell/shell.module';
 
 import { FieldTooltipComponent } from './components/field-tooltip/field-tooltip.component';
 import { HorizontalWrapperComponent } from './components/horizontal-wrapper/horizontal-wrapper';
+import { TextareaDescriptionWrapperComponent } from './components/textarea-description-wrapper/textarea-description-wrapper';
 import { ValidationIconsComponent } from './components/validation-icons/validation-icons.component';
 import { ValidationMessageComponent } from './components/validation-message/validation-message';
+import { ValidationWrapperComponent } from './components/validation-wrapper/validation-wrapper';
 import { hideRequiredMarkerExtension } from './extensions/hide-required-marker.extension';
 import { CaptchaFieldComponent } from './templates/catpcha-field/captcha-field.component';
 import { InputFieldComponent } from './templates/input-field/input-field.component';
@@ -27,21 +29,25 @@ import { TextareaFieldComponent } from './templates/textarea-field/textarea-fiel
         {
           name: 'ish-input-field',
           component: InputFieldComponent,
-          wrappers: ['form-field-horizontal'],
+          wrappers: ['form-field-horizontal', 'validation'],
         },
         {
           name: 'ish-select-field',
           component: SelectFieldComponent,
-          wrappers: ['form-field-horizontal'],
+          wrappers: ['form-field-horizontal', 'validation'],
         },
         {
           name: 'ish-textarea-field',
           component: TextareaFieldComponent,
-          wrappers: ['form-field-horizontal'],
+          wrappers: ['form-field-horizontal', 'validation', 'textarea-description'],
         },
         { name: 'ish-captcha-field', component: CaptchaFieldComponent },
       ],
-      wrappers: [{ name: 'form-field-horizontal', component: HorizontalWrapperComponent }],
+      wrappers: [
+        { name: 'form-field-horizontal', component: HorizontalWrapperComponent },
+        { name: 'textarea-description', component: TextareaDescriptionWrapperComponent },
+        { name: 'validation', component: ValidationWrapperComponent },
+      ],
       extras: {
         lazyRender: true,
         showError: field =>
@@ -71,9 +77,11 @@ import { TextareaFieldComponent } from './templates/textarea-field/textarea-fiel
     HorizontalWrapperComponent,
     InputFieldComponent,
     SelectFieldComponent,
+    TextareaDescriptionWrapperComponent,
     TextareaFieldComponent,
     ValidationIconsComponent,
     ValidationMessageComponent,
+    ValidationWrapperComponent,
   ],
   exports: [CaptchaFieldComponent, InputFieldComponent, SelectFieldComponent, TextareaFieldComponent],
 })
