@@ -1,6 +1,8 @@
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Observable, isObservable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
+
+import { SelectOptionsSource } from './formly.service';
 
 export class FormlyHelper {
   static findFieldIndex(key: string, fields: FormlyFieldConfig[]): number {
@@ -42,5 +44,28 @@ export class FormlyHelper {
         options,
       },
     };
+  }
+
+  static hasOptions(field: FormlyFieldConfig): boolean {
+    const options: SelectOptionsSource = field.templateOptions?.options;
+    if (!options) {
+      return false;
+    }
+    let result;
+    if (isObservable(options)) {
+      options
+        .pipe(
+          map(opts => opts.filter(opt => !!opt.value)),
+          take(1)
+        )
+        .subscribe(opts => {
+          result = opts && opts.length > 0;
+        });
+    } else {
+      const opts = options.filter(opt => !!opt.value);
+      result = opts && opts.length > 0;
+    }
+
+    return result;
   }
 }

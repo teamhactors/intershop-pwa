@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, isObservable } from 'rxjs';
@@ -7,22 +7,30 @@ import { map } from 'rxjs/operators';
 
 import { AppFacade } from 'ish-core/facades/app.facade';
 
+import { FormlyHelper } from './formly.helper';
+
 export class CreateFieldConfig {
   key: string;
   label: string;
   required?: boolean;
-  forceRequiredStar?: boolean;
+  template?: {
+    forceRequiredStar?: boolean;
+    labelClass?: string;
+    fieldClass?: string;
+    fieldsetMargin?: boolean;
+    tooltip?: {
+      title?: string;
+      text: string;
+      link: string;
+    };
+  };
+  validators?: ValidatorFn[];
   errorMessages?: { [error: string]: string };
-  labelClass?: string;
-  fieldClass?: string;
-  fieldsetMargin?: boolean;
 }
 
 export type SelectOptionsSource =
   | Observable<{ value: number | string; label: string }[]>
   | { value: number | string; label: string }[];
-
-const EMAIL_REGEXP = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 @Injectable({
   providedIn: 'root',
@@ -86,9 +94,7 @@ export class FormlyService {
       ...inputField,
       validators: {
         ...inputField.validators,
-        email: {
-          expression: c => EMAIL_REGEXP.test(c.value),
-        },
+        validation: [Validators.email],
       },
     };
   }
@@ -114,17 +120,53 @@ export class FormlyService {
         key,
         label: 'account.address.country.label',
         required: true,
-        forceRequiredStar: true,
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
+        template: {
+          forceRequiredStar: true,
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+          fieldsetMargin: true,
+        },
         errorMessages: { required: 'account.address.country.error.default' },
-        fieldsetMargin: true,
       },
       this.appFacade
         .countries$()
         ?.pipe(map(countries => countries?.map(country => ({ value: country.countryCode, label: country.name })))),
       'account.option.select.text'
     );
+  }
+
+  createRegionsSelectField(key = 'region', countryCode: string, countryCodeKey = 'countryCode'): FormlyFieldConfig {
+    const selectField = this.createSelectField(
+      {
+        key,
+        label: 'account.default_address.state.label',
+        required: true,
+        template: {
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+        },
+        errorMessages: { required: 'account.address.state.error.default' },
+      },
+      !!countryCode && countryCode !== 'default'
+        ? this.appFacade
+            .regions$(countryCode)
+            .pipe(map(regions => regions?.map(region => ({ value: region.regionCode, label: region.name }))))
+        : [],
+      'account.option.select.text'
+    );
+    return {
+      ...selectField,
+      hideExpression: (model: { [key: string]: unknown }, _: unknown, field: FormlyFieldConfig) => {
+        console.log('hideExpression eval');
+        if (!model[countryCodeKey]) {
+          return true;
+        }
+        if (!FormlyHelper.hasOptions(field)) {
+          return true;
+        }
+        return false;
+      },
+    };
   }
 
   updateSelectFieldOptions(
@@ -148,9 +190,13 @@ export class FormlyService {
         label: config.label,
         required: config.required ?? false,
         forceRequiredStar: config.required ?? false,
-        labelClass: config.labelClass ?? 'col-5',
-        fieldClass: config.fieldClass ?? 'col-7',
-        fieldsetMargin: config.fieldsetMargin ?? false,
+        labelClass: config.template?.labelClass ?? 'col-5',
+        fieldClass: config.template?.fieldClass ?? 'col-7',
+        fieldsetMargin: config.template?.fieldsetMargin ?? false,
+        tooltip: config.template?.tooltip,
+      },
+      validators: {
+        validation: config.validators ?? [],
       },
       validation: {
         messages: config.errorMessages,

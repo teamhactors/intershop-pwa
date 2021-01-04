@@ -33,21 +33,23 @@ export class FormlyAddressFormComponent implements OnInit {
   }
 
   handleCountryChange(model: { countryCode: string }) {
-    if (model.countryCode && model.countryCode !== this.countryCode) {
+    if (!this.countryForm.get('countryCode').pristine && model.countryCode !== this.countryCode) {
       this.countryCode = model.countryCode;
 
       const configuration = this.afcProvider.getConfiguration(model.countryCode);
       this.addressForm = new FormGroup({});
       this.parentForm?.setControl('address', this.addressForm);
       this.addressModel = configuration.getModel(this.addressModel);
-      this.addressFields = configuration.getFieldConfiguration();
+      this.addressFields = configuration.getFieldConfiguration(this.countryCode);
 
       const countryCodeControl = this.countryForm.get('countryCode');
       markAsPristineRecursive(this.addressForm);
-      countryCodeControl.markAsDirty();
-      countryCodeControl.updateValueAndValidity();
+      this.addressForm.updateValueAndValidity();
+      // countryCodeControl.markAsDirty();
+      // countryCodeControl.updateValueAndValidity();
 
       this.addressForm.setControl('countryCode', countryCodeControl);
+      this.addressModel.countryCode = countryCodeControl.value;
     }
   }
 }

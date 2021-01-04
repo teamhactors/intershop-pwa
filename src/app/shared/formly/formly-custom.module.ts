@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlySelectModule } from '@ngx-formly/core/select';
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { IconModule } from 'ish-core/icon.module';
 import { ShellModule } from 'ish-shell/shell.module';
 
+import { FieldTooltipComponent } from './components/field-tooltip/field-tooltip.component';
 import { HorizontalWrapperComponent } from './components/horizontal-wrapper/horizontal-wrapper';
 import { ValidationIconsComponent } from './components/validation-icons/validation-icons.component';
 import { ValidationMessageComponent } from './components/validation-message/validation-message';
@@ -58,12 +60,14 @@ import { TextareaFieldComponent } from './templates/textarea-field/textarea-fiel
     }),
     FormlySelectModule,
     IconModule,
+    NgbPopoverModule,
     ReactiveFormsModule,
     ShellModule,
     TranslateModule,
   ],
   declarations: [
     CaptchaFieldComponent,
+    FieldTooltipComponent,
     HorizontalWrapperComponent,
     InputFieldComponent,
     SelectFieldComponent,

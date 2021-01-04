@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 
 import { AddressFormConfiguration } from 'ish-shared/formly-address-forms/configurations/address-form.configuration';
 import { FormlyService } from 'ish-shared/formly/formly.service';
 import { determineSalutations } from 'ish-shared/forms/utils/form-utils';
+import { SpecialValidators } from 'ish-shared/forms/validators/special-validators';
 
 @Injectable()
 export class AddressFormFRConfiguration extends AddressFormConfiguration {
@@ -34,23 +36,29 @@ export class AddressFormFRConfiguration extends AddressFormConfiguration {
         key: 'companyName1',
         label: 'account.address.company_name.label',
         required: true,
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
+        template: {
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+        },
         errorMessages: { required: 'account.address.company_name.error.required' },
       }),
       this.formly.createInputField({
         key: 'companyName2',
         label: 'account.address.company_name_2.label',
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
-        fieldsetMargin: true,
+        template: {
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+          fieldsetMargin: true,
+        },
       }),
       this.formly.createSelectField(
         {
           key: 'title',
           label: 'account.default_address.title.label',
-          labelClass: 'col-md-4',
-          fieldClass: 'col-md-8',
+          template: {
+            labelClass: 'col-md-4',
+            fieldClass: 'col-md-8',
+          },
         },
         determineSalutations(this.countryCode).map(salutation => ({ value: salutation, label: salutation })),
         'account.option.select.text'
@@ -59,8 +67,11 @@ export class AddressFormFRConfiguration extends AddressFormConfiguration {
         key: 'firstName',
         label: 'account.default_address.firstname.label',
         required: true,
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
+        template: {
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+        },
+        validators: [SpecialValidators.noSpecialChars],
         errorMessages: {
           required: 'account.address.firstname.missing.error',
           noSpecialChars: 'account.name.error.forbidden.chars',
@@ -70,9 +81,12 @@ export class AddressFormFRConfiguration extends AddressFormConfiguration {
         key: 'lastName',
         label: 'account.default_address.lastname.label',
         required: true,
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
-        fieldsetMargin: true,
+        template: {
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+          fieldsetMargin: true,
+        },
+        validators: [SpecialValidators.noSpecialChars],
         errorMessages: {
           required: 'account.address.lastname.missing.error',
           noSpecialChars: 'account.name.error.forbidden.chars',
@@ -82,39 +96,53 @@ export class AddressFormFRConfiguration extends AddressFormConfiguration {
         key: 'addressLine1',
         label: 'account.default_address.street.label',
         required: true,
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
+        template: {
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+        },
         errorMessages: { required: 'account.address.address1.missing.error' },
       }),
       this.formly.createInputField({
         key: 'addressLine2',
         label: 'account.default_address.street2.label',
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
-        fieldsetMargin: true,
+        template: {
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+          fieldsetMargin: true,
+        },
       }),
       this.formly.createInputField({
         key: 'postalCode',
         label: 'account.default_address.postalcode.label',
         required: true,
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
-        errorMessages: { required: 'account.address.postalcode.missing.error' },
+        template: {
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+        },
+        validators: [Validators.pattern('[0-9]{5}')],
+        errorMessages: {
+          required: 'account.address.postalcode.missing.error',
+          pattern: 'account.address.fr.postalcode.error.regexp',
+        },
       }),
       this.formly.createInputField({
         key: 'city',
         label: 'account.default_address.city.label',
         required: true,
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
-        fieldsetMargin: true,
+        template: {
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+          fieldsetMargin: true,
+        },
         errorMessages: { required: 'account.address.city.missing.error' },
       }),
       this.formly.createInputField({
         key: 'phone',
         label: 'account.profile.phone.label',
-        labelClass: 'col-md-4',
-        fieldClass: 'col-md-8',
+        template: {
+          labelClass: 'col-md-4',
+          fieldClass: 'col-md-8',
+        },
       }),
     ];
   }
