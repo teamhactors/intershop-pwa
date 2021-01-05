@@ -1,5 +1,5 @@
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Observable, isObservable } from 'rxjs';
+import { Observable, isObservable, of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { SelectOptionsSource } from './formly.service';
@@ -47,24 +47,22 @@ export class FormlyHelper {
   }
 
   static hasOptions(field: FormlyFieldConfig): boolean {
-    const options: SelectOptionsSource = field.templateOptions?.options;
-    if (!options) {
+    if (!field.templateOptions?.options) {
       return false;
     }
+    const options: SelectOptionsSource = isObservable(field.templateOptions?.options)
+      ? field.templateOptions.options
+      : of(field.templateOptions?.options);
     let result;
-    if (isObservable(options)) {
-      options
-        .pipe(
-          map(opts => opts.filter(opt => !!opt.value)),
-          take(1)
-        )
-        .subscribe(opts => {
-          result = opts && opts.length > 0;
-        });
-    } else {
-      const opts = options.filter(opt => !!opt.value);
-      result = opts && opts.length > 0;
-    }
+
+    options
+      .pipe(
+        map(opts => opts.filter(opt => !!opt.value)),
+        take(1)
+      )
+      .subscribe(opts => {
+        result = opts && opts.length > 0;
+      });
 
     return result;
   }

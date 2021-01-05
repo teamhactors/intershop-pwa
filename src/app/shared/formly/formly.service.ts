@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable, isObservable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { AppFacade } from 'ish-core/facades/app.facade';
@@ -28,9 +28,7 @@ export class CreateFieldConfig {
   errorMessages?: { [error: string]: string };
 }
 
-export type SelectOptionsSource =
-  | Observable<{ value: number | string; label: string }[]>
-  | { value: number | string; label: string }[];
+export type SelectOptionsSource = Observable<{ value: number | string; label: string }[]>;
 
 @Injectable({
   providedIn: 'root',
@@ -144,7 +142,7 @@ export class FormlyService {
             tap(x => console.log('regions emission', x)),
             map(regions => regions?.map(region => ({ value: region.regionCode, label: region.name })))
           )
-        : [],
+        : of([]),
       'account.option.select.text'
     );
     return {
@@ -204,20 +202,12 @@ export class FormlyService {
     if (!optionsSource) {
       return;
     }
-    let opts$: SelectOptionsSource;
-    if (isObservable(optionsSource)) {
-      opts$ = optionsSource.pipe(
-        // tslint:disable-next-line:no-null-keyword
-        map(options => (placeholder ? [{ value: null, label: placeholder }] : []).concat(options ?? [])),
-        map(options => options?.map(option => ({ ...option, label: this.translate.instant(option.label) }))),
-        tap(x => console.log('translated and ph', x))
-      );
-    } else {
+
+    return optionsSource.pipe(
       // tslint:disable-next-line:no-null-keyword
-      opts$ = (placeholder ? [{ value: null, label: placeholder }] : [])
-        .concat(optionsSource)
-        .map(option => ({ ...option, label: this.translate.instant(option.label) }));
-    }
-    return opts$;
+      map(options => (placeholder ? [{ value: null, label: placeholder }] : []).concat(options ?? [])),
+      map(options => options?.map(option => ({ ...option, label: this.translate.instant(option.label) }))),
+      tap(x => console.log('translated and ph', x))
+    );
   }
 }

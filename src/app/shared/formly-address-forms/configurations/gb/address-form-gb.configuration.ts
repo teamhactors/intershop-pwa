@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { of } from 'rxjs';
 
 import { AddressFormConfiguration } from 'ish-shared/formly-address-forms/configurations/address-form.configuration';
 import { FormlyService } from 'ish-shared/formly/formly.service';
@@ -61,7 +62,7 @@ export class AddressFormGBConfiguration extends AddressFormConfiguration {
             fieldClass: 'col-md-8',
           },
         },
-        determineSalutations(this.countryCode).map(salutation => ({ value: salutation, label: salutation })),
+        of(determineSalutations(this.countryCode).map(salutation => ({ value: salutation, label: salutation }))),
         'account.option.select.text'
       ),
       this.formly.createInputField({
