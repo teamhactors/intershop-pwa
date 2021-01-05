@@ -10,16 +10,16 @@ import { IconModule } from 'ish-core/icon.module';
 import { ShellModule } from 'ish-shell/shell.module';
 
 import { FieldTooltipComponent } from './components/field-tooltip/field-tooltip.component';
-import { HorizontalWrapperComponent } from './components/horizontal-wrapper/horizontal-wrapper';
-import { TextareaDescriptionWrapperComponent } from './components/textarea-description-wrapper/textarea-description-wrapper';
 import { ValidationIconsComponent } from './components/validation-icons/validation-icons.component';
 import { ValidationMessageComponent } from './components/validation-message/validation-message';
-import { ValidationWrapperComponent } from './components/validation-wrapper/validation-wrapper';
 import { hideRequiredMarkerExtension } from './extensions/hide-required-marker.extension';
 import { CaptchaFieldComponent } from './templates/catpcha-field/captcha-field.component';
 import { InputFieldComponent } from './templates/input-field/input-field.component';
 import { SelectFieldComponent } from './templates/select-field/select-field.component';
 import { TextareaFieldComponent } from './templates/textarea-field/textarea-field.component';
+import { HorizontalWrapperComponent } from './wrappers/horizontal-wrapper/horizontal-wrapper';
+import { TextareaDescriptionWrapperComponent } from './wrappers/textarea-description-wrapper/textarea-description-wrapper';
+import { ValidationWrapperComponent } from './wrappers/validation-wrapper/validation-wrapper';
 
 @NgModule({
   imports: [
