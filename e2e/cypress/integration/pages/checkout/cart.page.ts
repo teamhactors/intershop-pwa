@@ -69,7 +69,10 @@ export class CartPage {
             .get(this.tag)
             .find('input[data-testing-id="quantity"]:visible')
             .eq(idx)
+            .click()
+            .wait(1000)
             .clear()
+            .wait(1000)
             .type(num.toString())
             .wait(1000)
             .blur(),

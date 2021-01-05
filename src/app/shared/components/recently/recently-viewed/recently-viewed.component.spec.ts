@@ -52,21 +52,27 @@ describe('Recently Viewed Component', () => {
         <div class="product-list row">
           <div class="col-6 col-lg-3 product-list-item">
             <ish-product-item
+              displaytype="tile"
               ishproductcontext=""
+              ng-reflect-display-type="tile"
               ng-reflect-ish-product-context=""
               ng-reflect-sku="A"
             ></ish-product-item>
           </div>
           <div class="col-6 col-lg-3 product-list-item">
             <ish-product-item
+              displaytype="tile"
               ishproductcontext=""
+              ng-reflect-display-type="tile"
               ng-reflect-ish-product-context=""
               ng-reflect-sku="B"
             ></ish-product-item>
           </div>
           <div class="col-6 col-lg-3 product-list-item">
             <ish-product-item
+              displaytype="tile"
               ishproductcontext=""
+              ng-reflect-display-type="tile"
               ng-reflect-ish-product-context=""
               ng-reflect-sku="C"
             ></ish-product-item>

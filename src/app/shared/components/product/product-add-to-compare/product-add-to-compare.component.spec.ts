@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { TranslateModule } from '@ngx-translate/core';
-import { MockComponent } from 'ng-mocks';
+import { MockComponent, MockPipe } from 'ng-mocks';
 import { of } from 'rxjs';
 import { instance, mock, verify, when } from 'ts-mockito';
 
 import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
-import { FeatureToggleModule } from 'ish-core/feature-toggle.module';
+import { FeatureTogglePipe } from 'ish-core/pipes/feature-toggle.pipe';
 
 import { ProductAddToCompareComponent } from './product-add-to-compare.component';
 
@@ -18,9 +18,15 @@ describe('Product Add To Compare Component', () => {
 
   beforeEach(async () => {
     context = mock(ProductContextFacade);
+    when(context.select('displayProperties', 'addToCompare')).thenReturn(of(true));
+
     await TestBed.configureTestingModule({
-      imports: [FeatureToggleModule.forTesting('compare'), TranslateModule.forRoot()],
-      declarations: [MockComponent(FaIconComponent), ProductAddToCompareComponent],
+      imports: [TranslateModule.forRoot()],
+      declarations: [
+        MockComponent(FaIconComponent),
+        MockPipe(FeatureTogglePipe, () => true),
+        ProductAddToCompareComponent,
+      ],
       providers: [{ provide: ProductContextFacade, useFactory: () => instance(context) }],
     }).compileComponents();
   });

@@ -13,10 +13,7 @@
               {{ product.name }}
             </a>
             <ish-product-id [product]="product"></ish-product-id>
-            <ish-product-variation-display
-              *ngIf="isVariationProduct(product)"
-              [product]="product"
-            ></ish-product-variation-display>
+            <ish-product-variation-display></ish-product-variation-display>
             <ish-product-bundle-display
               *ngIf="product.type === 'Bundle'"
               [productBundleSKU]="product.sku"

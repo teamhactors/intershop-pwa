@@ -1,4 +1,4 @@
-<div class="add-to-cart">
+<div *ngIf="visible$ | async" class="add-to-cart">
   <button
     type="submit"
     name="addProduct"

@@ -1,24 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { instance, mock } from 'ts-mockito';
 
 import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
 
-import { ProductVariationDisplayComponent } from './product-variation-display.component';
+import { ProductQuantityLabelComponent } from './product-quantity-label.component';
 
-describe('Product Variation Display Component', () => {
-  let component: ProductVariationDisplayComponent;
-  let fixture: ComponentFixture<ProductVariationDisplayComponent>;
+describe('Product Quantity Label Component', () => {
+  let component: ProductQuantityLabelComponent;
+  let fixture: ComponentFixture<ProductQuantityLabelComponent>;
   let element: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProductVariationDisplayComponent],
+      imports: [TranslateModule.forRoot()],
+      declarations: [ProductQuantityLabelComponent],
       providers: [{ provide: ProductContextFacade, useFactory: () => instance(mock(ProductContextFacade)) }],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductVariationDisplayComponent);
+    fixture = TestBed.createComponent(ProductQuantityLabelComponent);
     component = fixture.componentInstance;
     element = fixture.nativeElement;
   });

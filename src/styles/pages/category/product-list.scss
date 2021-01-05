@@ -327,12 +327,6 @@
     }
   }
 
-  .product-variation {
-    &.read-only {
-      color: $text-color-quarternary;
-    }
-  }
-
   &:hover {
     .product-tile-actions {
       opacity: 1;
@@ -341,6 +335,12 @@
     .product-image {
       transform: scale(1.1);
     }
+  }
+}
+
+.product-variation {
+  &.read-only {
+    color: $text-color-quarternary;
   }
 }
 

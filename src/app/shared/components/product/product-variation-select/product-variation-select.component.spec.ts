@@ -47,6 +47,7 @@ describe('Product Variation Select Component', () => {
     element = fixture.nativeElement;
 
     when(context.select('productAsVariationProduct')).thenReturn(of(variationProduct));
+    when(context.select('displayProperties', 'variations')).thenReturn(of(true));
   });
 
   it('should be created', () => {

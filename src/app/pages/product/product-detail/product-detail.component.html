@@ -27,7 +27,7 @@
 
         <div class="price-container" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
           <ish-product-price
-            [product]="price || product"
+            [product]="product"
             [showInformationalPrice]="true"
             [showPriceSavings]="true"
           ></ish-product-price>
@@ -44,12 +44,10 @@
         ></ish-product-shipment>
       </ng-template>
 
-      <div *ngIf="isVariationProduct(product)" class="product-variation-container">
+      <div class="product-variation-container">
         <ng-container *ishFeature="'advancedVariationHandling'; else variationSelect">
-          <ish-product-variation-display [product]="product"></ish-product-variation-display>
-          <a [routerLink]="['/product', product.productMasterSKU]" class="product-variation all-variations-link">{{
-            'product.choose_another_variation.link' | translate
-          }}</a>
+          <ish-product-variation-display></ish-product-variation-display>
+          <ish-product-master-link></ish-product-master-link>
         </ng-container>
         <ng-template #variationSelect>
           <ish-product-variation-select></ish-product-variation-select>
@@ -64,27 +62,25 @@
       </ng-container>
 
       <ng-template #standardInteractions>
-        <ng-container *ngIf="!isMasterProduct(product) && product.inStock && product.availability">
-          <div *ngIf="!isRetailSet(product)" class="row form-group has-feedback">
-            <label for="product-detail-quantity" class="col-form-label label-quantity col-6">{{
-              'product.quantity.label' | translate
-            }}</label>
-            <div class="col-6">
-              <ish-product-quantity type="input" id="product-detail-quantity"></ish-product-quantity>
-            </div>
+        <div class="row form-group has-feedback">
+          <div class="col-6">
+            <ish-product-quantity-label for="product-detail-quantity"></ish-product-quantity-label>
           </div>
+          <div class="col-6">
+            <ish-product-quantity type="input" id="product-detail-quantity"></ish-product-quantity>
+          </div>
+        </div>
 
-          <ish-product-add-to-basket
-            [class]="'btn-lg btn-block'"
-            [translationKey]="isRetailSet(product) ? 'product.add_to_cart.retailset.link' : 'product.add_to_cart.link'"
-          ></ish-product-add-to-basket>
+        <ish-product-add-to-basket
+          [class]="'btn-lg btn-block'"
+          [translationKey]="isRetailSet(product) ? 'product.add_to_cart.retailset.link' : 'product.add_to_cart.link'"
+        ></ish-product-add-to-basket>
 
-          <ish-lazy-product-add-to-order-template
-            [class]="'btn btn-default btn-block'"
-          ></ish-lazy-product-add-to-order-template>
+        <ish-lazy-product-add-to-order-template
+          [class]="'btn btn-default btn-block'"
+        ></ish-lazy-product-add-to-order-template>
 
-          <ish-lazy-product-add-to-quote [class]="'btn-block'"></ish-lazy-product-add-to-quote>
-        </ng-container>
+        <ish-lazy-product-add-to-quote [class]="'btn-block'"></ish-lazy-product-add-to-quote>
       </ng-template>
     </div>
 

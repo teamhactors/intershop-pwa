@@ -22,11 +22,13 @@ export class ProductAddToCompareComponent implements OnInit {
   @Input() class?: string;
 
   isInCompareList$: Observable<boolean>;
+  visible$: Observable<boolean>;
 
   constructor(private context: ProductContextFacade) {}
 
   ngOnInit() {
     this.isInCompareList$ = this.context.select('isInCompareList');
+    this.visible$ = this.context.select('displayProperties', 'addToCompare');
   }
 
   toggleCompare() {

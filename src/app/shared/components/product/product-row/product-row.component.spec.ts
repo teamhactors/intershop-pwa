@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MockComponent, MockDirective, MockPipe } from 'ng-mocks';
 import { of } from 'rxjs';
-import { instance, mock, when } from 'ts-mockito';
+import { anyString, instance, mock, when } from 'ts-mockito';
 
 import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
 import { FeatureToggleModule } from 'ish-core/feature-toggle.module';
@@ -14,15 +14,13 @@ import { ProductAddToBasketComponent } from 'ish-shared/components/product/produ
 import { ProductAddToCompareComponent } from 'ish-shared/components/product/product-add-to-compare/product-add-to-compare.component';
 import { ProductIdComponent } from 'ish-shared/components/product/product-id/product-id.component';
 import { ProductInventoryComponent } from 'ish-shared/components/product/product-inventory/product-inventory.component';
-import { DEFAULT_CONFIGURATION } from 'ish-shared/components/product/product-item/product-item.component';
+import { ProductItemVariationsComponent } from 'ish-shared/components/product/product-item-variations/product-item-variations.component';
 import { ProductLabelComponent } from 'ish-shared/components/product/product-label/product-label.component';
 import { ProductPriceComponent } from 'ish-shared/components/product/product-price/product-price.component';
 import { ProductPromotionComponent } from 'ish-shared/components/product/product-promotion/product-promotion.component';
 import { ProductQuantityComponent } from 'ish-shared/components/product/product-quantity/product-quantity.component';
 import { ProductRatingComponent } from 'ish-shared/components/product/product-rating/product-rating.component';
 import { ProductShipmentComponent } from 'ish-shared/components/product/product-shipment/product-shipment.component';
-import { ProductVariationDisplayComponent } from 'ish-shared/components/product/product-variation-display/product-variation-display.component';
-import { ProductVariationSelectComponent } from 'ish-shared/components/product/product-variation-select/product-variation-select.component';
 import { ProductImageComponent } from 'ish-shell/header/product-image/product-image.component';
 
 import { LazyProductAddToOrderTemplateComponent } from '../../../../extensions/order-templates/exports/lazy-product-add-to-order-template/lazy-product-add-to-order-template.component';
@@ -37,9 +35,10 @@ describe('Product Row Component', () => {
   let component: ProductRowComponent;
   let fixture: ComponentFixture<ProductRowComponent>;
   let element: HTMLElement;
+  let context: ProductContextFacade;
 
   beforeEach(async () => {
-    const context = mock(ProductContextFacade);
+    context = mock(ProductContextFacade);
     when(context.select('product')).thenReturn(of({ sku: 'SKU' } as ProductView));
 
     await TestBed.configureTestingModule({
@@ -54,14 +53,13 @@ describe('Product Row Component', () => {
         MockComponent(ProductIdComponent),
         MockComponent(ProductImageComponent),
         MockComponent(ProductInventoryComponent),
+        MockComponent(ProductItemVariationsComponent),
         MockComponent(ProductLabelComponent),
         MockComponent(ProductPriceComponent),
         MockComponent(ProductPromotionComponent),
         MockComponent(ProductQuantityComponent),
         MockComponent(ProductRatingComponent),
         MockComponent(ProductShipmentComponent),
-        MockComponent(ProductVariationDisplayComponent),
-        MockComponent(ProductVariationSelectComponent),
         MockDirective(IsTactonProductDirective),
         MockPipe(ProductRoutePipe),
         ProductRowComponent,
@@ -83,33 +81,34 @@ describe('Product Row Component', () => {
   });
 
   it('should render default elements when not specifically configured', () => {
-    component.configuration = DEFAULT_CONFIGURATION;
     fixture.detectChanges();
     expect(findAllCustomElements(element)).toMatchInlineSnapshot(`
       Array [
         "ish-product-image",
         "ish-product-label",
-        "ish-product-id",
-        "ish-product-promotion",
         "ish-lazy-product-add-to-quote",
         "ish-product-add-to-compare",
         "ish-lazy-product-add-to-wishlist",
         "ish-lazy-product-add-to-order-template",
-        "ish-product-price",
-        "ish-product-inventory",
-        "ish-product-quantity",
+        "ish-product-item-variations",
         "ish-product-add-to-basket",
       ]
     `);
   });
 
   it('should render almost no elements when configured with empty configuration', () => {
-    component.configuration = {};
+    when(context.select('displayProperties', anyString())).thenReturn(of(false));
     fixture.detectChanges();
     expect(findAllCustomElements(element)).toMatchInlineSnapshot(`
       Array [
         "ish-product-image",
         "ish-product-label",
+        "ish-lazy-product-add-to-quote",
+        "ish-product-add-to-compare",
+        "ish-lazy-product-add-to-wishlist",
+        "ish-lazy-product-add-to-order-template",
+        "ish-product-item-variations",
+        "ish-product-add-to-basket",
       ]
     `);
   });

@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
-import { AnyProductViewType, ProductHelper, ProductPrices } from 'ish-core/models/product/product.model';
+import { AnyProductViewType, ProductHelper } from 'ish-core/models/product/product.model';
 
 @Component({
   selector: 'ish-product-detail',
@@ -10,11 +10,8 @@ import { AnyProductViewType, ProductHelper, ProductPrices } from 'ish-core/model
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDetailComponent implements OnInit {
-  @Input() price: ProductPrices;
-
   product$: Observable<AnyProductViewType>;
 
-  isVariationProduct = ProductHelper.isVariationProduct;
   isMasterProduct = ProductHelper.isMasterProduct;
   isRetailSet = ProductHelper.isRetailSet;
 

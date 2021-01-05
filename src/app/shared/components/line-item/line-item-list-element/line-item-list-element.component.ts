@@ -20,7 +20,6 @@ export class LineItemListElementComponent implements OnInit {
 
   product$: Observable<AnyProductViewType>;
 
-  isVariationProduct = ProductHelper.isVariationProduct;
   isBundleProduct = ProductHelper.isProductBundle;
 
   constructor(private context: ProductContextFacade, private checkoutFacade: CheckoutFacade) {}

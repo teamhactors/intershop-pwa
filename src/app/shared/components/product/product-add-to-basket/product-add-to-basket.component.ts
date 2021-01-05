@@ -11,11 +11,8 @@ import { whenFalsy } from 'ish-core/utils/operators';
  *
  * @example
  * <ish-product-add-to-basket
-    [product]="product"
     [class]="'btn-lg btn-block'"
-    [disabled]="productDetailForm.invalid"
     [translationKey]="isRetailSet(product) ? 'product.add_to_cart.retailset.link' : 'product.add_to_cart.link'"
-    (productToBasket)="addToBasket()"
   ></ish-product-add-to-basket>
  */
 @Component({
@@ -39,6 +36,7 @@ export class ProductAddToBasketComponent implements OnInit, OnDestroy {
   @Input() translationKey = 'product.add_to_cart.link';
 
   hasQuantityError$: Observable<boolean>;
+  visible$: Observable<boolean>;
 
   constructor(private checkoutFacade: CheckoutFacade, private context: ProductContextFacade) {}
 
@@ -51,6 +49,7 @@ export class ProductAddToBasketComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.hasQuantityError$ = this.context.select('hasQuantityError');
+    this.visible$ = this.context.select('displayProperties', 'addToBasket');
 
     this.basketLoading$ = this.checkoutFacade.basketLoading$;
 

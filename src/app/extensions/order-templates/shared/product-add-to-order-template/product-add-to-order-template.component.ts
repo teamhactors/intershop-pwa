@@ -29,6 +29,7 @@ export class ProductAddToOrderTemplateComponent implements OnDestroy, OnInit {
   @Input() class?: string;
 
   disabled$: Observable<boolean>;
+  visible$: Observable<boolean>;
 
   private destroy$ = new Subject();
 
@@ -41,6 +42,7 @@ export class ProductAddToOrderTemplateComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     this.disabled$ = this.context.select('hasQuantityError');
+    this.visible$ = this.context.select('displayProperties', 'addToOrderTemplate');
   }
 
   /**

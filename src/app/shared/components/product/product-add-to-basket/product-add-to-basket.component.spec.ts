@@ -14,17 +14,21 @@ describe('Product Add To Basket Component', () => {
   let component: ProductAddToBasketComponent;
   let fixture: ComponentFixture<ProductAddToBasketComponent>;
   let element: HTMLElement;
+  let context: ProductContextFacade;
 
   beforeEach(async () => {
     const checkoutFacade = mock(CheckoutFacade);
     when(checkoutFacade.basketLoading$).thenReturn(of(false));
+
+    context = mock(ProductContextFacade);
+    when(context.select('displayProperties', 'addToBasket')).thenReturn(of(true));
 
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [MockComponent(FaIconComponent), ProductAddToBasketComponent],
       providers: [
         { provide: CheckoutFacade, useFactory: () => instance(checkoutFacade) },
-        { provide: ProductContextFacade, useFactory: () => instance(mock(ProductContextFacade)) },
+        { provide: ProductContextFacade, useFactory: () => instance(context) },
       ],
     }).compileComponents();
   });
@@ -41,12 +45,8 @@ describe('Product Add To Basket Component', () => {
     expect(() => fixture.detectChanges()).not.toThrow();
   });
 
-  it.skip('should throw an error if input parameter product is not set', () => {
-    fixture.detectChanges();
-    expect(element.querySelector('button')).toBeFalsy();
-  });
-
-  it.skip('should not render when inStock = false', () => {
+  it('should not render when display is false', () => {
+    when(context.select('displayProperties', 'addToBasket')).thenReturn(of(false));
     fixture.detectChanges();
     expect(element.querySelector('button')).toBeFalsy();
   });
@@ -62,7 +62,8 @@ describe('Product Add To Basket Component', () => {
     expect(element.querySelector('fa-icon')).toBeTruthy();
   });
 
-  it.skip('should show disable button when "disabled" is set to "false" ', () => {
+  it('should show disabled button when add to cart is not possible', () => {
+    when(context.select('hasQuantityError')).thenReturn(of(true));
     fixture.detectChanges();
     expect(element.querySelector('button').disabled).toBeTruthy();
   });

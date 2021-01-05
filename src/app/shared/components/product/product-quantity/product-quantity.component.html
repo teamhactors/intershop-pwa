@@ -1,13 +1,14 @@
-<div *ngIf="product$ | async as product" [ngClass]="{ 'has-error': hasQuantityError$ | async }">
+<div *ngIf="visible$ | async" [ngClass]="{ 'has-error': hasQuantityError$ | async }">
   <input
     class="form-control"
     [id]="id"
     data-testing-id="quantity"
     type="number"
     [value]="quantity$ | async"
-    [min]="minOrderQuantity$ | async"
-    [max]="product.maxOrderQuantity"
+    [min]="min$ | async"
+    [max]="max$ | async"
     (change)="change($event.target)"
+    (blur)="change($event.target)"
     (keyup)="change($event.target)"
   />
   <small *ngIf="hasQuantityError$ | async" class="form-text">{{ quantityError$ | async }}</small>

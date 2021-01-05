@@ -16,6 +16,7 @@ import { ProductIdComponent } from 'ish-shared/components/product/product-id/pro
 import { ProductInventoryComponent } from 'ish-shared/components/product/product-inventory/product-inventory.component';
 import { ProductPriceComponent } from 'ish-shared/components/product/product-price/product-price.component';
 import { ProductPromotionComponent } from 'ish-shared/components/product/product-promotion/product-promotion.component';
+import { ProductQuantityLabelComponent } from 'ish-shared/components/product/product-quantity-label/product-quantity-label.component';
 import { ProductQuantityComponent } from 'ish-shared/components/product/product-quantity/product-quantity.component';
 import { ProductRatingComponent } from 'ish-shared/components/product/product-rating/product-rating.component';
 import { ProductShipmentComponent } from 'ish-shared/components/product/product-shipment/product-shipment.component';
@@ -28,6 +29,7 @@ import { IsTactonProductDirective } from '../../../extensions/tacton/directives/
 import { LazyTactonConfigureProductComponent } from '../../../extensions/tacton/exports/lazy-tacton-configure-product/lazy-tacton-configure-product.component';
 import { ProductDetailActionsComponent } from '../product-detail-actions/product-detail-actions.component';
 import { ProductImagesComponent } from '../product-images/product-images.component';
+import { ProductMasterLinkComponent } from '../product-master-link/product-master-link.component';
 
 import { ProductDetailComponent } from './product-detail.component';
 
@@ -64,9 +66,11 @@ describe('Product Detail Component', () => {
         MockComponent(ProductIdComponent),
         MockComponent(ProductImagesComponent),
         MockComponent(ProductInventoryComponent),
+        MockComponent(ProductMasterLinkComponent),
         MockComponent(ProductPriceComponent),
         MockComponent(ProductPromotionComponent),
         MockComponent(ProductQuantityComponent),
+        MockComponent(ProductQuantityLabelComponent),
         MockComponent(ProductRatingComponent),
         MockComponent(ProductShipmentComponent),
         MockComponent(ProductVariationDisplayComponent),

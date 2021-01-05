@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { AccountFacade } from 'ish-core/facades/account.facade';
@@ -25,9 +25,11 @@ import { SelectWishlistModalComponent } from '../select-wishlist-modal/select-wi
  * ></ish-product-add-to-wishlist>
  */
 @GenerateLazyComponent()
-export class ProductAddToWishlistComponent implements OnDestroy {
+export class ProductAddToWishlistComponent implements OnDestroy, OnInit {
   @Input() displayType?: 'icon' | 'link' | 'animated' = 'link';
   @Input() class?: string;
+
+  visible$: Observable<boolean>;
 
   private destroy$ = new Subject();
 
@@ -37,6 +39,10 @@ export class ProductAddToWishlistComponent implements OnDestroy {
     private router: Router,
     private context: ProductContextFacade
   ) {}
+
+  ngOnInit() {
+    this.visible$ = this.context.select('displayProperties', 'addToWishlist');
+  }
 
   /**
    * if the user is not logged in display login dialog, else open select wishlist dialog

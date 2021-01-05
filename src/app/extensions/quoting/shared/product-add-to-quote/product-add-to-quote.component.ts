@@ -20,11 +20,13 @@ export class ProductAddToQuoteComponent implements OnInit {
   @Input() class?: string;
 
   disabled$: Observable<boolean>;
+  visible$: Observable<boolean>;
 
   constructor(private router: Router, private context: ProductContextFacade) {}
 
   ngOnInit() {
     this.disabled$ = this.context.select('hasQuantityError');
+    this.visible$ = this.context.select('displayProperties', 'addToQuote');
   }
 
   addToQuote() {

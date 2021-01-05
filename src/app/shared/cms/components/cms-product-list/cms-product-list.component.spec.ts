@@ -52,14 +52,18 @@ describe('Cms Product List Component', () => {
         <div class="product-list row">
           <div class="product-list-item li-css-class" ng-reflect-ng-class="li-css-class">
             <ish-product-item
+              displaytype="tile"
               ishproductcontext=""
+              ng-reflect-display-type="tile"
               ng-reflect-ish-product-context=""
               ng-reflect-sku="1"
             ></ish-product-item>
           </div>
           <div class="product-list-item li-css-class" ng-reflect-ng-class="li-css-class">
             <ish-product-item
+              displaytype="tile"
               ishproductcontext=""
+              ng-reflect-display-type="tile"
               ng-reflect-ish-product-context=""
               ng-reflect-sku="2"
             ></ish-product-item>

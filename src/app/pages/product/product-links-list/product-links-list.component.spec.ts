@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
 import { MockComponent, MockDirective } from 'ng-mocks';
 
 import { ProductContextDirective } from 'ish-core/directives/product-context.directive';
@@ -15,7 +14,6 @@ describe('Product Links List Component', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
       declarations: [
         MockComponent(ProductItemComponent),
         MockDirective(ProductContextDirective),
@@ -43,7 +41,9 @@ describe('Product Links List Component', () => {
         <div class="product-list">
           <div class="product-list-item list-view">
             <ish-product-item
+              displaytype="row"
               ishproductcontext=""
+              ng-reflect-display-type="row"
               ng-reflect-ish-product-context=""
               ng-reflect-sku="sku"
             ></ish-product-item>

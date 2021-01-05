@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-md-7 col-xs-12">
         <a
-          *ngIf="configuration.displayName"
+          *ngIf="configuration$('name') | async"
           class="product-title"
           [routerLink]="product | ishProductRoute: category"
           queryParamsHandling="merge"
@@ -21,9 +21,11 @@
 
         <ish-product-rating *ishFeature="'rating'" [product]="product"></ish-product-rating>
 
-        <ish-product-id *ngIf="configuration.displaySKU" [product]="product"></ish-product-id>
+        <ish-product-id *ngIf="configuration$('sku') | async" [product]="product"></ish-product-id>
 
-        <div *ngIf="configuration.displayDescription" class="product-description">{{ product.shortDescription }}</div>
+        <div *ngIf="configuration$('description') | async" class="product-description">
+          {{ product.shortDescription }}
+        </div>
 
         <ng-container *ishFeature="'tacton'; else displayInteractions">
           <ng-container *ishIsTactonProduct="product; else displayInteractions"></ng-container>
@@ -31,29 +33,16 @@
 
         <ng-template #displayInteractions>
           <ish-product-promotion
-            *ngIf="configuration.displayPromotions"
+            *ngIf="configuration$('promotions') | async"
             [product]="product"
             displayType="simpleWithDetail"
           ></ish-product-promotion>
 
           <div class="product-tile-actions btn-group">
-            <ish-lazy-product-add-to-quote
-              *ngIf="configuration.displayAddToQuote"
-              displayType="icon"
-              class="btn-link"
-            ></ish-lazy-product-add-to-quote>
-            <ish-product-add-to-compare
-              *ngIf="configuration.displayAddToCompare"
-              displayType="icon"
-              class="btn-link"
-            ></ish-product-add-to-compare>
-            <ish-lazy-product-add-to-wishlist
-              *ngIf="configuration.displayAddToWishlist"
-              displayType="icon"
-              class="btn-link"
-            ></ish-lazy-product-add-to-wishlist>
+            <ish-lazy-product-add-to-quote displayType="icon" class="btn-link"></ish-lazy-product-add-to-quote>
+            <ish-product-add-to-compare displayType="icon" class="btn-link"></ish-product-add-to-compare>
+            <ish-lazy-product-add-to-wishlist displayType="icon" class="btn-link"></ish-lazy-product-add-to-wishlist>
             <ish-lazy-product-add-to-order-template
-              *ngIf="configuration.displayAddToOrderTemplate"
               displayType="icon"
               class="btn-link"
             ></ish-lazy-product-add-to-order-template>
@@ -68,39 +57,18 @@
 
         <ng-template #standardInformation>
           <ish-product-price
-            *ngIf="configuration.displayPrice"
+            *ngIf="configuration$('price') | async"
             [product]="product"
             [showInformationalPrice]="true"
           ></ish-product-price>
           <ish-product-inventory
-            *ngIf="configuration.displayInventory && !isMasterProduct(product)"
+            *ngIf="configuration$('inventory') | async"
             [product]="product"
           ></ish-product-inventory>
-          <ish-product-shipment
-            *ngIf="configuration.displayShipment && !isMasterProduct(product)"
-            [product]="product"
-          ></ish-product-shipment>
+          <ish-product-shipment *ngIf="configuration$('shipment') | async" [product]="product"></ish-product-shipment>
         </ng-template>
 
-        <div *ngIf="configuration.displayVariations" class="product-variation-container">
-          <ng-container *ishFeature="'advancedVariationHandling'; else normalVariationDisplay">
-            <ish-product-variation-display
-              *ngIf="isVariationProduct(product)"
-              [product]="product"
-            ></ish-product-variation-display>
-          </ng-container>
-          <ng-template #normalVariationDisplay>
-            <ng-container *ngIf="isVariationProduct(product)">
-              <ng-container *ngIf="configuration.readOnly; else variationSelect">
-                <ish-product-variation-display [product]="product"></ish-product-variation-display>
-              </ng-container>
-            </ng-container>
-          </ng-template>
-        </div>
-
-        <ng-template #variationSelect>
-          <ish-product-variation-select></ish-product-variation-select>
-        </ng-template>
+        <ish-product-item-variations></ish-product-item-variations>
 
         <div class="product-list-actions-container">
           <ng-container *ishFeature="'tacton'; else standardInteractions">
@@ -114,23 +82,20 @@
           <ng-template #standardInteractions>
             <ng-container *ngIf="!isMasterProduct(product); else masterProductActions">
               <div class="product-form form-horizontal row">
-                <ng-container *ngIf="configuration.readOnly; else quantityInput">
+                <ng-container *ngIf="configuration$('readOnly') | async; else quantityInput">
                   <div class="action-container col-12 col-xl-7">
-                    <span *ngIf="configuration.displayQuantity"
+                    <span *ngIf="configuration$('quantity') | async"
                       >{{ 'product.quantity.label' | translate }}: {{ quantity$ | async }}</span
                     >
                   </div>
                 </ng-container>
                 <ng-template #quantityInput>
                   <div class="action-container col-6 offset-md-6 col-lg-5 offset-lg-0">
-                    <ish-product-quantity *ngIf="configuration.displayQuantity"></ish-product-quantity>
+                    <ish-product-quantity *ngIf="configuration$('quantity') | async"></ish-product-quantity>
                   </div>
                 </ng-template>
 
-                <div
-                  *ngIf="configuration.displayAddToBasket"
-                  class="action-container addtocart-container col-12 col-lg-7"
-                >
+                <div class="action-container addtocart-container col-12 col-lg-7">
                   <ish-product-add-to-basket></ish-product-add-to-basket>
                 </div>
               </div>

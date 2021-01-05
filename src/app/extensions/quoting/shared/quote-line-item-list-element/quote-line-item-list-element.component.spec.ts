@@ -87,6 +87,7 @@ describe('Quote Line Item List Element Component', () => {
       Array [
         "ish-product-image",
         "ish-product-id",
+        "ish-product-variation-display",
         "ish-product-inventory",
       ]
     `);
@@ -107,6 +108,7 @@ describe('Quote Line Item List Element Component', () => {
       Array [
         "ish-product-image",
         "ish-product-id",
+        "ish-product-variation-display",
         "ish-product-inventory",
         "ish-lazy-product-add-to-order-template",
         "ish-lazy-product-add-to-wishlist",

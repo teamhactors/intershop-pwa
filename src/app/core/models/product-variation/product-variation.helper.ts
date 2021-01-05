@@ -57,6 +57,10 @@ export class ProductVariationHelper {
    * Build select value structure
    */
   static buildVariationOptionGroups(product: VariationProductView): VariationOptionGroup[] {
+    if (!product) {
+      return [];
+    }
+
     // transform currently selected variation attribute list to object with the attributeId as key
     const currentSettings = product.variableVariationAttributes.reduce(
       (acc, attr) => ({

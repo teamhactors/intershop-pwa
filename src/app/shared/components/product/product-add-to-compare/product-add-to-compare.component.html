@@ -1,5 +1,5 @@
 <button
-  *ishFeature="'compare'"
+  *ngIf="(visible$ | async) && ('compare' | ishFeature)"
   class="btn add-to-compare"
   [ngClass]="class"
   [class.is-selected]="isInCompareList$ | async"

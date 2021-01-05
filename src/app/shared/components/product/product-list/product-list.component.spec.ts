@@ -51,7 +51,7 @@ describe('Product List Component', () => {
     fixture.detectChanges();
     const productItemContainer = fixture.debugElement.query(By.css('ish-product-item'))
       .componentInstance as ProductItemComponent;
-    expect(productItemContainer.configuration.displayType).toEqual('tile');
+    expect(productItemContainer.displayType).toEqual('tile');
   });
 
   it('should render a product row when viewType is list', () => {
@@ -59,7 +59,7 @@ describe('Product List Component', () => {
     fixture.detectChanges();
     const productItemContainer = fixture.debugElement.query(By.css('ish-product-item'))
       .componentInstance as ProductItemComponent;
-    expect(productItemContainer.configuration.displayType).toEqual('row');
+    expect(productItemContainer.displayType).toEqual('row');
   });
 
   it('should display loading when product list is loading', fakeAsync(() => {

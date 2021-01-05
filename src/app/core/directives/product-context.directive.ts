@@ -12,7 +12,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
-import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
+import { ProductContextDisplayProperties, ProductContextFacade } from 'ish-core/facades/product-context.facade';
 import { AnyProductViewType, ProductCompletenessLevel, SkuQuantityType } from 'ish-core/models/product/product.model';
 
 class IshProductContextContext {
@@ -75,6 +75,11 @@ export class ProductContextDirective implements OnInit, OnChanges, DoCheck {
   @Input()
   set parts(parts: SkuQuantityType[]) {
     this.context.set('parts', () => parts);
+  }
+
+  @Input()
+  set configuration(config: Partial<ProductContextDisplayProperties>) {
+    this.context.config = config;
   }
 
   private propagate() {

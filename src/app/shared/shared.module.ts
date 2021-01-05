@@ -88,6 +88,7 @@ import { ProductAttributesComponent } from './components/product/product-attribu
 import { ProductBundleDisplayComponent } from './components/product/product-bundle-display/product-bundle-display.component';
 import { ProductIdComponent } from './components/product/product-id/product-id.component';
 import { ProductInventoryComponent } from './components/product/product-inventory/product-inventory.component';
+import { ProductItemVariationsComponent } from './components/product/product-item-variations/product-item-variations.component';
 import { ProductItemComponent } from './components/product/product-item/product-item.component';
 import { ProductLabelComponent } from './components/product/product-label/product-label.component';
 import { ProductListPagingComponent } from './components/product/product-list-paging/product-list-paging.component';
@@ -96,6 +97,7 @@ import { ProductListComponent } from './components/product/product-list/product-
 import { ProductListingComponent } from './components/product/product-listing/product-listing.component';
 import { ProductPriceComponent } from './components/product/product-price/product-price.component';
 import { ProductPromotionComponent } from './components/product/product-promotion/product-promotion.component';
+import { ProductQuantityLabelComponent } from './components/product/product-quantity-label/product-quantity-label.component';
 import { ProductQuantityComponent } from './components/product/product-quantity/product-quantity.component';
 import { ProductRatingStarComponent } from './components/product/product-rating-star/product-rating-star.component';
 import { ProductRatingComponent } from './components/product/product-rating/product-rating.component';
@@ -166,6 +168,7 @@ const declaredComponents = [
   LoginFormComponent,
   LoginModalComponent,
   ProductIdComponent,
+  ProductItemVariationsComponent,
   ProductLabelComponent,
   ProductListComponent,
   ProductListPagingComponent,
@@ -217,6 +220,7 @@ const exportedComponents = [
   ProductPriceComponent,
   ProductPromotionComponent,
   ProductQuantityComponent,
+  ProductQuantityLabelComponent,
   ProductRatingComponent,
   ProductShipmentComponent,
   ProductVariationDisplayComponent,

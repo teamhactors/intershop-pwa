@@ -10,6 +10,7 @@ import { ProductImagesComponent } from './product-images/product-images.componen
 import { ProductLinksCarouselComponent } from './product-links-carousel/product-links-carousel.component';
 import { ProductLinksListComponent } from './product-links-list/product-links-list.component';
 import { ProductLinksComponent } from './product-links/product-links.component';
+import { ProductMasterLinkComponent } from './product-master-link/product-master-link.component';
 import { ProductMasterVariationsComponent } from './product-master-variations/product-master-variations.component';
 import { ProductPageComponent } from './product-page.component';
 import { RetailSetPartsComponent } from './retail-set-parts/retail-set-parts.component';
@@ -48,6 +49,7 @@ const productPageRoutes: Routes = [
     ProductLinksCarouselComponent,
     ProductLinksComponent,
     ProductLinksListComponent,
+    ProductMasterLinkComponent,
     ProductMasterVariationsComponent,
     ProductPageComponent,
     RetailSetPartsComponent,

@@ -15,6 +15,7 @@ import { VariationOptionGroup } from 'ish-core/models/product-variation/variatio
 export class ProductVariationSelectComponent implements OnInit {
   uuid = UUID.UUID();
   variationOptions$: Observable<VariationOptionGroup[]>;
+  visible$: Observable<boolean>;
 
   constructor(private context: ProductContextFacade) {}
 
@@ -22,6 +23,7 @@ export class ProductVariationSelectComponent implements OnInit {
     this.variationOptions$ = this.context
       .select('productAsVariationProduct')
       .pipe(map(ProductVariationHelper.buildVariationOptionGroups));
+    this.visible$ = this.context.select('displayProperties', 'variations');
   }
 
   optionChange(group: string, target: EventTarget) {

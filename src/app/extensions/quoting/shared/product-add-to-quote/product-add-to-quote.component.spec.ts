@@ -22,6 +22,8 @@ describe('Product Add To Quote Component', () => {
 
   beforeEach(async () => {
     context = mock(ProductContextFacade);
+    when(context.select('displayProperties', 'addToQuote')).thenReturn(of(true));
+
     @Component({ template: 'dummy' })
     class DummyComponent {}
 

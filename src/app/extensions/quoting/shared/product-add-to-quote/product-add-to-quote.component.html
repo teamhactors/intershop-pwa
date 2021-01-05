@@ -1,4 +1,5 @@
 <button
+  *ngIf="visible$ | async"
   type="submit"
   class="btn"
   [ngClass]="class"

@@ -11,10 +11,12 @@ describe('Product Quantity Component', () => {
   let component: ProductQuantityComponent;
   let fixture: ComponentFixture<ProductQuantityComponent>;
   let element: HTMLElement;
+  let context: ProductContextFacade;
 
   beforeEach(async () => {
-    const context = mock(ProductContextFacade);
+    context = mock(ProductContextFacade);
     when(context.select('product')).thenReturn(of({ sku: 'SKU' } as ProductView));
+    when(context.select('displayProperties', 'quantity')).thenReturn(of(true));
 
     await TestBed.configureTestingModule({
       declarations: [ProductQuantityComponent],
@@ -34,7 +36,8 @@ describe('Product Quantity Component', () => {
     expect(() => fixture.detectChanges()).not.toThrow();
   });
 
-  it.skip('should not render when inStock = false', () => {
+  it('should not render when display is false', () => {
+    when(context.select('displayProperties', 'quantity')).thenReturn(of(false));
     fixture.detectChanges();
     expect(element.querySelector('input')).toBeFalsy();
   });

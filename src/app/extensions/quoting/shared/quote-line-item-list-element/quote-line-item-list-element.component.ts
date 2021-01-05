@@ -22,7 +22,6 @@ export class QuoteLineItemListElementComponent implements OnInit {
       >
   >;
 
-  isVariationProduct = ProductHelper.isVariationProduct;
   isBundleProduct = ProductHelper.isProductBundle;
 
   editable$: Observable<boolean>;

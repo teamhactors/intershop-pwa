@@ -27,10 +27,7 @@
       <ish-product-id [product]="product"></ish-product-id>
 
       <!-- Product Variations -->
-      <ish-product-variation-display
-        *ngIf="isVariationProduct(product)"
-        [product]="product"
-      ></ish-product-variation-display>
+      <ish-product-variation-display></ish-product-variation-display>
       <!-- Product Bundles -->
       <ish-product-bundle-display
         *ngIf="isBundleProduct(product)"

@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 
 import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
 import { ProductView } from 'ish-core/models/product-view/product-view.model';
-import { ProductHelper } from 'ish-core/models/product/product.model';
 
 import { OrderTemplatesFacade } from '../../../facades/order-templates.facade';
 import { OrderTemplate, OrderTemplateItem } from '../../../models/order-template/order-template.model';
@@ -20,8 +19,6 @@ export class AccountOrderTemplateDetailLineItemComponent implements OnInit {
   @Input() currentOrderTemplate: OrderTemplate;
 
   product$: Observable<ProductView>;
-
-  isVariationProduct = ProductHelper.isVariationProduct;
 
   ngOnInit() {
     this.product$ = this.context.select('product');

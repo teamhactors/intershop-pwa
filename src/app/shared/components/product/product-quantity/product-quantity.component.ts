@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { Observable } from 'rxjs';
 
 import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
-import { AnyProductViewType } from 'ish-core/models/product/product.model';
 
 @Component({
   selector: 'ish-product-quantity',
@@ -13,18 +12,20 @@ export class ProductQuantityComponent implements OnInit {
   @Input() type: 'input' | 'select' | 'counter' = 'input';
   @Input() id = '';
 
-  product$: Observable<AnyProductViewType>;
+  visible$: Observable<boolean>;
   quantity$: Observable<number>;
-  minOrderQuantity$: Observable<number>;
+  min$: Observable<number>;
+  max$: Observable<number>;
   hasQuantityError$: Observable<boolean>;
   quantityError$: Observable<string>;
 
   constructor(private context: ProductContextFacade) {}
 
   ngOnInit() {
-    this.product$ = this.context.select('product');
+    this.visible$ = this.context.select('displayProperties', 'quantity');
     this.quantity$ = this.context.select('quantity');
-    this.minOrderQuantity$ = this.context.select('minQuantity');
+    this.min$ = this.context.select('minQuantity');
+    this.max$ = this.context.select('product', 'maxOrderQuantity');
     this.hasQuantityError$ = this.context.select('hasQuantityError');
     this.quantityError$ = this.context.select('quantityError');
   }
