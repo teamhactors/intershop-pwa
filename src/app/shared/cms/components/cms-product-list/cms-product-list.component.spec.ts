@@ -55,7 +55,6 @@ describe('Cms Product List Component', () => {
               displaytype="tile"
               ishproductcontext=""
               ng-reflect-display-type="tile"
-              ng-reflect-ish-product-context=""
               ng-reflect-sku="1"
             ></ish-product-item>
           </div>
@@ -64,7 +63,6 @@ describe('Cms Product List Component', () => {
               displaytype="tile"
               ishproductcontext=""
               ng-reflect-display-type="tile"
-              ng-reflect-ish-product-context=""
               ng-reflect-sku="2"
             ></ish-product-item>
           </div>

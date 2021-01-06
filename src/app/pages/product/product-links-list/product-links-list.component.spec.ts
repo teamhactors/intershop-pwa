@@ -44,7 +44,6 @@ describe('Product Links List Component', () => {
               displaytype="row"
               ishproductcontext=""
               ng-reflect-display-type="row"
-              ng-reflect-ish-product-context=""
               ng-reflect-sku="sku"
             ></ish-product-item>
           </div>

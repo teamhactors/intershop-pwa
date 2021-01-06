@@ -40,11 +40,7 @@ describe('Product Links Carousel Component', () => {
     expect(element.querySelector('swiper')).toBeTruthy();
     expect(element.querySelector('swiper .swiper-slide')).toMatchInlineSnapshot(`
       <div class="swiper-slide">
-        <ish-product-item
-          ishproductcontext=""
-          ng-reflect-ish-product-context=""
-          ng-reflect-sku="sku"
-        ></ish-product-item>
+        <ish-product-item ishproductcontext="" ng-reflect-sku="sku"></ish-product-item>
       </div>
     `);
   });

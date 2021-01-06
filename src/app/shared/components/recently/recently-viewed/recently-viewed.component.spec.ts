@@ -55,7 +55,6 @@ describe('Recently Viewed Component', () => {
               displaytype="tile"
               ishproductcontext=""
               ng-reflect-display-type="tile"
-              ng-reflect-ish-product-context=""
               ng-reflect-sku="A"
             ></ish-product-item>
           </div>
@@ -64,7 +63,6 @@ describe('Recently Viewed Component', () => {
               displaytype="tile"
               ishproductcontext=""
               ng-reflect-display-type="tile"
-              ng-reflect-ish-product-context=""
               ng-reflect-sku="B"
             ></ish-product-item>
           </div>
@@ -73,7 +71,6 @@ describe('Recently Viewed Component', () => {
               displaytype="tile"
               ishproductcontext=""
               ng-reflect-display-type="tile"
-              ng-reflect-ish-product-context=""
               ng-reflect-sku="C"
             ></ish-product-item>
           </div>
