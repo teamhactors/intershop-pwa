@@ -57,11 +57,12 @@ export class FormlyHelper {
 
     options
       .pipe(
-        map(opts => opts.filter(opt => !!opt.value)),
+        map(opts => opts?.filter(opt => !!opt.value)),
         take(1)
       )
       .subscribe(opts => {
-        result = opts && opts.length > 0;
+        console.log('hasOptions?', opts);
+        result = opts && opts?.length > 0;
       });
 
     return result;

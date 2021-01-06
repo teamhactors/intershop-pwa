@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { AppFacade } from 'ish-core/facades/app.facade';
-
-import { FormlyHelper } from './formly.helper';
 
 export class CreateFieldConfig {
   key: string;
@@ -34,7 +31,7 @@ export type SelectOptionsSource = Observable<{ value: number | string; label: st
   providedIn: 'root',
 })
 export class FormlyService {
-  constructor(private translate: TranslateService, private appFacade: AppFacade) {}
+  constructor(private appFacade: AppFacade) {}
 
   createInputField(config: CreateFieldConfig): FormlyFieldConfig {
     const generalField = this.createGeneralFormField(config);
@@ -73,7 +70,8 @@ export class FormlyService {
       defaultValue: null,
       templateOptions: {
         ...generalField.templateOptions,
-        options: this.translateSelectOptionsAndAddPlaceholder(optionsSource, placeholder),
+        placeholder,
+        options: optionsSource,
       },
     };
   }
@@ -125,7 +123,7 @@ export class FormlyService {
     );
   }
 
-  createRegionsSelectField(key = 'region', countryCode: string, countryCodeKey = 'countryCode'): FormlyFieldConfig {
+  createRegionsSelectField(key = 'region', countryCode: string): FormlyFieldConfig {
     const selectField = this.createSelectField(
       {
         key,
@@ -147,16 +145,16 @@ export class FormlyService {
     );
     return {
       ...selectField,
-      hideExpression: (model: { [key: string]: unknown }, _: unknown, field: FormlyFieldConfig) => {
-        console.log('hideExpression eval');
-        if (!model[countryCodeKey]) {
-          return true;
-        }
-        if (!FormlyHelper.hasOptions(field)) {
-          return true;
-        }
-        return false;
-      },
+      // hideExpression: (model: { [key: string]: unknown }, _: unknown, field: FormlyFieldConfig) => {
+      //   console.log('hideExpression eval');
+      //   if (!model[countryCodeKey]) {
+      //     return true;
+      //   }
+      //   if (!FormlyHelper.hasOptions(field)) {
+      //     return true;
+      //   }
+      //   return false;
+      // },
     };
   }
 
@@ -169,7 +167,8 @@ export class FormlyService {
       ...field,
       templateOptions: {
         ...field.templateOptions,
-        options: this.translateSelectOptionsAndAddPlaceholder(optionsSource, placeholder),
+        placeholder,
+        options: optionsSource,
       },
     };
   }
@@ -193,21 +192,5 @@ export class FormlyService {
         messages: config.errorMessages,
       },
     };
-  }
-
-  private translateSelectOptionsAndAddPlaceholder(
-    optionsSource: SelectOptionsSource,
-    placeholder?: string
-  ): SelectOptionsSource | undefined {
-    if (!optionsSource) {
-      return;
-    }
-
-    return optionsSource.pipe(
-      // tslint:disable-next-line:no-null-keyword
-      map(options => (placeholder ? [{ value: null, label: placeholder }] : []).concat(options ?? [])),
-      map(options => options?.map(option => ({ ...option, label: this.translate.instant(option.label) }))),
-      tap(x => console.log('translated and ph', x))
-    );
   }
 }

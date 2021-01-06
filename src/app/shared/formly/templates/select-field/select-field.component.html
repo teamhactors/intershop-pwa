@@ -1,3 +1,4 @@
+<!-- {{ to.processedOptions | async | json }} -->
 <select
   *ngIf="to.multiple; else singleSelect"
   class="form-control"
@@ -37,7 +38,7 @@
     [class.custom-select]="to.customSelect"
     [formlyAttributes]="field"
   >
-    <ng-container *ngIf="to.options | formlySelectOptions: field | async as opts">
+    <ng-container *ngIf="to.processedOptions | formlySelectOptions: field | async as opts">
       <ng-container *ngIf="to._flatOptions; else grouplist">
         <ng-container *ngFor="let opt of opts">
           <option [ngValue]="opt.value" [disabled]="opt.disabled">{{ opt.label }}</option>
