@@ -80,6 +80,7 @@ interface ProductContext {
   quantity: number;
   allowZeroQuantity: boolean;
   minQuantity: number;
+  maxQuantity: number;
   quantityError: string;
   hasQuantityError: boolean;
 
@@ -149,6 +150,8 @@ export class ProductContextFacade extends RxState<ProductContext> {
         map(([minOrderQuantity, allowZeroQuantity]) => (allowZeroQuantity ? 0 : minOrderQuantity))
       )
     );
+
+    this.connect('maxQuantity', this.select('product', 'maxOrderQuantity'));
 
     this.connect(
       combineLatest([

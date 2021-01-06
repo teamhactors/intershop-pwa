@@ -86,6 +86,7 @@ describe('Product Context Facade', () => {
           "allowZeroQuantity": false,
           "hasQuantityError": false,
           "loading": false,
+          "maxQuantity": 100,
           "minQuantity": 10,
           "productAsVariationProduct": false,
           "propagateActive": true,
@@ -107,6 +108,7 @@ describe('Product Context Facade', () => {
           Object {
             "allowZeroQuantity": false,
             "hasQuantityError": false,
+            "maxQuantity": 100,
             "minQuantity": 10,
             "quantity": 10,
             "quantityError": undefined,
@@ -120,6 +122,7 @@ describe('Product Context Facade', () => {
           Object {
             "allowZeroQuantity": false,
             "hasQuantityError": true,
+            "maxQuantity": 100,
             "minQuantity": 10,
             "quantity": 0,
             "quantityError": "product.quantity.greaterthan.text",
@@ -134,6 +137,7 @@ describe('Product Context Facade', () => {
           Object {
             "allowZeroQuantity": true,
             "hasQuantityError": false,
+            "maxQuantity": 100,
             "minQuantity": 0,
             "quantity": 0,
             "quantityError": undefined,
@@ -147,6 +151,7 @@ describe('Product Context Facade', () => {
           Object {
             "allowZeroQuantity": false,
             "hasQuantityError": true,
+            "maxQuantity": 100,
             "minQuantity": 10,
             "quantity": 1000,
             "quantityError": "product.quantity.lessthan.text",
@@ -160,6 +165,7 @@ describe('Product Context Facade', () => {
           Object {
             "allowZeroQuantity": false,
             "hasQuantityError": true,
+            "maxQuantity": 100,
             "minQuantity": 10,
             "quantity": NaN,
             "quantityError": "product.quantity.integer.text",
@@ -174,6 +180,7 @@ describe('Product Context Facade', () => {
           Object {
             "allowZeroQuantity": false,
             "hasQuantityError": true,
+            "maxQuantity": 100,
             "minQuantity": 10,
             "quantity": null,
             "quantityError": "product.quantity.greaterthan.text",
