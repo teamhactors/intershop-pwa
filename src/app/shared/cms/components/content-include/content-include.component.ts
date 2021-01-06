@@ -43,6 +43,7 @@ export class ContentIncludeComponent extends SfeMetadataWrapper implements OnIni
 
   ngOnInit() {
     this.contentInclude$ = this.cmsFacade.contentInclude$(this.includeIdChange);
+    this.includeIdChange.next(this.includeId);
 
     this.cmsFacade
       .contentIncludeSfeMetadata$(this.includeId)
