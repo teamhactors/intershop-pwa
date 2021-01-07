@@ -65,6 +65,7 @@ describe('Product Context Facade', () => {
           completenessLevel: ProductCompletenessLevel.Detail,
           minOrderQuantity: 10,
           maxOrderQuantity: 100,
+          stepOrderQuantity: 10,
         } as ProductView)
       );
 
@@ -78,6 +79,7 @@ describe('Product Context Facade', () => {
           "maxOrderQuantity": 100,
           "minOrderQuantity": 10,
           "sku": "123",
+          "stepOrderQuantity": 10,
         }
       `);
 
@@ -94,6 +96,7 @@ describe('Product Context Facade', () => {
           "quantityError": undefined,
           "requiredCompletenessLevel": 2,
           "sku": "123",
+          "stepQuantity": 10,
         }
       `);
     });
@@ -112,20 +115,37 @@ describe('Product Context Facade', () => {
             "minQuantity": 10,
             "quantity": 10,
             "quantityError": undefined,
+            "stepQuantity": 10,
           }
         `);
       });
 
-      it('should go to error with zero quantity', () => {
-        context.set('quantity', () => 0);
+      it('should go to error with quantity lower than min order', () => {
+        context.set('quantity', () => 1);
         expect(pickQuantityFields(context)).toMatchInlineSnapshot(`
           Object {
             "allowZeroQuantity": false,
             "hasQuantityError": true,
             "maxQuantity": 100,
             "minQuantity": 10,
-            "quantity": 0,
+            "quantity": 1,
             "quantityError": "product.quantity.greaterthan.text",
+            "stepQuantity": 10,
+          }
+        `);
+      });
+
+      it('should go to error with quantity not multiple of step', () => {
+        context.set('quantity', () => 15);
+        expect(pickQuantityFields(context)).toMatchInlineSnapshot(`
+          Object {
+            "allowZeroQuantity": false,
+            "hasQuantityError": true,
+            "maxQuantity": 100,
+            "minQuantity": 10,
+            "quantity": 15,
+            "quantityError": "product.quantity.step.text",
+            "stepQuantity": 10,
           }
         `);
       });
@@ -141,6 +161,7 @@ describe('Product Context Facade', () => {
             "minQuantity": 0,
             "quantity": 0,
             "quantityError": undefined,
+            "stepQuantity": 10,
           }
         `);
       });
@@ -155,6 +176,7 @@ describe('Product Context Facade', () => {
             "minQuantity": 10,
             "quantity": 1000,
             "quantityError": "product.quantity.lessthan.text",
+            "stepQuantity": 10,
           }
         `);
       });
@@ -169,6 +191,7 @@ describe('Product Context Facade', () => {
             "minQuantity": 10,
             "quantity": NaN,
             "quantityError": "product.quantity.integer.text",
+            "stepQuantity": 10,
           }
         `);
       });
@@ -184,6 +207,7 @@ describe('Product Context Facade', () => {
             "minQuantity": 10,
             "quantity": null,
             "quantityError": "product.quantity.greaterthan.text",
+            "stepQuantity": 10,
           }
         `);
       });

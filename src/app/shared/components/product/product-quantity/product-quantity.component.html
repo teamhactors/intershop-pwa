@@ -16,6 +16,7 @@
         [value]="quantity$ | async"
         [min]="min$ | async"
         [max]="max$ | async"
+        [step]="step$ | async"
         (change)="change($event.target)"
         (blur)="change($event.target)"
         (keyup)="change($event.target)"

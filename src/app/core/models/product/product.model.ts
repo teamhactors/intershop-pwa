@@ -12,7 +12,8 @@ export interface Product {
   availability: boolean;
   inStock: boolean;
   minOrderQuantity: number;
-  maxOrderQuantity?: number;
+  maxOrderQuantity: number;
+  stepOrderQuantity: number;
   attributes: Attribute[];
   attributeGroups?: { [id: string]: AttributeGroup };
   images: Image[];

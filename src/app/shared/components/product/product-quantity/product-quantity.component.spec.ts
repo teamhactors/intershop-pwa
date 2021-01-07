@@ -16,9 +16,10 @@ describe('Product Quantity Component', () => {
   beforeEach(async () => {
     context = mock(ProductContextFacade);
     when(context.select('displayProperties', 'quantity')).thenReturn(of(true));
-    when(context.select('quantity')).thenReturn(of(1));
-    when(context.select('minQuantity')).thenReturn(of(1));
-    when(context.select('maxQuantity')).thenReturn(of(5));
+    when(context.select('quantity')).thenReturn(of(2));
+    when(context.select('minQuantity')).thenReturn(of(2));
+    when(context.select('maxQuantity')).thenReturn(of(6));
+    when(context.select('stepQuantity')).thenReturn(of(2));
 
     await TestBed.configureTestingModule({
       declarations: [ProductQuantityComponent],
@@ -68,9 +69,17 @@ describe('Product Quantity Component', () => {
         "quantity",
       ]
     `);
-    expect(element.querySelector('input')).toMatchInlineSnapshot(
-      `<input class="form-control" data-testing-id="quantity" type="number" id="ASDF" min="1" max="5" />`
-    );
+    expect(element.querySelector('input')).toMatchInlineSnapshot(`
+      <input
+        class="form-control"
+        data-testing-id="quantity"
+        type="number"
+        id="ASDF"
+        min="2"
+        max="6"
+        step="2"
+      />
+    `);
   });
 
   it('should display select when type is select', () => {
@@ -84,11 +93,9 @@ describe('Product Quantity Component', () => {
     `);
     expect(element.querySelector('select')).toMatchInlineSnapshot(`
       <select class="form-control" data-testing-id="quantity" id="ASDF">
-        <option value="1">1</option>
         <option value="2">2</option>
-        <option value="3">3</option>
         <option value="4">4</option>
-        <option value="5">5</option>
+        <option value="6">6</option>
       </select>
     `);
   });

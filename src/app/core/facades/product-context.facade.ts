@@ -81,6 +81,7 @@ interface ProductContext {
   allowZeroQuantity: boolean;
   minQuantity: number;
   maxQuantity: number;
+  stepQuantity: number;
   quantityError: string;
   hasQuantityError: boolean;
 
@@ -152,6 +153,7 @@ export class ProductContextFacade extends RxState<ProductContext> {
     );
 
     this.connect('maxQuantity', this.select('product', 'maxOrderQuantity'));
+    this.connect('stepQuantity', this.select('product', 'stepOrderQuantity'));
 
     this.connect(
       combineLatest([
@@ -167,6 +169,8 @@ export class ProductContextFacade extends RxState<ProductContext> {
               return this.translate.instant('product.quantity.greaterthan.text', { 0: product.minOrderQuantity });
             } else if (quantity > product.maxOrderQuantity) {
               return this.translate.instant('product.quantity.lessthan.text', { 0: product.maxOrderQuantity });
+            } else if (quantity % product.stepOrderQuantity !== 0) {
+              return this.translate.instant('product.quantity.step.text', { 0: product.stepOrderQuantity });
             }
           }
           return;

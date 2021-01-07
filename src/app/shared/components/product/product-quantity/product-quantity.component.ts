@@ -19,6 +19,7 @@ export class ProductQuantityComponent implements OnInit {
   quantity$: Observable<number>;
   min$: Observable<number>;
   max$: Observable<number>;
+  step$: Observable<number>;
   hasQuantityError$: Observable<boolean>;
   quantityError$: Observable<string>;
 
@@ -34,10 +35,13 @@ export class ProductQuantityComponent implements OnInit {
     this.quantity$ = this.context.select('quantity').pipe(filter(n => typeof n === 'number' && !isNaN(n)));
     this.min$ = this.context.select('minQuantity');
     this.max$ = this.context.select('maxQuantity');
+    this.step$ = this.context.select('stepQuantity');
     this.hasQuantityError$ = this.context.select('hasQuantityError');
     this.quantityError$ = this.context.select('quantityError');
 
-    this.selectValues$ = combineLatest([this.min$, this.max$]).pipe(map(([min, max]) => range(min, max + 1)));
+    this.selectValues$ = combineLatest([this.min$, this.max$, this.step$]).pipe(
+      map(([min, max, step]) => range(min, max + 1, step))
+    );
 
     this.cannotIncrease$ = combineLatest([this.max$, this.quantity$]).pipe(map(([max, quantity]) => quantity >= max));
     this.cannotDecrease$ = combineLatest([this.min$, this.quantity$]).pipe(map(([min, quantity]) => quantity <= min));
@@ -50,15 +54,16 @@ export class ProductQuantityComponent implements OnInit {
   private setNextValue(value: number) {
     const max = this.context.get('maxQuantity');
     const min = this.context.get('minQuantity');
-    this.setValue(value > max ? max : value < min ? min : value);
+    const step = this.context.get('stepQuantity');
+    this.setValue(value > max ? max : value < min ? min : value - (value % step));
   }
 
   increase() {
-    this.setNextValue(this.context.get('quantity') + 1);
+    this.setNextValue(this.context.get('quantity') + this.context.get('stepQuantity'));
   }
 
   decrease() {
-    this.setNextValue(this.context.get('quantity') - 1);
+    this.setNextValue(this.context.get('quantity') - this.context.get('stepQuantity'));
   }
 
   change(target: EventTarget) {

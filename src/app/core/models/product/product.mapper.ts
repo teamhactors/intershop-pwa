@@ -188,8 +188,9 @@ export class ProductMapper {
       availability: data.availability,
       inStock: data.inStock,
       minOrderQuantity: data.minOrderQuantity || 1,
-      packingUnit: data.packingUnit,
       maxOrderQuantity: data.maxOrderQuantity || 100,
+      stepOrderQuantity: data.stepOrderQuantity || 1,
+      packingUnit: data.packingUnit,
       attributes:
         (data.attributeGroups &&
           data.attributeGroups.PRODUCT_DETAIL_ATTRIBUTES &&

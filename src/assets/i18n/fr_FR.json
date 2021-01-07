@@ -774,6 +774,7 @@
   "product.quantity.label": "Quantité",
   "product.quantity.lessthan.text": "Veuillez entrer {{0}} ou moins.",
   "product.quantity.notempty.text": "Veuillez entrer un numéro.",
+  "product.quantity.step.text": "Veuillez entrer une étape de {{0}} valide.",
   "product.ready_for_shipment.detail.text": "Détails",
   "product.ready_for_shipment.minmax": "Habituellement expédié en {{0}} à {{1}} jours.",
   "product.ready_for_shipment.within": "Habituellement expédié dans un délai de {{0}} jours",
