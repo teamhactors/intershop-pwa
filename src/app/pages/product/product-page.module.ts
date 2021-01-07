@@ -5,6 +5,7 @@ import { SharedModule } from 'ish-shared/shared.module';
 
 import { ProductBundlePartsComponent } from './product-bundle-parts/product-bundle-parts.component';
 import { ProductDetailActionsComponent } from './product-detail-actions/product-detail-actions.component';
+import { ProductDetailVariationsComponent } from './product-detail-variations/product-detail-variations.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductImagesComponent } from './product-images/product-images.component';
 import { ProductLinksCarouselComponent } from './product-links-carousel/product-links-carousel.component';
@@ -45,6 +46,7 @@ const productPageRoutes: Routes = [
     ProductBundlePartsComponent,
     ProductDetailActionsComponent,
     ProductDetailComponent,
+    ProductDetailVariationsComponent,
     ProductImagesComponent,
     ProductLinksCarouselComponent,
     ProductLinksComponent,

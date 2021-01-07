@@ -20,16 +20,14 @@ import { ProductQuantityLabelComponent } from 'ish-shared/components/product/pro
 import { ProductQuantityComponent } from 'ish-shared/components/product/product-quantity/product-quantity.component';
 import { ProductRatingComponent } from 'ish-shared/components/product/product-rating/product-rating.component';
 import { ProductShipmentComponent } from 'ish-shared/components/product/product-shipment/product-shipment.component';
-import { ProductVariationDisplayComponent } from 'ish-shared/components/product/product-variation-display/product-variation-display.component';
-import { ProductVariationSelectComponent } from 'ish-shared/components/product/product-variation-select/product-variation-select.component';
 
 import { LazyProductAddToOrderTemplateComponent } from '../../../extensions/order-templates/exports/lazy-product-add-to-order-template/lazy-product-add-to-order-template.component';
 import { LazyProductAddToQuoteComponent } from '../../../extensions/quoting/exports/lazy-product-add-to-quote/lazy-product-add-to-quote.component';
 import { IsTactonProductDirective } from '../../../extensions/tacton/directives/is-tacton-product.directive';
 import { LazyTactonConfigureProductComponent } from '../../../extensions/tacton/exports/lazy-tacton-configure-product/lazy-tacton-configure-product.component';
 import { ProductDetailActionsComponent } from '../product-detail-actions/product-detail-actions.component';
+import { ProductDetailVariationsComponent } from '../product-detail-variations/product-detail-variations.component';
 import { ProductImagesComponent } from '../product-images/product-images.component';
-import { ProductMasterLinkComponent } from '../product-master-link/product-master-link.component';
 
 import { ProductDetailComponent } from './product-detail.component';
 
@@ -63,18 +61,16 @@ describe('Product Detail Component', () => {
         MockComponent(ProductAddToBasketComponent),
         MockComponent(ProductAttributesComponent),
         MockComponent(ProductDetailActionsComponent),
+        MockComponent(ProductDetailVariationsComponent),
         MockComponent(ProductIdComponent),
         MockComponent(ProductImagesComponent),
         MockComponent(ProductInventoryComponent),
-        MockComponent(ProductMasterLinkComponent),
         MockComponent(ProductPriceComponent),
         MockComponent(ProductPromotionComponent),
         MockComponent(ProductQuantityComponent),
         MockComponent(ProductQuantityLabelComponent),
         MockComponent(ProductRatingComponent),
         MockComponent(ProductShipmentComponent),
-        MockComponent(ProductVariationDisplayComponent),
-        MockComponent(ProductVariationSelectComponent),
         MockDirective(IsTactonProductDirective),
         ProductDetailComponent,
       ],

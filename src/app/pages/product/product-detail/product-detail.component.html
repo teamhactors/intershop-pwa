@@ -44,15 +44,7 @@
         ></ish-product-shipment>
       </ng-template>
 
-      <div class="product-variation-container">
-        <ng-container *ishFeature="'advancedVariationHandling'; else variationSelect">
-          <ish-product-variation-display></ish-product-variation-display>
-          <ish-product-master-link></ish-product-master-link>
-        </ng-container>
-        <ng-template #variationSelect>
-          <ish-product-variation-select></ish-product-variation-select>
-        </ng-template>
-      </div>
+      <ish-product-detail-variations></ish-product-detail-variations>
 
       <ng-container *ishFeature="'tacton'; else standardInteractions">
         <ish-lazy-tacton-configure-product
