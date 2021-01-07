@@ -18,7 +18,6 @@
         [max]="max$ | async"
         [step]="step$ | async"
         (change)="change($event.target)"
-        (blur)="change($event.target)"
         (keyup)="change($event.target)"
       />
     </ng-template>
@@ -46,10 +45,12 @@
           class="form-control text-center"
           [id]="id"
           data-testing-id="quantity"
+          type="number"
           [value]="quantity$ | async"
+          [min]="min$ | async"
+          [max]="max$ | async"
+          [step]="step$ | async"
           (change)="change($event.target)"
-          (keydown.arrowup)="increase()"
-          (keydown.arrowdown)="decrease()"
           (keyup)="change($event.target)"
         />
       </div>

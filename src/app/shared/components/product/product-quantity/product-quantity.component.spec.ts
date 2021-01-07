@@ -55,9 +55,17 @@ describe('Product Quantity Component', () => {
         "quantity",
       ]
     `);
-    expect(element.querySelector('input')).toMatchInlineSnapshot(
-      `<input class="form-control text-center" data-testing-id="quantity" id="ASDF" />`
-    );
+    expect(element.querySelector('input')).toMatchInlineSnapshot(`
+      <input
+        class="form-control text-center"
+        data-testing-id="quantity"
+        type="number"
+        id="ASDF"
+        min="2"
+        max="6"
+        step="2"
+      />
+    `);
   });
 
   it('should display number input when type is input', () => {
