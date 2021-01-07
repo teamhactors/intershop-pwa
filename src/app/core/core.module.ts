@@ -17,6 +17,7 @@ import { ICMErrorMapperInterceptor } from './interceptors/icm-error-mapper.inter
 import { IdentityProviderInterceptor } from './interceptors/identity-provider.interceptor';
 import { MockInterceptor } from './interceptors/mock.interceptor';
 import { InternationalizationModule } from './internationalization.module';
+import { RoleToggleModule } from './role-toggle.module';
 import { StateManagementModule } from './state-management.module';
 import { DefaultErrorhandler } from './utils/default-error-handler';
 import { ModuleLoaderService } from './utils/module-loader/module-loader.service';
@@ -32,6 +33,7 @@ import { ModuleLoaderService } from './utils/module-loader/module-loader.service
     HttpClientModule,
     IdentityProviderModule,
     InternationalizationModule,
+    RoleToggleModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.serviceWorker }),
     StateManagementModule,
   ],
