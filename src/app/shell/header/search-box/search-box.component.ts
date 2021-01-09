@@ -52,7 +52,7 @@ interface SearchBoxConfiguration {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
-  constructor(private shoppingFacade: ShoppingFacade, private router: Router, private searchService: SuggestService) { }
+  constructor(private shoppingFacade: ShoppingFacade, private router: Router, private searchService: SuggestService) {}
   get usedIcon(): IconName {
     return this.configuration?.icon || 'search';
   }
@@ -73,6 +73,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   selectedFile: ImageSnippet;
 
+  currentLat: any;
+  currentLong: any;
+  captures: Array<any> = [];
+
   ngOnInit() {
     this.getLatLang();
     // initialize with searchTerm when on search route
@@ -85,12 +89,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
     // suggests are triggered solely via stream
     this.searchResults$ = this.shoppingFacade.searchResults$(this.inputSearchTerms$);
-    this.searchResults$.pipe(whenTruthy(),
-      takeUntil(this.destroy$)).subscribe(result => {
-        if (result.length > 0) {
-          this.shoppingFacade.searchProducts$(result[0].term);
-        }
-      });
+    this.searchResults$.pipe(whenTruthy(), takeUntil(this.destroy$)).subscribe(result => {
+      if (result.length > 0) {
+        this.shoppingFacade.searchProducts$(result[0].term);
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -159,11 +162,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
     reader.readAsDataURL(file);
   }
-
-  currentLat: any;
-  currentLong: any;
   getLatLang() {
-    navigator.geolocation.getCurrentPosition((position) => {
+    navigator.geolocation.getCurrentPosition(position => {
       this.currentLat = position.coords.latitude;
       this.currentLong = position.coords.longitude;
       this.searchService.determineWeather(this.currentLat, this.currentLong);
@@ -171,64 +171,58 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   captureImageFromCamera() {
-    const video = <HTMLVideoElement>(document.getElementById('video'));
+    const video = document.getElementById('video') as HTMLVideoElement;
 
     // Get access to the camera!
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       // Not adding `{ audio: true }` since we only want video now
       navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-        // video.src = window.URL.createObjectURL(stream);
         video.srcObject = stream;
         video.play();
+        document.querySelector('.camera-div').style.display = 'block';
       });
     }
-    //     navigator.mediaDevices.getUserMedia({video: true})
-    //   .then(gotMedia)
-    //   .catch(error => console.error('getUserMedia() error:', error));
-
-    // function gotMedia(mediaStream) {
-    //   const mediaStreamTrack = mediaStream.getVideoTracks()[0];
-    //   const imageCapture = new ImageCapture(mediaStreamTrack);
-    //   console.log(imageCapture);
   }
-  public captures: Array<any> = [];
   takePhoto() {
     // Trigger photo take
-    const canvas = <HTMLCanvasElement>(document.getElementById('canvas'));
+    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
     const context = canvas.getContext('2d');
-    const video = <HTMLVideoElement>(document.getElementById('video'));
-    // document.querySelector('.camera-div').style.display = 'none';
+    const video = document.getElementById('video') as HTMLVideoElement;
+
     context.drawImage(video, 0, 0, 640, 480);
-    let image = canvas.toDataURL("image/png");
+    const image = canvas.toDataURL('image/png');
     this.captures.push(image);
-    let blob = this.dataURItoBlob(image);
-    let imagefile = new File([blob], "fileName.jpeg", {
-      type: "'image/jpeg'"
+    const blob = this.dataURItoBlob(image);
+    const imagefile = new File([blob], 'fileName.jpeg', {
+      type: "'image/jpeg'",
     });
     console.log(image);
-    video.pause();
+    navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+      const track = stream.getTracks()[0]; // if only one media track
+      track.stop();
+    });
+    document.querySelector('.camera-div').style.display = 'none';
     this.searchService.postImage(imagefile).subscribe(data => {
       this.inputSearchTerms$.next(data[0]);
       this.submitSearch(data[0]);
     });
   }
 
-
   dataURItoBlob(dataURI) {
-
     // convert base64/URLEncoded data component to raw binary data held in a string
-    var byteString;
-    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+    let byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0) {
       byteString = atob(dataURI.split(',')[1]);
-    else
+    } else {
       byteString = unescape(dataURI.split(',')[1]);
+    }
 
     // separate out the mime component
-    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
     // write the bytes of the string to a typed array
-    var ia = new Uint8Array(byteString.length);
-    for (var i = 0; i < byteString.length; i++) {
+    const ia = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
 
@@ -237,5 +231,5 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 }
 
 class ImageSnippet {
-  constructor(public src: string, public file: File) { }
+  constructor(public src: string, public file: File) {}
 }
