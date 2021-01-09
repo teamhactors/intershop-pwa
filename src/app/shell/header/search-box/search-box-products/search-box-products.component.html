@@ -1,7 +1,7 @@
 <ng-container *ngIf="productListingView$ | async as listing">
 
   <ng-container *ngFor="let sku of listing.products()">
-    <div class="col-6 col-lg-4 product-list-item grid-view">
+    <div class="product-list-item">
       <ish-search-box-product [productSku]="sku"></ish-search-box-product>
     </div>
   </ng-container>

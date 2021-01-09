@@ -4,8 +4,9 @@
       <a queryParamsHandling="merge">
         <ish-product-image [product]="product" imageType="M" class="product-image"></ish-product-image>
       </a>
+      <div class="product-name"> {{product.name }}</div>
+      <button class="btn-link add-to-cart" (mousedown)="addToBasket()">Add to Cart</button>
     </div>
-    {{product.name }}
-    <button class="btn-link" (mousedown)="addToBasket()">Add</button>
+
   </div>
 </ng-container>

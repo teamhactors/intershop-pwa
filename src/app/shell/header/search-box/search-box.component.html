@@ -17,7 +17,7 @@
     <button *ngIf="inputSearchTerms$ | async" class="btn-reset btn btn-primary" type="reset" name="reset"
       [title]="'search.searchbox.button.reset.title' | translate" style="right: 40px"
       (click)="searchSuggest(''); searchInput.focus()">
-      <fa-icon [icon]="['fas', 'times-circle']"></fa-icon>
+      <fa-icon class="cross-circle" [icon]="['fas', 'times-circle']"></fa-icon>
     </button>
 
     <button class="btn-search btn btn-primary" type="submit" name="search"
@@ -43,10 +43,11 @@
         <button type="button" class="search-result"
           [innerHTML]="result.term | titlecase | ishHighlight: (inputSearchTerms$ | async)"></button>
       </li>
-      <li *ngIf="inputSearchTerms$ | async as searchTerm">
+      <div *ngIf="inputSearchTerms$ | async as searchTerm" class="search-product-details">
+        <div class="title"> Product Suggestions </div>
         <ish-search-box-products [searchTerm]="searchTerm">
         </ish-search-box-products>
-      </li>
+      </div>
     </ul>
   </ng-container>
 </form>
