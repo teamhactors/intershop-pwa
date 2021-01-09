@@ -74,6 +74,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   selectedFile: ImageSnippet;
 
   ngOnInit() {
+    this.getLatLang();
     // initialize with searchTerm when on search route
     this.shoppingFacade.searchTerm$
       .pipe(
@@ -87,7 +88,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.searchResults$.pipe(whenTruthy(),
       takeUntil(this.destroy$)).subscribe(result => {
         if (result.length > 0) {
-          console.log('ok');
           this.shoppingFacade.searchProducts$(result[0].term);
         }
       });
@@ -158,6 +158,16 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     });
 
     reader.readAsDataURL(file);
+  }
+
+  currentLat: any;
+  currentLong: any;
+  getLatLang() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.currentLat = position.coords.latitude;
+      this.currentLong = position.coords.longitude;
+      this.searchService.determineWeather(this.currentLat, this.currentLong);
+    });
   }
 }
 

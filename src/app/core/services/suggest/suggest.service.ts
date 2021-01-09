@@ -26,7 +26,19 @@ export class SuggestService {
   postImage(image: File): Observable<string[]> {
     const formData = new FormData();
     formData.append('file', image);
-    return this.http.post<any>("http://b55c973a516d.ngrok.io/search/aws/image", formData);
+    return this.http.post<any>("http://02ac6140c8c5.ngrok.io/search/aws/image", formData);
   }
 
+  determineWeather(lat: any, longi: any) {
+    const urlParams: URLSearchParams = new URLSearchParams();
+    let val = lat + ", " + longi;
+    console.log("Latlong to be sent " + val);
+    urlParams.append('Latlong', val);
+    this.http.get<any>("http://02ac6140c8c5.ngrok.io/search/weather/current?" + urlParams.toString())
+      .subscribe(weather => {
+        console.log("returned weather is " + weather.CurrentWeather);
+        localStorage.setItem('weather', "Partly cloudy");
+      });
+
+  }
 }

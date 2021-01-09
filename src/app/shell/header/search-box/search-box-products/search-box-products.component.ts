@@ -26,13 +26,10 @@ export class SearchBoxProductsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.searchTerm) {
-      console.log(changes.searchTerm);
-
       this.searchResults$ = this.shoppingFacade.existSearchResults$(changes.searchTerm.currentValue);
       this.searchResults$.pipe(whenTruthy(),
         takeUntil(this.destroy$)).subscribe(result => {
           if (result.length > 0) {
-            console.log('ok');
             this.shoppingFacade.searchProducts$(result[0].term);
             this.productListingView$ = this.shoppingFacade.productListingView$({ type: 'search', value: result[0].term }).pipe(takeUntil(this.destroy$));
           }

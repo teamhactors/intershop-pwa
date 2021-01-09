@@ -5,8 +5,6 @@
       [viewType]="'list'"
     ></ish-product-list>
 </ng-container> -->
-
-
 <form role="search" class="search clearfix" name="SearchBox_Header" (submit)="submitSearch(searchInput.value)">
   <input #searchInput [placeholder]="configuration?.placeholder || ''" formControlName="search" autocomplete="off"
     type="text" class="form-control searchTerm" (input)="searchSuggest($event.target)"
