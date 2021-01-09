@@ -10,4 +10,5 @@ export const environment: Environment = {
 
   /* INTERSHOP COMMERCE MANAGEMENT REST API CONFIGURATION */
   icmBaseURL: 'https://pwa-ish-demo.test.intershop.com',
+  //icmBaseURL: 'https://f9f772aed48d.ngrok.io'
 };
