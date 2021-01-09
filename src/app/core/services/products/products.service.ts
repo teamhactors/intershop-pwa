@@ -109,14 +109,15 @@ export class ProductsService {
     if (!searchTerm) {
       return throwError('searchProducts() called without searchTerm');
     }
-
+    let weather = localStorage.getItem('weather');
     let params = new HttpParams()
       .set('searchTerm', searchTerm)
       .set('amount', this.itemsPerPage.toString())
       .set('offset', ((page - 1) * this.itemsPerPage).toString())
       .set('attrs', ProductsService.STUB_ATTRS)
       .set('attributeGroup', AttributeGroupTypes.ProductLabelAttributes)
-      .set('returnSortKeys', 'true');
+      .set('returnSortKeys', 'true')
+      .set('weather', weather);
     if (sortKey) {
       params = params.set('sortKey', sortKey);
     }
@@ -191,10 +192,10 @@ export class ProductsService {
         !resp.total
           ? of(resp.elements)
           : this.apiService
-              .get<{ elements: Link[] }>(`products/${sku}/variations`, {
-                params: new HttpParams().set('amount', `${resp.total - resp.amount}`).set('offset', `${resp.amount}`),
-              })
-              .pipe(map(resp2 => [...resp.elements, ...resp2.elements]))
+            .get<{ elements: Link[] }>(`products/${sku}/variations`, {
+              params: new HttpParams().set('amount', `${resp.total - resp.amount}`).set('offset', `${resp.amount}`),
+            })
+            .pipe(map(resp2 => [...resp.elements, ...resp2.elements]))
       ),
       map((links: ProductVariationLink[]) => ({
         products: links.map(link => this.productMapper.fromVariationLink(link, sku)),
@@ -250,8 +251,8 @@ export class ProductsService {
               categories: !link.categoryLinks
                 ? []
                 : link.categoryLinks.map(cl =>
-                    cl.uri.split('/categories/')[1].replace('/', CategoryHelper.uniqueIdSeparator)
-                  ),
+                  cl.uri.split('/categories/')[1].replace('/', CategoryHelper.uniqueIdSeparator)
+                ),
             },
           }),
           {}
