@@ -179,7 +179,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
         video.srcObject = stream;
         video.play();
-        document.querySelector('.camera-div').style.display = 'block';
+        const cameraElem = document.querySelector('.camera-div') as HTMLElement;
+        cameraElem.style.display = 'block';
       });
     }
   }
@@ -201,7 +202,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       const track = stream.getTracks()[0]; // if only one media track
       track.stop();
     });
-    document.querySelector('.camera-div').style.display = 'none';
+    const cameraElem = document.querySelector('.camera-div') as HTMLElement;
+    cameraElem.style.display = 'none';
     this.searchService.postImage(imagefile).subscribe(data => {
       this.inputSearchTerms$.next(data[0]);
       this.submitSearch(data[0]);
