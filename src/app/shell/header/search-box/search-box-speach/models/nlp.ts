@@ -17,14 +17,14 @@
 export enum NLPDocumentType {
   TYPE_UNSPECIFIED,
   PLAIN_TEXT,
-  HTML
+  HTML,
 }
 
 export enum NLPEncodingType {
   NONE,
   UTF8,
   UTF16,
-  UTF32
+  UTF32,
 }
 
 export class NLPDocument {
@@ -48,8 +48,8 @@ export class NLPSpeechAnalysis {
     this.json = JSON.stringify(data, null, 2);
     this.sentiment = {
       score: data.documentSentiment.score,
-      magnitude: data.documentSentiment.magnitude
-    }
+      magnitude: data.documentSentiment.magnitude,
+    };
     this.tags = [];
 
     for (let entity of data.entities) {
@@ -57,7 +57,7 @@ export class NLPSpeechAnalysis {
         this.tags.push(<NLPSpeechAnalysisTag>{
           name: entity.name,
           type: entity.type,
-          wikipedia_url: entity.metadata.wikipedia_url
+          wikipedia_url: entity.metadata.wikipedia_url,
         });
       }
     }

@@ -25,7 +25,7 @@ export enum VisionFeatureType {
   SAFE_SEARCH_DETECTION = 7,
   IMAGE_PROPERTIES = 8,
   CROP_HINTS = 9,
-  WEB_DETECTION = 10
+  WEB_DETECTION = 10,
 }
 
 export class VisionAnnotateRequest {

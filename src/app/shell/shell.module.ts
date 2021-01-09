@@ -56,7 +56,7 @@ const exportedComponents = [
   SearchBoxComponent,
   SearchBoxProductsComponent,
   SearchBoxProductComponent,
-  SearchBoxSpeachComponent
+  SearchBoxSpeachComponent,
 ];
 
 @NgModule({
@@ -88,8 +88,6 @@ const exportedComponents = [
     UserInformationMobileComponent,
   ],
   exports: [...exportedComponents, ...importExportModules],
-  providers: [
-    RxSpeechRecognitionService
-  ]
+  providers: [RxSpeechRecognitionService],
 })
-export class ShellModule { }
+export class ShellModule {}

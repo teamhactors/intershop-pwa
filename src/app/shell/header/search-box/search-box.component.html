@@ -7,53 +7,79 @@
 </ng-container> -->
 <ish-search-box-speach (onListening)="afterListening($event)"></ish-search-box-speach>
 <form role="search" class="search clearfix" name="SearchBox_Header" (submit)="submitSearch(searchInput.value)">
-  <input #searchInput [placeholder]="configuration?.placeholder || ''" formControlName="search" autocomplete="off"
-    type="text" class="form-control searchTerm" (input)="searchSuggest($event.target)"
-    [value]="inputSearchTerms$ | async" (blur)="blur()" (keydown)="focus()" (keydown.esc)="blur()"
-    (keydown.arrowleft)="selectSuggestedTerm(-1)" (keydown.arrowright)="selectSuggestedTerm(-1)"
+  <input
+    #searchInput
+    [placeholder]="configuration?.placeholder || ''"
+    formControlName="search"
+    autocomplete="off"
+    type="text"
+    class="form-control searchTerm"
+    (input)="searchSuggest($event.target)"
+    [value]="inputSearchTerms$ | async"
+    (blur)="blur()"
+    (keydown)="focus()"
+    (keydown.esc)="blur()"
+    (keydown.arrowleft)="selectSuggestedTerm(-1)"
+    (keydown.arrowright)="selectSuggestedTerm(-1)"
     (keydown.arrowdown)="selectSuggestedTerm(activeIndex + 1)"
-    (keydown.arrowup)="selectSuggestedTerm(activeIndex - 1)" />
+    (keydown.arrowup)="selectSuggestedTerm(activeIndex - 1)"
+  />
 
   <div class="buttons">
-    <button *ngIf="inputSearchTerms$ | async" class="btn-reset btn btn-primary" type="reset" name="reset"
-      [title]="'search.searchbox.button.reset.title' | translate" style="right: 40px"
-      (click)="searchSuggest(''); searchInput.focus()">
+    <button
+      *ngIf="inputSearchTerms$ | async"
+      class="btn-reset btn btn-primary"
+      type="reset"
+      name="reset"
+      [title]="'search.searchbox.button.reset.title' | translate"
+      style="right: 40px"
+      (click)="searchSuggest(''); searchInput.focus()"
+    >
       <fa-icon class="cross-circle" [icon]="['fas', 'times-circle']"></fa-icon>
     </button>
 
-    <button class="btn-search btn btn-primary" type="submit" name="search"
-      [title]="'search.searchbox.button.title' | translate">
+    <button
+      class="btn-search btn btn-primary"
+      type="submit"
+      name="search"
+      [title]="'search.searchbox.button.title' | translate"
+    >
       <!-- search button with icon -->
       <ng-container *ngIf="!configuration?.buttonText; else textBlock">
         <fa-icon [icon]="['fas', usedIcon]"></fa-icon>
-        <fa-icon class="search-camera" [icon]="[ 'fas', 'camera']"></fa-icon>
-        <fa-icon class="search-camera-mobile" [icon]="[ 'fas', 'camera']" (click)="captureImageFromCamera()"></fa-icon>
+        <fa-icon class="search-camera" [icon]="['fas', 'camera']"></fa-icon>
+        <fa-icon class="search-camera-mobile" [icon]="['fas', 'camera']" (click)="captureImageFromCamera()"></fa-icon>
       </ng-container>
       <!-- search button with text -->
       <ng-template #textBlock> {{ configuration?.buttonText }} </ng-template>
     </button>
     <label class="image-upload-container btn btn-bwm">
-      <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+      <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)" />
     </label>
   </div>
 
   <ng-container *ngIf="searchResults$ | async as results">
     <ul *ngIf="results.length && inputFocused" class="search-suggest-results">
-      <li *ngFor="let result of results | slice: 0:configuration?.maxAutoSuggests; let liIndex = index"
-        [class.active-suggestion]="activeIndex === liIndex" (mousedown)="submitSearch(result.term)"
-        (mouseenter)="activeIndex = liIndex">
-        <button type="button" class="search-result"
-          [innerHTML]="result.term | titlecase | ishHighlight: (inputSearchTerms$ | async)"></button>
+      <li
+        *ngFor="let result of results | slice: 0:configuration?.maxAutoSuggests; let liIndex = index"
+        [class.active-suggestion]="activeIndex === liIndex"
+        (mousedown)="submitSearch(result.term)"
+        (mouseenter)="activeIndex = liIndex"
+      >
+        <button
+          type="button"
+          class="search-result"
+          [innerHTML]="result.term | titlecase | ishHighlight: (inputSearchTerms$ | async)"
+        ></button>
       </li>
       <div *ngIf="inputSearchTerms$ | async as searchTerm" class="search-product-details">
-        <div class="title"> Product Suggestions </div>
-        <ish-search-box-products [searchTerm]="searchTerm">
-        </ish-search-box-products>
+        <div class="title">Product Suggestions</div>
+        <ish-search-box-products [searchTerm]="searchTerm"> </ish-search-box-products>
       </div>
     </ul>
   </ng-container>
 </form>
-<div class="camera-div" style="display:none;">
+<div class="camera-div" style="display: none">
   <video id="video" width="640" height="480" autoplay></video>
   <button id="snap" (click)="takePhoto()">Snap Photo</button>
   <canvas id="canvas" width="640" height="480"></canvas>

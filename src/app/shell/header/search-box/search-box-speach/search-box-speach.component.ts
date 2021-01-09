@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, EventEmitter, Component, OnDestroy, OnInit, Output } from '@angular/core';
 import { Subject } from 'rxjs';
-import {
-  RxSpeechRecognitionService,
-  resultList,
-} from '@kamiazya/ngx-speech-recognition';
-
+import { RxSpeechRecognitionService, resultList } from '@kamiazya/ngx-speech-recognition';
 
 /**
  * The search box container component
@@ -27,11 +23,9 @@ export class SearchBoxSpeachComponent implements OnInit, OnDestroy {
 
   @Output() onListening = new EventEmitter<string>();
 
-  constructor(public service: RxSpeechRecognitionService) { }
+  constructor(public service: RxSpeechRecognitionService) {}
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   listen() {
     this.service
@@ -56,5 +50,4 @@ export class SearchBoxSpeachComponent implements OnInit, OnDestroy {
   focus() {
     this.inputFocused = true;
   }
-
 }

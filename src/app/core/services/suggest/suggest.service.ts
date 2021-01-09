@@ -10,8 +10,7 @@ import { ApiService, unpackEnvelope } from 'ish-core/services/api/api.service';
  */
 @Injectable({ providedIn: 'root' })
 export class SuggestService {
-  constructor(private apiService: ApiService,
-    private http: HttpClient) { }
+  constructor(private apiService: ApiService, private http: HttpClient) {}
 
   /**
    * Returns a list of suggested search terms matching the given search term.
@@ -26,19 +25,19 @@ export class SuggestService {
   postImage(image: File): Observable<string[]> {
     const formData = new FormData();
     formData.append('file', image);
-    return this.http.post<any>("http://ee3f6a195ed0.ngrok.io/search/aws/image", formData);
+    return this.http.post<any>('http://ee3f6a195ed0.ngrok.io/search/aws/image', formData);
   }
 
   determineWeather(lat: any, longi: any) {
     const urlParams: URLSearchParams = new URLSearchParams();
-    let val = lat + ", " + longi;
-    console.log("Latlong to be sent " + val);
+    let val = lat + ', ' + longi;
+    console.log('Latlong to be sent ' + val);
     urlParams.append('Latlong', val);
-    this.http.get<any>("http://ee3f6a195ed0.ngrok.io/search/weather/current?" + urlParams.toString())
+    this.http
+      .get<any>('http://ee3f6a195ed0.ngrok.io/search/weather/current?' + urlParams.toString())
       .subscribe(weather => {
-        console.log("returned weather is " + weather.CurrentWeather);
-        localStorage.setItem('weather', "Partly cloudy");
+        console.log('returned weather is ' + weather.CurrentWeather);
+        localStorage.setItem('weather', 'Partly cloudy');
       });
-
   }
 }
