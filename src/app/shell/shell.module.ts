@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { RxSpeechRecognitionService } from '@kamiazya/ngx-speech-recognition';
 import { NgbCollapseModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { DeferLoadModule } from '@trademe/ng-defer-load';
@@ -32,6 +33,7 @@ import { ProductCompareStatusComponent } from './header/product-compare-status/p
 import { ProductImageComponent } from './header/product-image/product-image.component';
 import { SearchBoxProductComponent } from './header/search-box/search-box-product/search-box-product.component';
 import { SearchBoxProductsComponent } from './header/search-box/search-box-products/search-box-products.component';
+import { SearchBoxSpeachComponent } from './header/search-box/search-box-speach/search-box-speach.component';
 import { SearchBoxComponent } from './header/search-box/search-box.component';
 import { SubCategoryNavigationComponent } from './header/sub-category-navigation/sub-category-navigation.component';
 import { UserInformationMobileComponent } from './header/user-information-mobile/user-information-mobile.component';
@@ -53,7 +55,8 @@ const exportedComponents = [
   ProductImageComponent,
   SearchBoxComponent,
   SearchBoxProductsComponent,
-  SearchBoxProductComponent
+  SearchBoxProductComponent,
+  SearchBoxSpeachComponent,
 ];
 
 @NgModule({
@@ -85,5 +88,6 @@ const exportedComponents = [
     UserInformationMobileComponent,
   ],
   exports: [...exportedComponents, ...importExportModules],
+  providers: [RxSpeechRecognitionService],
 })
-export class ShellModule { }
+export class ShellModule {}

@@ -39,7 +39,7 @@
                 "bundleName": "blue"
               }
             ],
-            "scripts": []
+            "scripts": ["src/assets/js/annyang.min.js"]
           },
           "configurations": {
             "production": {
@@ -239,7 +239,11 @@
             "aot": false,
             "styles": ["src/styles/themes/default/style.scss"],
             "assets": [
-              { "glob": "**/*", "input": "src/assets/", "output": "/assets/" }
+              {
+                "glob": "**/*",
+                "input": "src/assets/",
+                "output": "/assets/"
+              }
             ],
             "scripts": [],
             "fileReplacements": [

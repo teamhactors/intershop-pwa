@@ -230,6 +230,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
     return new Blob([ia], { type: mimeString });
   }
+
+  afterListening(mesg: string) {
+    this.submitSearch(mesg);
+  }
 }
 
 class ImageSnippet {
