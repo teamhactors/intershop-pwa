@@ -52,9 +52,8 @@
     </ul>
   </ng-container>
 </form>
-<div class="camera-div">
-  <video id="video" width="640" height="480" autoplay></video>
-  <button id="snap" (click)="takePhoto()">Snap Photo</button>
-  <canvas id="canvas" width="640" height="480"></canvas>
-  <img class="image-camera" />
+<div class="camera-div" style="display:none;">
+<video id="video" width="640" height="480" autoplay></video>
+<button id="snap" (click)="takePhoto()">Snap Photo</button>
+<canvas id="canvas" width="640" height="480"></canvas>
 </div>
