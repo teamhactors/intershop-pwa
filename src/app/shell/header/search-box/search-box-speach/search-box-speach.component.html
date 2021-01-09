@@ -1,1 +1,3 @@
-<button [disabled]="service.started$ | async" (click)="listen()">listen</button>
+<button [disabled]="service.started$ | async" (click)="listen()" class="audio-microphone">
+<fa-icon class="micro" [icon]="['fas', 'microphone']"></fa-icon>
+</button>
