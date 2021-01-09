@@ -52,7 +52,7 @@ interface SearchBoxConfiguration {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
-  constructor(private shoppingFacade: ShoppingFacade, private router: Router, private searchService: SuggestService) {}
+  constructor(private shoppingFacade: ShoppingFacade, private router: Router, private searchService: SuggestService) { }
   get usedIcon(): IconName {
     return this.configuration?.icon || 'search';
   }
@@ -230,8 +230,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
     return new Blob([ia], { type: mimeString });
   }
+
+  afterListening(mesg: string) {
+    this.submitSearch(mesg);
+  }
 }
 
 class ImageSnippet {
-  constructor(public src: string, public file: File) {}
+  constructor(public src: string, public file: File) { }
 }

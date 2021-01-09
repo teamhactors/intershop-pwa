@@ -26,7 +26,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": ["src/assets"],
+            "assets": [
+              "src/assets"
+            ],
             "styles": [
               {
                 "inject": false,
@@ -39,7 +41,9 @@
                 "bundleName": "blue"
               }
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/annyang.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -113,8 +117,12 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["tsconfig.base.json"],
-            "exclude": ["**/node_modules/**"],
+            "tsConfig": [
+              "tsconfig.base.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ],
             "format": "stylish"
           }
         },
@@ -187,7 +195,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "projects/organization-management/tsconfig.app.json",
             "aot": false,
-            "styles": ["src/styles/themes/default/style.scss"],
+            "styles": [
+              "src/styles/themes/default/style.scss"
+            ],
             "assets": [
               {
                 "glob": "**/*",
@@ -237,9 +247,15 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "projects/requisition-management/tsconfig.app.json",
             "aot": false,
-            "styles": ["src/styles/themes/default/style.scss"],
+            "styles": [
+              "src/styles/themes/default/style.scss"
+            ],
             "assets": [
-              { "glob": "**/*", "input": "src/assets/", "output": "/assets/" }
+              {
+                "glob": "**/*",
+                "input": "src/assets/",
+                "output": "/assets/"
+              }
             ],
             "scripts": [],
             "fileReplacements": [

@@ -5,6 +5,7 @@
       [viewType]="'list'"
     ></ish-product-list>
 </ng-container> -->
+<ish-search-box-speach (onListening)="afterListening($event)"></ish-search-box-speach>
 <form role="search" class="search clearfix" name="SearchBox_Header" (submit)="submitSearch(searchInput.value)">
   <input #searchInput [placeholder]="configuration?.placeholder || ''" formControlName="search" autocomplete="off"
     type="text" class="form-control searchTerm" (input)="searchSuggest($event.target)"
@@ -53,7 +54,7 @@
   </ng-container>
 </form>
 <div class="camera-div" style="display:none;">
-<video id="video" width="640" height="480" autoplay></video>
-<button id="snap" (click)="takePhoto()">Snap Photo</button>
-<canvas id="canvas" width="640" height="480"></canvas>
+  <video id="video" width="640" height="480" autoplay></video>
+  <button id="snap" (click)="takePhoto()">Snap Photo</button>
+  <canvas id="canvas" width="640" height="480"></canvas>
 </div>
