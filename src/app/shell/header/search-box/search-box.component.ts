@@ -169,6 +169,71 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       this.searchService.determineWeather(this.currentLat, this.currentLong);
     });
   }
+
+  captureImageFromCamera() {
+    const video = <HTMLVideoElement>(document.getElementById('video'));
+
+    // Get access to the camera!
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      // Not adding `{ audio: true }` since we only want video now
+      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+        // video.src = window.URL.createObjectURL(stream);
+        video.srcObject = stream;
+        video.play();
+      });
+    }
+    //     navigator.mediaDevices.getUserMedia({video: true})
+    //   .then(gotMedia)
+    //   .catch(error => console.error('getUserMedia() error:', error));
+
+    // function gotMedia(mediaStream) {
+    //   const mediaStreamTrack = mediaStream.getVideoTracks()[0];
+    //   const imageCapture = new ImageCapture(mediaStreamTrack);
+    //   console.log(imageCapture);
+  }
+  public captures: Array<any> = [];
+  takePhoto() {
+    // Trigger photo take
+    const canvas = <HTMLCanvasElement>(document.getElementById('canvas'));
+    const context = canvas.getContext('2d');
+    const video = <HTMLVideoElement>(document.getElementById('video'));
+    // document.querySelector('.camera-div').style.display = 'none';
+    context.drawImage(video, 0, 0, 640, 480);
+    let image = canvas.toDataURL("image/png");
+    this.captures.push(image);
+    let blob = this.dataURItoBlob(image);
+    let imagefile = new File([blob], "fileName.jpeg", {
+      type: "'image/jpeg'"
+    });
+    console.log(image);
+    video.pause();
+    this.searchService.postImage(imagefile).subscribe(data => {
+      this.inputSearchTerms$.next(data[0]);
+      this.submitSearch(data[0]);
+    });
+  }
+
+
+  dataURItoBlob(dataURI) {
+
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+      byteString = atob(dataURI.split(',')[1]);
+    else
+      byteString = unescape(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], { type: mimeString });
+  }
 }
 
 class ImageSnippet {

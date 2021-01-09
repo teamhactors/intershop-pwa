@@ -1,11 +1,14 @@
 <ng-template #searchBoxTemplate let-icon="icon">
-  <ish-search-box data-testing-id="search-box-desktop" [configuration]="{
+  <ish-search-box
+    data-testing-id="search-box-desktop"
+    [configuration]="{
       placeholder: 'search.searchbox.instructional_text' | translate,
       autoSuggest: true,
       maxAutoSuggests: 3,
       icon: icon,
       showLastSearchTerm: true
-    }"></ish-search-box>
+    }"
+  ></ish-search-box>
 </ng-template>
 
 <div class="header container" [ngClass]="deviceType">
@@ -24,8 +27,12 @@
   <div class="header-utility">
     <a class="search-toggler" [ngClass]="{ 'active-search': showSearch }">
       <fa-icon *ngIf="isSticky" class="header-icon" [icon]="['fas', 'search']" (click)="toggle('search')"></fa-icon>
-      <div *ngIf="isSticky || showSearch" class="search-container header-search-container" [ngbCollapse]="!showSearch"
-        [ngClass]="{ show: !isSticky }">
+      <div
+        *ngIf="isSticky || showSearch"
+        class="search-container header-search-container"
+        [ngbCollapse]="!showSearch"
+        [ngClass]="{ show: !isSticky }"
+      >
         <ng-container *ngTemplateOutlet="searchBoxTemplate; context: { icon: 'angle-right' }"></ng-container>
       </div>
     </a>
@@ -34,18 +41,32 @@
     </div>
     <ish-login-status *ngIf="isSticky || deviceType === 'mobile'" view="small"></ish-login-status>
 
-    <ish-mini-basket data-testing-id="mini-basket-desktop" view="full" class="d-none"
-      [ngClass]="isSticky ? 'd-lg-block' : 'd-md-block'"></ish-mini-basket>
+    <ish-mini-basket
+      data-testing-id="mini-basket-desktop"
+      view="full"
+      class="d-none"
+      [ngClass]="isSticky ? 'd-lg-block' : 'd-md-block'"
+    ></ish-mini-basket>
     <ish-mini-basket data-testing-id="mini-basket-mobile" view="small" [ngClass]="isSticky ? 'd-lg-none' : 'd-md-none'">
     </ish-mini-basket>
   </div>
   <div class="row align-items-center">
     <div class="col-md-3 logo-col">
       <div class="logo-wrapper">
-        <a *ngIf="showDesktopLogoLink" rel="home" routerLink="/home" class="logo"
-          data-testing-id="header-home-link-desktop"></a>
-        <a *ngIf="showMobileLogoLink" rel="home" routerLink="/home" class="mobile-logo"
-          data-testing-id="header-home-link-mobile"></a>
+        <a
+          *ngIf="showDesktopLogoLink"
+          rel="home"
+          routerLink="/home"
+          class="logo"
+          data-testing-id="header-home-link-desktop"
+        ></a>
+        <a
+          *ngIf="showMobileLogoLink"
+          rel="home"
+          routerLink="/home"
+          class="mobile-logo"
+          data-testing-id="header-home-link-mobile"
+        ></a>
       </div>
     </div>
     <div class="col-md-5 text-right">

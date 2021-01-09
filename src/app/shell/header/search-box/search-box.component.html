@@ -26,6 +26,7 @@
       <ng-container *ngIf="!configuration?.buttonText; else textBlock">
         <fa-icon [icon]="['fas', usedIcon]"></fa-icon>
         <fa-icon class="search-camera" [icon]="[ 'fas', 'camera']"></fa-icon>
+        <fa-icon class="search-camera-mobile" [icon]="[ 'fas', 'camera']" (click)="captureImageFromCamera()"></fa-icon>
       </ng-container>
       <!-- search button with text -->
       <ng-template #textBlock> {{ configuration?.buttonText }} </ng-template>
@@ -51,3 +52,9 @@
     </ul>
   </ng-container>
 </form>
+<div class="camera-div">
+  <video id="video" width="640" height="480" autoplay></video>
+  <button id="snap" (click)="takePhoto()">Snap Photo</button>
+  <canvas id="canvas" width="640" height="480"></canvas>
+  <img class="image-camera" />
+</div>

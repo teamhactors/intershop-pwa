@@ -5,11 +5,13 @@
 </div>
 
 <div class="search-container main-search-container">
-  <ish-search-box [configuration]="{
+  <ish-search-box
+    [configuration]="{
       placeholder: 'search.searchbox.instructional_text' | translate,
       autoSuggest: true,
       maxAutoSuggests: 3
-    }"></ish-search-box>
+    }"
+  ></ish-search-box>
 </div>
 
 <div class="search-guidelines" [innerHTML]="'search.noresult.guidelines' | translate"></div>
