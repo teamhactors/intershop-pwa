@@ -45,14 +45,14 @@ import {
   getMostRecentlyViewedProducts,
   getRecentlyViewedProducts,
 } from 'ish-core/store/shopping/recently';
-import { getSearchTerm, getSuggestSearchResults, suggestSearch } from 'ish-core/store/shopping/search';
+import { getSearchTerm, getSuggestSearchResults, searchProducts, suggestSearch } from 'ish-core/store/shopping/search';
 import { toObservable } from 'ish-core/utils/functions';
 import { whenFalsy, whenTruthy } from 'ish-core/utils/operators';
 
 // tslint:disable:member-ordering
 @Injectable({ providedIn: 'root' })
 export class ShoppingFacade {
-  constructor(private store: Store) {}
+  constructor(private store: Store) { }
 
   // CATEGORY
 
@@ -155,6 +155,15 @@ export class ShoppingFacade {
       switchMap(term => this.store.pipe(select(getSuggestSearchResults(term))))
     );
   }
+
+  existSearchResults$(term: string) {
+    return this.store.pipe(select(getSuggestSearchResults(term)));
+  }
+
+  searchProducts$(term: string) {
+    this.store.dispatch(searchProducts({ searchTerm: term }))
+  }
+
   searchLoading$ = this.store.pipe(select(getProductListingLoading));
 
   searchItemsCount$ = this.searchTerm$.pipe(

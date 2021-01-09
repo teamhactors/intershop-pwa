@@ -119,6 +119,21 @@
       }
     }
   }
+  .search-camera {
+    margin-left: 10px;
+  }
+  .image-upload-container {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 10px;
+    margin: 0;
+    cursor: pointer;
+    input[type='file'] {
+      opacity: 0;
+      width: 10%;
+    }
+  }
 }
 
 .header-search-container {

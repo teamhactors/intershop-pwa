@@ -30,6 +30,8 @@ import { LoginStatusComponent } from './header/login-status/login-status.compone
 import { MiniBasketComponent } from './header/mini-basket/mini-basket.component';
 import { ProductCompareStatusComponent } from './header/product-compare-status/product-compare-status.component';
 import { ProductImageComponent } from './header/product-image/product-image.component';
+import { SearchBoxProductComponent } from './header/search-box/search-box-product/search-box-product.component';
+import { SearchBoxProductsComponent } from './header/search-box/search-box-products/search-box-products.component';
 import { SearchBoxComponent } from './header/search-box/search-box.component';
 import { SubCategoryNavigationComponent } from './header/sub-category-navigation/sub-category-navigation.component';
 import { UserInformationMobileComponent } from './header/user-information-mobile/user-information-mobile.component';
@@ -50,6 +52,8 @@ const exportedComponents = [
   HeaderComponent,
   ProductImageComponent,
   SearchBoxComponent,
+  SearchBoxProductsComponent,
+  SearchBoxProductComponent
 ];
 
 @NgModule({
@@ -82,4 +86,4 @@ const exportedComponents = [
   ],
   exports: [...exportedComponents, ...importExportModules],
 })
-export class ShellModule {}
+export class ShellModule { }

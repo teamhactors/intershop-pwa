@@ -1,5 +1,6 @@
 FROM node:14-alpine as buildstep
 WORKDIR /workspace
+
 COPY schematics /workspace/schematics/
 COPY package.json package-lock.json /workspace/
 RUN npm i --ignore-scripts
@@ -20,6 +21,8 @@ RUN npm run ng -- run intershop-pwa:server:${configuration} --bundleDependencies
 # https://github.com/angular/angular/issues/23613#issuecomment-415886919
 RUN test "${serviceWorker}" = "true" && sed -i 's/canonicalHash !== cacheBustedHash/false/g' /workspace/dist/browser/ngsw-worker.js || true
 COPY dist/entrypoint.sh dist/healthcheck.js dist/server.crt dist/server.key dist/robots.txt* /workspace/dist/
+COPY dist/server/main.js /workspace/dist/server/main.js
+COPY dist/browser /workspace/dist/browser
 
 FROM node:14-alpine
 COPY --from=buildstep /workspace/dist /dist

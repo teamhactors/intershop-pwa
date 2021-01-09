@@ -5,7 +5,10 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, take, takeUntil } from 'rxjs/operators';
 
 import { ShoppingFacade } from 'ish-core/facades/shopping.facade';
+import { ProductListingView } from 'ish-core/models/product-listing/product-listing.model';
 import { SuggestTerm } from 'ish-core/models/suggest-term/suggest-term.model';
+import { SuggestService } from 'ish-core/services/suggest/suggest.service';
+import { whenTruthy } from 'ish-core/utils/operators';
 
 interface SearchBoxConfiguration {
   /**
@@ -49,6 +52,12 @@ interface SearchBoxConfiguration {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
+  constructor(private shoppingFacade: ShoppingFacade, private router: Router, private searchService: SuggestService) { }
+  get usedIcon(): IconName {
+    return this.configuration?.icon || 'search';
+  }
+  productListingView$: Observable<ProductListingView>;
+
   /**
    * the search box configuration for this component
    */
@@ -56,17 +65,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   searchResults$: Observable<SuggestTerm[]>;
   inputSearchTerms$ = new ReplaySubject<string>(1);
-
   activeIndex = -1;
   inputFocused: boolean;
+  searchTerm$: Observable<string>;
 
   private destroy$ = new Subject();
 
-  constructor(private shoppingFacade: ShoppingFacade, private router: Router) {}
-
-  get usedIcon(): IconName {
-    return this.configuration?.icon || 'search';
-  }
+  selectedFile: ImageSnippet;
 
   ngOnInit() {
     // initialize with searchTerm when on search route
@@ -79,6 +84,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
     // suggests are triggered solely via stream
     this.searchResults$ = this.shoppingFacade.searchResults$(this.inputSearchTerms$);
+    this.searchResults$.pipe(whenTruthy(),
+      takeUntil(this.destroy$)).subscribe(result => {
+        if (result.length > 0) {
+          console.log('ok');
+          this.shoppingFacade.searchProducts$(result[0].term);
+        }
+      });
   }
 
   ngOnDestroy() {
@@ -133,4 +145,22 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       this.activeIndex = index;
     });
   }
+  processFile(imageInput: any) {
+    const file: File = imageInput.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener('load', (event: any) => {
+      this.selectedFile = new ImageSnippet(event.target.result, file);
+      this.searchService.postImage(this.selectedFile.file).subscribe(data => {
+        this.inputSearchTerms$.next(data[0]);
+        this.submitSearch(data[0]);
+      });
+    });
+
+    reader.readAsDataURL(file);
+  }
+}
+
+class ImageSnippet {
+  constructor(public src: string, public file: File) { }
 }

@@ -1,0 +1,11 @@
+<ng-container *ngIf="product$ | async as product">
+  <div class="product-tile" [attr.data-testing-sku]="product.sku">
+    <div class="product-image-container">
+      <a queryParamsHandling="merge">
+        <ish-product-image [product]="product" imageType="M" class="product-image"></ish-product-image>
+      </a>
+    </div>
+    {{product.name }}
+    <button class="btn-link" (mousedown)="addToBasket()">Add</button>
+  </div>
+</ng-container>
